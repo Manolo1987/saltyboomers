@@ -44,6 +44,7 @@ body {
 }
 .bgfx::before { width: 60vw; height: 60vw; left: -18vw; top: -22vw;
   background: radial-gradient(circle, rgba(47,214,246,.34), transparent 65%); animation: drift 26s ease-in-out infinite alternate; }
+#fx { position: fixed; inset: 0; z-index: -1; width: 100%; height: 100%; pointer-events: none; filter: blur(2.5px) saturate(1.3); opacity: .95; }
 .bgfx::after { width: 52vw; height: 52vw; right: -16vw; bottom: -20vw;
   background: radial-gradient(circle, rgba(64,86,244,.30), transparent 65%); animation: drift 32s ease-in-out infinite alternate-reverse; }
 @keyframes drift { from { transform: translate(0,0) scale(1); } to { transform: translate(6vw,4vw) scale(1.15); } }
@@ -74,11 +75,11 @@ header.top {
   padding: 10px clamp(12px, 2vw, 22px);
   background: rgba(7, 11, 20, .72); backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px);
   border-bottom: 1px solid var(--edge-soft);
-  box-shadow: 0 10px 34px rgba(2,6,16,.5);
+  box-shadow: 0 10px 34px rgba(2,6,16,.5), 0 1px 0 rgba(47,214,246,.35), 0 2px 14px rgba(0,140,255,.25);
 }
 .banner { display: flex; align-items: center; gap: 10px; min-width: 0; }
-.banner img { height: 38px; width: auto; max-width: min(46vw, 480px); object-fit: contain; display: block; flex: none; }
-.banner img.logo-mark { height: 44px; }
+.banner img { height: 46px; width: auto; max-width: min(46vw, 480px); object-fit: contain; display: block; flex: none; }
+.banner img.logo-mark { height: 56px; }
 .crown-inline { height: 14px; width: auto; vertical-align: -2px; margin-right: 2px; }
 .burger {
   margin-left: auto; width: 46px; height: 46px; border-radius: 12px; cursor: pointer;
@@ -402,8 +403,8 @@ table.adv td.best { color: var(--cyan); text-shadow: 0 0 14px rgba(47,214,246,.5
   .fb-row span:nth-child(4), .fb-row span:nth-child(5) { display: none; }
   .m-thumb { width: 36px; height: 36px; border-radius: 10px; }
   .m-mapcell { gap: 10px; }
-  .banner img { height: 28px; max-width: 58vw; }
-  .banner img.logo-mark { height: 33px; }
+  .banner img { height: 34px; max-width: 58vw; }
+  .banner img.logo-mark { height: 42px; }
 }
 
 /* Reduzierte Bewegung (Accessibility + Headless-Screenshots) */
@@ -415,6 +416,7 @@ table.adv td.best { color: var(--cyan); text-shadow: 0 0 14px rgba(47,214,246,.5
 </head>
 <body>
 <div class="bgfx"></div>
+<canvas id="fx" aria-hidden="true"></canvas>
 
 <!-- ================= HEADER ================= -->
 <header class="top">
@@ -804,6 +806,78 @@ setInterval(() => {
 
 /* Init */
 setView(localStorage.getItem("sb-started") === "1" ? "live" : "empty");
+</script>
+<script>
+/* Blaue Flammen + Rauch, ganzer Hintergrund, leicht geblurrt via CSS */
+(function () {
+  const c = document.getElementById("fx");
+  if (!c) return;
+  const ctx = c.getContext("2d");
+  const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  let W = 0, H = 0, flames = [], smoke = [], raf = null, last = 0;
+  const R = (a, b) => a + Math.random() * (b - a);
+
+  function resize() {
+    const sc = 0.34;
+    W = c.width = Math.max(2, Math.round(innerWidth * sc));
+    H = c.height = Math.max(2, Math.round(innerHeight * sc));
+    flames = []; smoke = [];
+    for (let i = 0; i < W * 0.22; i++) flames.push(newFlame(true));
+    for (let i = 0; i < W * 0.075; i++) smoke.push(newSmoke(true));
+    if (reduced) { step(0.016, true); return; }
+  }
+  function newFlame(mid) {
+    return { x: R(0, W), y: mid ? R(H * .3, H * 1.05) : H + R(2, 14),
+      r: R(2.2, 6.5), vy: R(46, 105), sw: R(6, 18), ph: R(0, 6.28),
+      life: R(0.55, 1), hot: Math.random() < 0.12 };
+  }
+  function newSmoke(mid) {
+    return { x: R(0, W), y: mid ? R(H * .2, H) : H + R(10, 40),
+      r: R(9, 26), vy: R(14, 34), sw: R(3, 9), ph: R(0, 6.28), life: R(0.4, 1) };
+  }
+  function step(dt, once) {
+    ctx.clearRect(0, 0, W, H);
+    // Rauch (unten drunter im Blend, gross & diffus)
+    ctx.globalCompositeOperation = "source-over";
+    for (const p of smoke) {
+      p.y -= p.vy * dt; p.x += Math.sin(p.ph += p.sw * dt) * 6 * dt * 30; p.r += 3.5 * dt * 12;
+      p.life -= dt * 0.10;
+      if (p.life <= 0 || p.y < -p.r * 2) Object.assign(p, newSmoke(false));
+      const a = 0.10 * p.life;
+      const g = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.r);
+      g.addColorStop(0, "rgba(150,185,225," + a + ")");
+      g.addColorStop(1, "rgba(120,160,210,0)");
+      ctx.fillStyle = g; ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, 6.283); ctx.fill();
+    }
+    // Flammen (additiv, blau)
+    ctx.globalCompositeOperation = "lighter";
+    for (const p of flames) {
+      p.y -= p.vy * dt; p.x += Math.sin(p.ph += p.sw * dt) * p.sw * dt;
+      p.life -= dt * 0.55;
+      if (p.life <= 0 || p.y < H * 0.05) Object.assign(p, newFlame(false));
+      const t = 1 - p.life, a = 0.5 * p.life * (p.hot ? 1.5 : 1);
+      const hue = p.hot ? 188 : 200 + t * 26, li = p.hot ? 78 : 58 - t * 16;
+      const g = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.r * (1 + t * 1.4));
+      g.addColorStop(0, "hsla(" + hue + ",100%," + li + "%," + a + ")");
+      g.addColorStop(1, "hsla(" + (hue + 10) + ",100%,50%,0)");
+      ctx.fillStyle = g; ctx.beginPath(); ctx.arc(p.x, p.y, p.r * (1 + t * 1.4), 0, 6.283); ctx.fill();
+    }
+    if (!once) raf = requestAnimationFrame(loop);
+  }
+  function loop(ts) {
+    const dt = Math.min(0.05, (ts - last) / 1000 || 0.016);
+    last = ts;
+    step(dt, false);
+  }
+  addEventListener("resize", resize, { passive: true });
+  document.addEventListener("visibilitychange", () => {
+    if (reduced) return;
+    if (document.hidden) { cancelAnimationFrame(raf); raf = null; }
+    else if (!raf) { last = performance.now(); raf = requestAnimationFrame(loop); }
+  });
+  resize();
+  if (!reduced) { last = performance.now(); raf = requestAnimationFrame(loop); }
+})();
 </script>
 </body>
 </html>
