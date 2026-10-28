@@ -2,3 +2,8 @@ node_modules/
 shot_*.png
 crop_*.png
 screenshot.js
+*.py
+players.json
+package*.json
+"Dashboard Entwurf.html"
+saltyboomers-dashboard.html
