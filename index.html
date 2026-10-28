@@ -470,13 +470,20 @@ table.adv td.best { color: var(--cyan); text-shadow: 0 0 14px rgba(200,206,212,.
   #fx { position: fixed; inset: 0; width: 100vw; height: 100vh; z-index: -1; display: none;
         filter: blur(4px); opacity: .6; pointer-events: none; }
   body.bg-bubbles #fx { display: block; }
-  .bgpick { margin-left: auto; display: flex; gap: 6px; align-items: center; }
-  .bgpick .bp-lbl { font: 700 10px "Rajdhani", sans-serif; letter-spacing: .16em; text-transform: uppercase; color: var(--muted); opacity: .7; margin-right: 2px; }
-  .bgpick button { font: 700 11.5px "Rajdhani", sans-serif; letter-spacing: .1em; text-transform: uppercase;
-    color: var(--muted); background: rgba(255,255,255,.05); border: 1px solid var(--edge-soft);
-    border-radius: 9px; padding: 5px 11px; cursor: pointer; transition: all .15s; }
-  .bgpick button:hover { color: var(--ink); background: rgba(255,255,255,.09); }
-  .bgpick button.active { color: #e9e9eb; background: rgba(255,255,255,.13); border-color: var(--edge); }
+  .top { flex-wrap: wrap; row-gap: 4px; }
+  .bgpick { margin-left: auto; display: flex; gap: 7px; align-items: center; flex-shrink: 0;
+    background: rgba(8,10,14,.66); border: 1px solid rgba(255,255,255,.16); border-radius: 14px; padding: 4px 9px;
+    backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); }
+  .bgpick .bp-lbl { font: 800 12px "Rajdhani", sans-serif; letter-spacing: .2em; text-transform: uppercase;
+    color: #9aa4ad; margin-right: 4px; }
+  .bgpick button { display: flex; align-items: center; gap: 6px;
+    font: 700 13.5px "Rajdhani", sans-serif; letter-spacing: .08em; text-transform: uppercase;
+    color: #b8bec4; background: rgba(255,255,255,.07); border: 1px solid rgba(255,255,255,.12);
+    border-radius: 10px; padding: 6px 12px; cursor: pointer; transition: all .15s; }
+  .bgpick button svg { width: 15px; height: 15px; flex: 0 0 auto; }
+  .bgpick button:hover { color: #fff; background: rgba(255,255,255,.14); }
+  .bgpick button.active { color: #fff; background: rgba(255,255,255,.2); border-color: rgba(255,255,255,.55);
+    box-shadow: 0 0 14px rgba(255,255,255,.12); }
   @media (max-width: 1100px) { .bgpick { display: none; } }
   .ticker-track span { font-family: "Press Start 2P", monospace; font-size: 14px; letter-spacing: .05em; text-transform: uppercase;
   color: #9aa0a6; padding: 0 44px; }
@@ -530,10 +537,9 @@ table.adv td.best { color: var(--cyan); text-shadow: 0 0 14px rgba(200,206,212,.
 
 <div class="bgfx"></div>
 <video id="bgvid" autoplay muted loop playsinline preload="auto" poster="assets/fire_poster.jpg">
-  
-<canvas id="fx" aria-hidden="true"></canvas>
-<source src="assets/fire_blue.mp4" type="video/mp4">
+  <source src="assets/fire_blue.mp4" type="video/mp4">
 </video>
+<canvas id="fx" aria-hidden="true"></canvas>
 
 <!-- ================= HEADER ================= -->
 <header class="top">
@@ -543,10 +549,10 @@ table.adv td.best { color: var(--cyan); text-shadow: 0 0 14px rgba(200,206,212,.
   </div>
   <nav class="bgpick" id="bgpick" aria-label="Hintergrund">
     <span class="bp-lbl">BG</span>
-    <button data-bg="bubbles">Bubbles</button>
-    <button data-bg="video">Video</button>
-    <button data-bg="dim">Dunkel</button>
-    <button data-bg="off">Aus</button>
+    <button data-bg="bubbles" title="Funken (Canvas)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="8" cy="15" r="4"/><circle cx="16" cy="9" r="2.5"/><circle cx="18" cy="16" r="1.6"/></svg>Funken</button>
+    <button data-bg="video" title="Feuer-Video"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3c1.5 3-2.5 4.5-2.5 7.5a4.5 4.5 0 0 0 9 0C18.5 6 13 6 12 3z" fill="currentColor" stroke="none" opacity=".85"/></svg>Feuer</button>
+    <button data-bg="dim" title="Video gedimmt"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4 8.5 8.5 0 1 0 20 14.5z"/></svg>Dunkel</button>
+    <button data-bg="off" title="Kein Hintergrund"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6 6l12 12M18 6L6 18"/></svg>Aus</button>
   </nav>
   <button class="burger" id="burger" aria-label="Menü">
     <span></span><span></span><span></span>
