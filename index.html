@@ -4,9 +4,12 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>SaltyBoomers — Weekend Stack</title>
+<link rel="icon" href="favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root {
   --bg: #070b14;
@@ -58,7 +61,7 @@ body {
 .panel.glow { border-color: var(--edge); box-shadow: 0 22px 55px rgba(2,6,16,.55), 0 0 34px rgba(47,214,246,.10), inset 0 1px 0 rgba(255,255,255,.06); }
 .ph { display: flex; align-items: baseline; gap: 10px; padding: 18px 22px 12px; }
 .ph h2 {
-  font-family: "Chakra Petch", sans-serif; font-size: 20px; font-weight: 700;
+  font-family: "Rajdhani", sans-serif; font-size: 20px; font-weight: 700;
   letter-spacing: .06em; text-transform: uppercase;
 }
 .ph h2 em { color: var(--cyan); font-style: normal; }
@@ -73,11 +76,10 @@ header.top {
   border-bottom: 1px solid var(--edge-soft);
   box-shadow: 0 10px 34px rgba(2,6,16,.5);
 }
-.banner { display: flex; align-items: center; min-width: 0; }
-.banner img {
-  height: 58px; border-radius: 12px; display: block;
-  box-shadow: 0 6px 24px rgba(47,214,246,.22), 0 2px 8px rgba(0,0,0,.5);
-}
+.banner { display: flex; align-items: center; gap: 10px; min-width: 0; }
+.banner img { height: 38px; width: auto; max-width: min(46vw, 480px); object-fit: contain; display: block; flex: none; }
+.banner img.logo-mark { height: 44px; }
+.crown-inline { height: 14px; width: auto; vertical-align: -2px; margin-right: 2px; }
 .burger {
   margin-left: auto; width: 46px; height: 46px; border-radius: 12px; cursor: pointer;
   background: var(--glass); border: 1px solid var(--edge);
@@ -108,7 +110,7 @@ header.top {
 }
 .drawer .close-x:hover { color: var(--ink); border-color: var(--edge); }
 .drawer.show { transform: translateX(0); }
-.drawer h3 { font-family: "Chakra Petch", sans-serif; font-size: 13px; letter-spacing: .14em; color: var(--muted); text-transform: uppercase; margin: 14px 6px 6px; }
+.drawer h3 { font-family: "Rajdhani", sans-serif; font-size: 13px; letter-spacing: .14em; color: var(--muted); text-transform: uppercase; margin: 14px 6px 6px; }
 .drawer a, .drawer button.nav {
   display: flex; align-items: center; gap: 10px; width: 100%; text-align: left;
   padding: 11px 14px; border-radius: 12px; text-decoration: none;
@@ -133,15 +135,16 @@ header.top {
 }
 .kpi:hover { transform: translateY(-3px); border-color: var(--edge); box-shadow: 0 22px 44px rgba(2,6,16,.6), 0 0 26px rgba(47,214,246,.12); }
 .kpi .lbl { font-size: 10.5px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
-.kpi .val { font-family: "Chakra Petch", sans-serif; font-size: 33px; font-weight: 700; margin-top: 3px; line-height: 1.1; font-variant-numeric: tabular-nums; }
+.kpi .val { font-family: "Rajdhani", sans-serif; font-size: 33px; font-weight: 700; margin-top: 3px; line-height: 1.1; font-variant-numeric: tabular-nums; }
 .kpi .val .sub { font-size: 19px; color: var(--dim); padding: 0 3px; }
+.kpi .val .dash { font-size: 29px; color: var(--cyan); padding: 0 7px; font-weight: 600; }
 .kpi .val.up { color: var(--win); }
 .kpi .val.down { color: var(--loss); }
 
 /* ---- Burning Streak ---- */
 .streak-wrap { display: flex; align-items: center; gap: 8px; }
 .burn {
-  font-family: "Chakra Petch", sans-serif; font-weight: 700; font-size: 33px; line-height: 1.1;
+  font-family: "Rajdhani", sans-serif; font-weight: 700; font-size: 33px; line-height: 1.1;
   background: linear-gradient(180deg, var(--fire1), var(--fire2) 52%, var(--fire3));
   -webkit-background-clip: text; background-clip: text; color: transparent;
   filter: drop-shadow(0 0 8px rgba(255,130,0,.65)) drop-shadow(0 0 22px rgba(255,70,0,.4));
@@ -153,40 +156,80 @@ header.top {
 }
 .flame-ico { width: 20px; height: 26px; flex: none; filter: drop-shadow(0 0 6px rgba(255,120,0,.8)); animation: flick .3s infinite alternate; }
 
-/* ---- Fokus-Karte (letztes Match, 15 Min) ---- */
+/* ---- Fokus-Karte (Matchroom-Board, 10 Min) ---- */
 .focus { margin: 4px 0 18px; overflow: hidden; position: relative; }
 .focus::before {
   content: ""; position: absolute; inset: 0;
   background: radial-gradient(700px 160px at 18% 0%, rgba(47,214,246,.14), transparent 70%);
   pointer-events: none;
 }
-.focus-in {
-  position: relative; display: grid; grid-template-columns: auto 1fr auto; gap: 26px;
-  align-items: center; padding: 20px 26px;
+.focus-mapbg {
+  position: absolute; top: 0; right: 0; bottom: 0; width: 52%;
+  background-size: cover; background-position: center; opacity: .15;
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 70%);
+  mask-image: linear-gradient(90deg, transparent, #000 70%);
+  pointer-events: none;
 }
+.focus-in {
+  position: relative; display: grid; grid-template-columns: minmax(250px, .95fr) 1.35fr; gap: 26px;
+  align-items: center; padding: 22px 26px;
+}
+.f-meta { display: flex; flex-direction: column; gap: 7px; min-width: 0; }
 .focus-tag { display: flex; align-items: center; gap: 8px; font-size: 11px; font-weight: 700; letter-spacing: .14em; color: var(--cyan); text-transform: uppercase; }
 .focus-tag .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--cyan); box-shadow: 0 0 10px var(--cyan); animation: pulse 1.6s infinite; }
 @keyframes pulse { 0%,100% { opacity: .35; } 50% { opacity: 1; } }
-.f-meta .map { font-family: "Chakra Petch", sans-serif; font-size: 26px; font-weight: 700; }
-.f-meta small { color: var(--muted); font-size: 12.5px; display: block; }
-.f-score { display: flex; align-items: center; gap: 14px; justify-self: center; }
+.f-meta .map { font-family: "Rajdhani", sans-serif; font-size: 30px; font-weight: 700; line-height: 1; }
+.f-meta small { color: var(--muted); font-size: 12.5px; }
+.f-score { display: flex; align-items: center; gap: 12px; }
 .f-score .res {
   font-size: 11px; font-weight: 700; letter-spacing: .1em; padding: 5px 11px; border-radius: 8px;
 }
 .f-score .res.w { background: rgba(52,217,123,.16); color: var(--win); box-shadow: 0 0 16px rgba(52,217,123,.25); }
 .f-score .res.l { background: rgba(255,93,108,.16); color: var(--loss); box-shadow: 0 0 16px rgba(255,93,108,.22); }
-.f-score .s { font-family: "Chakra Petch", sans-serif; font-size: 46px; font-weight: 700; font-variant-numeric: tabular-nums; }
-.f-side { text-align: right; font-size: 13px; color: var(--muted); }
+.f-score .s { font-family: "Rajdhani", sans-serif; font-size: 42px; font-weight: 700; font-variant-numeric: tabular-nums; line-height: 1; }
+.mvp-spot {
+  display: flex; align-items: center; gap: 10px; margin-top: 2px; padding: 9px 14px; border-radius: 14px;
+  background: linear-gradient(90deg, rgba(255,140,20,.14), rgba(255,140,20,.03));
+  border: 1px solid rgba(255,150,30,.28); box-shadow: 0 8px 22px rgba(255,100,0,.12);
+}
+.mvp-spot .crown img { height: 26px; width: 26px; display: block; filter: drop-shadow(0 0 8px rgba(255,150,20,.65)); }
+.crown { font-size: 17px; }
+.mvp-spot b { font-family: "Rajdhani", sans-serif; font-size: 19px; line-height: 1.15; display: block; }
+.mvp-spot small { display: block; font-size: 10.5px; color: var(--muted); letter-spacing: .1em; text-transform: uppercase; font-weight: 600; }
+.swing-chip { margin-left: auto; font-size: 12.5px; font-weight: 700; color: var(--fire2); text-shadow: 0 0 12px rgba(255,120,0,.55); white-space: nowrap; }
+.f-side { font-size: 12.5px; color: var(--muted); }
 .f-side b { color: var(--ink); }
+.f-links { display: flex; align-items: center; gap: 14px; margin-top: 4px; flex-wrap: wrap; }
 .countdown {
-  font-family: "Chakra Petch", sans-serif; font-size: 19px; font-weight: 700; color: var(--cyan);
+  font-family: "Rajdhani", sans-serif; font-size: 17px; font-weight: 700; color: var(--cyan);
   font-variant-numeric: tabular-nums;
 }
-a.room {
-  display: inline-flex; align-items: center; gap: 6px; margin-top: 6px;
-  color: var(--cyan); text-decoration: none; font-weight: 600; font-size: 12.5px;
-}
+a.room { display: inline-flex; align-items: center; gap: 6px; color: var(--cyan); text-decoration: none; font-weight: 600; font-size: 12.5px; }
 a.room:hover { text-decoration: underline; }
+.adv-link {
+  display: inline-flex; align-items: center; gap: 6px; padding: 7px 13px; border-radius: 10px;
+  border: 1px solid var(--edge); background: var(--cyan-soft); color: var(--cyan);
+  font: 700 12px "Rajdhani", sans-serif; letter-spacing: .08em; text-transform: uppercase; cursor: pointer;
+  transition: box-shadow .15s, transform .15s;
+}
+.adv-link:hover { box-shadow: 0 0 18px rgba(47,214,246,.35); transform: translateY(-1px); }
+
+/* Matchroom-Mini-Board */
+.f-board { min-width: 0; background: rgba(9,14,24,.5); border: 1px solid var(--edge-soft); border-radius: 16px; padding: 6px 0; box-shadow: inset 0 1px 0 rgba(255,255,255,.04); }
+.fb-row {
+  display: grid; grid-template-columns: minmax(104px, 1.3fr) .95fr .6fr .6fr .75fr;
+  gap: 12px; align-items: center; padding: 8px 16px;
+  border-bottom: 1px solid rgba(255,255,255,.05);
+}
+.fb-row:last-child { border-bottom: none; }
+.fb-row.fb-head { font-size: 9.5px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); padding: 6px 16px 7px; }
+.fb-row.fb-head span { text-align: right; }
+.fb-row.fb-head .p { text-align: left; }
+.fb-row .p { font-weight: 600; font-size: 13.5px; color: var(--ink); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.fb-row span:not(.p) { text-align: right; font-family: "Rajdhani", sans-serif; font-size: 16.5px; font-weight: 700; font-variant-numeric: tabular-nums; color: var(--ink); }
+.fb-row.mvp { background: linear-gradient(90deg, rgba(255,140,20,.12), transparent 72%); box-shadow: inset 2px 0 0 var(--fire2); border-radius: 8px 0 0 8px; }
+.fb-row.mvp .p { color: var(--fire2); }
+.sw.up { color: var(--win); } .sw.dn { color: var(--loss); }
 
 /* ---- Grid ---- */
 .grid { display: grid; grid-template-columns: 1fr 350px; gap: 18px; align-items: start; }
@@ -211,7 +254,7 @@ a.room:hover { text-decoration: underline; }
 }
 .carry-row.head small { display: block; font-size: 9.5px; font-weight: 500; color: var(--dim); letter-spacing: .08em; }
 .carry-row.top { background: linear-gradient(90deg, rgba(47,214,246,.10), transparent 62%); box-shadow: inset 3px 0 0 var(--cyan); }
-.rank { font-family: "Chakra Petch", sans-serif; font-size: 19px; font-weight: 700; color: var(--dim); }
+.rank { font-family: "Rajdhani", sans-serif; font-size: 19px; font-weight: 700; color: var(--dim); }
 .carry-row.top .rank { color: var(--cyan); }
 .avatar { width: 44px; height: 44px; border-radius: 50%; object-fit: cover; border: 2px solid rgba(47,214,246,.35); box-shadow: 0 4px 14px rgba(2,6,16,.6); }
 .pname { display: flex; flex-direction: column; gap: 4px; min-width: 0; }
@@ -219,7 +262,7 @@ a.room:hover { text-decoration: underline; }
 .pname .lvlrow { display: flex; align-items: center; gap: 6px; }
 .elo-chip { font-size: 12px; font-weight: 700; }
 .elo-chip.up { color: var(--win); } .elo-chip.down { color: var(--loss); }
-.num { font-family: "Chakra Petch", sans-serif; font-size: 22px; font-weight: 700; text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.num { font-family: "Rajdhani", sans-serif; font-size: 22px; font-weight: 700; text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
 .num small { display: block; font-family: "Inter", sans-serif; font-size: 11px; font-weight: 500; color: var(--muted); }
 .kd-good { color: var(--win); } .kd-bad { color: var(--loss); }
 .pct { font-size: 14px; color: var(--muted); font-weight: 600; }
@@ -228,10 +271,9 @@ a.room:hover { text-decoration: underline; }
   background: linear-gradient(90deg, rgba(47,214,246,.4), var(--cyan));
   box-shadow: 0 0 10px rgba(47,214,246,.6); width: 0; transition: width 1.1s cubic-bezier(.2,.8,.25,1); }
 
-/* ---- FACEIT-Level-Badges ---- */
-.flvl { width: 22px; height: 22px; flex: none; filter: drop-shadow(0 2px 4px rgba(0,0,0,.55)); }
-.flvl text { font: 700 11px "Chakra Petch", sans-serif; fill: #0a0f1a; }
-.flvl.l10 text { fill: #fff; }
+/* ---- FACEIT-Level-Badges (Original-Ring, 1:1 wie FACEIT-Rebrand) ---- */
+.flvl { width: 23px; height: 23px; flex: none; filter: drop-shadow(0 2px 5px rgba(0,0,0,.6)); }
+.flvl text { font: 800 8.4px "Rajdhani", sans-serif; fill: #fff; text-anchor: middle; dominant-baseline: central; paint-order: stroke; stroke: rgba(0,0,0,.45); stroke-width: .5px; }
 
 /* ---- Highlights ---- */
 .hl { padding: 13px 20px; border-bottom: 1px solid rgba(255,255,255,.05); }
@@ -250,13 +292,15 @@ a.room:hover { text-decoration: underline; }
 .match:hover { background: rgba(47,214,246,.045); }
 .m-time { font-size: 12.5px; color: var(--muted); font-variant-numeric: tabular-nums; }
 .m-time b { display: block; color: var(--ink); font-size: 14px; }
-.m-map { font-family: "Chakra Petch", sans-serif; font-size: 19px; font-weight: 600; }
+.m-map { font-family: "Rajdhani", sans-serif; font-size: 19px; font-weight: 600; }
 .m-map small { display: block; font-family: "Inter", sans-serif; font-size: 11.5px; color: var(--muted); font-weight: 400; }
+.m-mapcell { display: flex; align-items: center; gap: 12px; min-width: 0; }
+.m-thumb { width: 46px; height: 46px; border-radius: 12px; object-fit: cover; border: 1px solid var(--edge-soft); box-shadow: 0 4px 14px rgba(2,6,16,.5); flex: none; }
 .m-score { display: flex; align-items: center; gap: 10px; justify-content: flex-end; }
 .res-chip { font-size: 10.5px; font-weight: 700; letter-spacing: .08em; padding: 4px 9px; border-radius: 7px; }
 .res-chip.w { background: rgba(52,217,123,.15); color: var(--win); }
 .res-chip.l { background: rgba(255,93,108,.15); color: var(--loss); }
-.m-score .s { font-family: "Chakra Petch", sans-serif; font-size: 26px; font-weight: 700; font-variant-numeric: tabular-nums; }
+.m-score .s { font-family: "Rajdhani", sans-serif; font-size: 26px; font-weight: 700; font-variant-numeric: tabular-nums; }
 .m-mvp { text-align: right; font-size: 12.5px; color: var(--muted); }
 .m-mvp b { color: var(--ink); font-weight: 600; display: block; font-size: 13.5px; }
 .m-link { display: flex; align-items: center; justify-content: center; width: 30px; height: 30px; border-radius: 9px;
@@ -270,14 +314,14 @@ a.room:hover { text-decoration: underline; }
 .mini { padding: 16px 18px; border-radius: 16px; background: linear-gradient(165deg, var(--glass), var(--glass-2));
   border: 1px solid var(--edge-soft); box-shadow: 0 14px 30px rgba(2,6,16,.45); }
 .mini .k { font-size: 10.5px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
-.mini .who { font-family: "Chakra Petch", sans-serif; font-size: 21px; font-weight: 700; color: var(--cyan); margin-top: 3px; }
+.mini .who { font-family: "Rajdhani", sans-serif; font-size: 21px; font-weight: 700; color: var(--cyan); margin-top: 3px; }
 .mini .d { font-size: 12.5px; color: var(--muted); }
 table.adv { width: 100%; border-collapse: collapse; }
 table.adv th { font-size: 10.5px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--muted);
   text-align: right; padding: 12px 14px; border-bottom: 1px solid rgba(255,255,255,.07); }
 table.adv th:first-child { text-align: left; }
 table.adv td { padding: 12px 14px; text-align: right; border-bottom: 1px solid rgba(255,255,255,.045);
-  font-family: "Chakra Petch", sans-serif; font-weight: 600; font-size: 16.5px; font-variant-numeric: tabular-nums; }
+  font-family: "Rajdhani", sans-serif; font-weight: 600; font-size: 16.5px; font-variant-numeric: tabular-nums; }
 table.adv td:first-child { text-align: left; font-family: "Inter", sans-serif; font-weight: 600; font-size: 14px; }
 table.adv tr:last-child td { border-bottom: none; }
 table.adv td.best { color: var(--cyan); text-shadow: 0 0 14px rgba(47,214,246,.5); }
@@ -287,10 +331,10 @@ table.adv td.best { color: var(--cyan); text-shadow: 0 0 14px rgba(47,214,246,.5
 #viewEmpty { text-align: center; padding: 60px 20px 30px; }
 #viewEmpty .stack-avatars img { width: 56px; height: 56px; border-radius: 50%; border: 3px solid var(--bg);
   margin: 0 -7px; object-fit: cover; box-shadow: 0 6px 18px rgba(2,6,16,.6); }
-#viewEmpty h2 { font-family: "Chakra Petch", sans-serif; font-size: 30px; margin: 26px 0 8px; }
+#viewEmpty h2 { font-family: "Rajdhani", sans-serif; font-size: 30px; margin: 26px 0 8px; }
 #viewEmpty p { color: var(--muted); max-width: 480px; margin: 0 auto 30px; }
 .btn-start {
-  font-family: "Chakra Petch", sans-serif; font-size: 21px; font-weight: 700; letter-spacing: .05em;
+  font-family: "Rajdhani", sans-serif; font-size: 21px; font-weight: 700; letter-spacing: .05em;
   text-transform: uppercase; color: #04121a; cursor: pointer;
   padding: 17px 46px; border-radius: 16px; border: none;
   background: linear-gradient(135deg, #6ff0ff, #17b8dd);
@@ -307,7 +351,7 @@ table.adv td.best { color: var(--cyan); text-shadow: 0 0 14px rgba(47,214,246,.5
   background: rgba(14, 22, 38, .95); border: 1px solid var(--edge);
   box-shadow: 0 30px 80px rgba(2,6,16,.7); transform: scale(.94); transition: transform .2s; }
 .modal-veil.show .modal { transform: scale(1); }
-.modal h3 { font-family: "Chakra Petch", sans-serif; font-size: 21px; margin-bottom: 8px; }
+.modal h3 { font-family: "Rajdhani", sans-serif; font-size: 21px; margin-bottom: 8px; }
 .modal p { color: var(--muted); font-size: 13.5px; margin-bottom: 22px; }
 .modal .row { display: flex; gap: 10px; justify-content: center; }
 .btn-ghost { padding: 12px 22px; border-radius: 12px; background: none; border: 1px solid var(--edge-soft);
@@ -333,10 +377,14 @@ table.adv td.best { color: var(--cyan); text-shadow: 0 0 14px rgba(47,214,246,.5
 @media (min-width: 1700px) {
   body { font-size: 16px; } .kpi .val { font-size: 42px; } .num { font-size: 26px; } .f-score .s { font-size: 56px; }
 }
+/* TV / 4K: Layout skaliert mit statt Mini-Spalte auf dem Fernseher */
+@media (min-width: 2000px) { body { zoom: 1.5; } }
+@media (min-width: 2600px) { body { zoom: 1.9; } }
+@media (min-width: 3200px) { body { zoom: 2.3; } }
 @media (max-width: 1000px) {
   .grid { grid-template-columns: 1fr; }
   .kpis { grid-template-columns: repeat(3, 1fr); gap: 9px; }
-  .kpi { padding: 12px 12px 10px; } .kpi .val { font-size: 24px; } .kpi .val .sub { font-size: 16px; }
+  .kpi { padding: 12px 12px 10px; } .kpi .val { font-size: 24px; } .kpi .val .sub { font-size: 16px; } .kpi .val .dash { font-size: 20px; }
   .streak-wrap .flame-ico { width: 15px; height: 20px; } .burn { font-size: 24px; }
   .adv-grid { grid-template-columns: 1fr; }
   .carry-row {
@@ -348,9 +396,14 @@ table.adv td.best { color: var(--cyan); text-shadow: 0 0 14px rgba(47,214,246,.5
   .num small, .carry-row.head small { display: none; }
   .match { grid-template-columns: 1fr 1fr; }
   .m-mvp { text-align: left; } .m-link { display: none; }
-  .focus-in { grid-template-columns: 1fr; gap: 12px; }
+  .focus-in { grid-template-columns: 1fr; gap: 14px; padding: 16px 16px 18px; }
   .f-score { justify-self: start; } .f-side { text-align: left; }
-  .banner img { height: 40px; max-width: 64vw; object-fit: cover; object-position: left center; }
+  .fb-row { grid-template-columns: minmax(90px, 1.4fr) 1fr .6fr; gap: 8px; padding: 8px 12px; }
+  .fb-row span:nth-child(4), .fb-row span:nth-child(5) { display: none; }
+  .m-thumb { width: 36px; height: 36px; border-radius: 10px; }
+  .m-mapcell { gap: 10px; }
+  .banner img { height: 28px; max-width: 58vw; }
+  .banner img.logo-mark { height: 33px; }
 }
 
 /* Reduzierte Bewegung (Accessibility + Headless-Screenshots) */
@@ -366,7 +419,8 @@ table.adv td.best { color: var(--cyan); text-shadow: 0 0 14px rgba(47,214,246,.5
 <!-- ================= HEADER ================= -->
 <header class="top">
   <div class="banner">
-    <img src="assets/banner.jpg" alt="SaltyBoomers — Berlin LAN 2026">
+    <img class="logo-mark" src="assets/logo_ring.png" alt="SaltyBoomers Logo">
+    <img src="assets/logo_text.png" alt="SaltyBoomers — Berlin LAN 2026">
   </div>
   <button class="burger" id="burger" aria-label="Menü">
     <span></span><span></span><span></span>
@@ -377,6 +431,7 @@ table.adv td.best { color: var(--cyan); text-shadow: 0 0 14px rgba(47,214,246,.5
 
   <!-- ================= LEERZUSTAND ================= -->
   <section id="viewEmpty" class="panel glow" style="padding-bottom:40px">
+    <img src="assets/logo_full.png" alt="SaltyBoomers" style="display:block;width:140px;margin:4px auto 10px;filter:drop-shadow(0 6px 18px rgba(47,214,246,.3))">
     <div class="stack-avatars" style="display:flex;justify-content:center">
       <img src="https://assets.faceit-cdn.net/avatars/e0fea518-3b2c-4bfd-9ed5-beb730cd335f_1586109360935.jpg" alt="">
       <img src="https://assets.faceit-cdn.net/avatars/1db98bfd-afce-419a-ad6f-c18d5db53601_1557778115480.jpg" alt="">
@@ -384,7 +439,7 @@ table.adv td.best { color: var(--cyan); text-shadow: 0 0 14px rgba(47,214,246,.5
       <img src="https://distribution.faceit-cdn.net/images/b05feccf-e6c1-4729-80f7-289d8a90343f.jpg" alt="">
       <img src="https://distribution.faceit-cdn.net/images/e189caeb-c1dd-44f4-80ef-cff85c14d9ad.jpg" alt="">
     </div>
-    <h2>Bereit, SaltyBoomers?</h2>
+    <h2 style="display:flex;align-items:center;justify-content:center;gap:10px"><img src="assets/icon_soldier.png" alt="" style="height:30px;width:30px;object-fit:contain">Bereit, SaltyBoomers?</h2>
     <p>Einmal starten — ab dem Moment zählt jedes Match eures 5-Stacks aufs Dashboard. Der Knopf verschwindet danach, ein versehentlicher Reset ist ausgeschlossen.</p>
     <button class="btn-start" id="btnStart">▶ Stack starten</button>
   </section>
@@ -394,20 +449,36 @@ table.adv td.best { color: var(--cyan); text-shadow: 0 0 14px rgba(47,214,246,.5
 
     <!-- Fokus: letztes Match (15 Min) -->
     <section class="panel focus" id="focusCard">
+      <div class="focus-mapbg" style="background-image:url('assets/map_mirage.jpg')"></div>
       <div class="focus-in">
         <div class="f-meta">
-          <div class="focus-tag"><span class="dot"></span> Letztes Match · Fokus</div>
+          <div class="focus-tag"><span class="dot"></span> Letztes Match · Matchroom</div>
           <div class="map">Mirage</div>
           <small>Sa 18:20 · Match 10 · 5v5 Premium</small>
+          <div class="f-score">
+            <span class="res w">WIN</span>
+            <span class="s">16 : 12</span>
+          </div>
+          <div class="mvp-spot">
+            <span class="crown"><img src="assets/icon_crown.png" alt="MVP-Krone"></span>
+            <div><b>-neon666</b><small>MVP · 25 Kills · 1.79 K/D</small></div>
+            <span class="swing-chip">+9.4% Swing</span>
+          </div>
+          <div class="f-side">
+            <div>Board verschwindet in <span class="countdown" id="countdown">09:57</span></div>
+            <div class="f-links">
+              <a class="room" href="https://www.faceit.com/de/cs2/room/" target="_blank" rel="noopener">Match-Room ↗</a>
+              <button class="adv-link" data-view="advanced">⚡ Advanced Stats</button>
+            </div>
+          </div>
         </div>
-        <div class="f-score">
-          <span class="res w">WIN</span>
-          <span class="s">16 : 12</span>
-        </div>
-        <div class="f-side">
-          <div>Top: <b>-neon666</b> · 25 Kills · 1.4 K/D</div>
-          <div>Fokus wechselt in <span class="countdown" id="countdown">12:00</span> zur Übersicht</div>
-          <a class="room" href="https://www.faceit.com/de/cs2/room/" target="_blank" rel="noopener">Match-Room &amp; Advanced-Stats öffnen ↗</a>
+        <div class="f-board">
+          <div class="fb-row fb-head"><span class="p">Spieler</span><span>K / D / A</span><span>K/D</span><span>ADR</span><span>Swing</span></div>
+          <div class="fb-row mvp"><span class="p"><img class="crown-inline" src="assets/icon_crown.png" alt="MVP"> -neon666</span><span>25 / 14 / 6</span><span>1.79</span><span>96</span><span class="sw up">+9.4%</span></div>
+          <div class="fb-row"><span class="p">kokolorez</span><span>21 / 16 / 5</span><span>1.31</span><span>84</span><span class="sw up">+5.1%</span></div>
+          <div class="fb-row"><span class="p">theunc666</span><span>19 / 15 / 7</span><span>1.27</span><span>79</span><span class="sw up">+3.8%</span></div>
+          <div class="fb-row"><span class="p">Shpooople</span><span>16 / 17 / 4</span><span>0.94</span><span>71</span><span class="sw dn">−2.6%</span></div>
+          <div class="fb-row"><span class="p">amaseling</span><span>14 / 18 / 6</span><span>0.78</span><span>66</span><span class="sw dn">−4.9%</span></div>
         </div>
       </div>
     </section>
@@ -415,7 +486,7 @@ table.adv td.best { color: var(--cyan); text-shadow: 0 0 14px rgba(47,214,246,.5
     <!-- KPIs -->
     <section class="kpis">
       <div class="kpi"><div class="lbl">Matches</div><div class="val" data-count="10">0</div></div>
-      <div class="kpi"><div class="lbl">Bilanz</div><div class="val">7<span class="sub">–</span>3</div></div>
+      <div class="kpi"><div class="lbl">Bilanz</div><div class="val">7<span class="dash">–</span>3</div></div>
       <div class="kpi"><div class="lbl">Winrate</div><div class="val" data-count="70" data-suffix="%">0%</div></div>
       <div class="kpi">
         <div class="lbl">Win-Streak</div>
@@ -437,7 +508,7 @@ table.adv td.best { color: var(--cyan); text-shadow: 0 0 14px rgba(47,214,246,.5
     <div class="grid">
       <section class="panel glow">
         <div class="ph">
-          <h2>Wer ist der <em>Carry</em>?</h2>
+          <h2>SCOREBOARD</h2>
           <span class="hint">Kills, K/D, HS%, MVPs — gewichtet</span>
         </div>
         <div class="carry-row head">
@@ -454,7 +525,7 @@ table.adv td.best { color: var(--cyan); text-shadow: 0 0 14px rgba(47,214,246,.5
           <div class="pname">
             <span class="nick">-neon666</span>
             <span class="lvlrow">
-              <svg class="flvl l10" viewBox="0 0 24 24"><defs><linearGradient id="g10" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ff7a30"/><stop offset="1" stop-color="#e62500"/></linearGradient></defs><path d="M3 2h18v14l-9 6-9-6z" fill="url(#g10)"/><text x="12" y="13" text-anchor="middle">10</text></svg>
+              <svg class="flvl" viewBox="0 0 24 24"><defs><linearGradient id="lgn10" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FF4A5E"/><stop offset="1" stop-color="#E00030"/></linearGradient></defs><circle cx="12" cy="12" r="10.6" fill="#0b0b0d"/><path d="M 6.5,18.4 A 8.4,8.4 0 1 1 17.5,18.4" fill="none" stroke="#3f3f46" stroke-width="2.5" stroke-linecap="round"/><path d="M 6.5,18.4 A 8.4,8.4 0 1 1 17.5,18.4" fill="none" stroke="url(#lgn10)" stroke-width="2.5" stroke-linecap="round" pathLength="10" stroke-dasharray="10 10000"/><text x="12" y="12.9">10</text></svg>
               <span class="elo-chip up">+52 ELO</span>
             </span>
           </div>
@@ -471,7 +542,7 @@ table.adv td.best { color: var(--cyan); text-shadow: 0 0 14px rgba(47,214,246,.5
           <div class="pname">
             <span class="nick">kokolorez</span>
             <span class="lvlrow">
-              <svg class="flvl" viewBox="0 0 24 24"><defs><linearGradient id="g9" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffd54a"/><stop offset="1" stop-color="#f5a300"/></linearGradient></defs><path d="M3 2h18v14l-9 6-9-6z" fill="url(#g9)"/><text x="12" y="13" text-anchor="middle">9</text></svg>
+              <svg class="flvl" viewBox="0 0 24 24"><defs><linearGradient id="lgn9" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FE630A"/><stop offset="1" stop-color="#D64A00"/></linearGradient></defs><circle cx="12" cy="12" r="10.6" fill="#0b0b0d"/><path d="M 6.5,18.4 A 8.4,8.4 0 1 1 17.5,18.4" fill="none" stroke="#3f3f46" stroke-width="2.5" stroke-linecap="round"/><path d="M 6.5,18.4 A 8.4,8.4 0 1 1 17.5,18.4" fill="none" stroke="url(#lgn9)" stroke-width="2.5" stroke-linecap="round" pathLength="10" stroke-dasharray="9 10000"/><text x="12" y="12.9">9</text></svg>
               <span class="elo-chip up">+31 ELO</span>
             </span>
           </div>
@@ -488,7 +559,7 @@ table.adv td.best { color: var(--cyan); text-shadow: 0 0 14px rgba(47,214,246,.5
           <div class="pname">
             <span class="nick">theunc666</span>
             <span class="lvlrow">
-              <svg class="flvl" viewBox="0 0 24 24"><defs><linearGradient id="g8" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffe27a"/><stop offset="1" stop-color="#eaa300"/></linearGradient></defs><path d="M3 2h18v14l-9 6-9-6z" fill="url(#g8)"/><text x="12" y="13" text-anchor="middle">8</text></svg>
+              <svg class="flvl" viewBox="0 0 24 24"><defs><linearGradient id="lgn8" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FE7A0A"/><stop offset="1" stop-color="#E05A00"/></linearGradient></defs><circle cx="12" cy="12" r="10.6" fill="#0b0b0d"/><path d="M 6.5,18.4 A 8.4,8.4 0 1 1 17.5,18.4" fill="none" stroke="#3f3f46" stroke-width="2.5" stroke-linecap="round"/><path d="M 6.5,18.4 A 8.4,8.4 0 1 1 17.5,18.4" fill="none" stroke="url(#lgn8)" stroke-width="2.5" stroke-linecap="round" pathLength="10" stroke-dasharray="8 10000"/><text x="12" y="12.9">8</text></svg>
               <span class="elo-chip up">+18 ELO</span>
             </span>
           </div>
@@ -505,7 +576,7 @@ table.adv td.best { color: var(--cyan); text-shadow: 0 0 14px rgba(47,214,246,.5
           <div class="pname">
             <span class="nick">Shpooople</span>
             <span class="lvlrow">
-              <svg class="flvl" viewBox="0 0 24 24"><defs><linearGradient id="g7" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#7ee87e"/><stop offset="1" stop-color="#2fae2f"/></linearGradient></defs><path d="M3 2h18v14l-9 6-9-6z" fill="url(#g7)"/><text x="12" y="13" text-anchor="middle">7</text></svg>
+              <svg class="flvl" viewBox="0 0 24 24"><defs><linearGradient id="lgn7" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFB014"/><stop offset="1" stop-color="#F08A00"/></linearGradient></defs><circle cx="12" cy="12" r="10.6" fill="#0b0b0d"/><path d="M 6.5,18.4 A 8.4,8.4 0 1 1 17.5,18.4" fill="none" stroke="#3f3f46" stroke-width="2.5" stroke-linecap="round"/><path d="M 6.5,18.4 A 8.4,8.4 0 1 1 17.5,18.4" fill="none" stroke="url(#lgn7)" stroke-width="2.5" stroke-linecap="round" pathLength="10" stroke-dasharray="7 10000"/><text x="12" y="12.9">7</text></svg>
               <span class="elo-chip down">−12 ELO</span>
             </span>
           </div>
@@ -522,7 +593,7 @@ table.adv td.best { color: var(--cyan); text-shadow: 0 0 14px rgba(47,214,246,.5
           <div class="pname">
             <span class="nick">amaseling</span>
             <span class="lvlrow">
-              <svg class="flvl" viewBox="0 0 24 24"><defs><linearGradient id="g5" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#7ee87e"/><stop offset="1" stop-color="#2fae2f"/></linearGradient></defs><path d="M3 2h18v14l-9 6-9-6z" fill="url(#g5)"/><text x="12" y="13" text-anchor="middle">5</text></svg>
+              <svg class="flvl" viewBox="0 0 24 24"><defs><linearGradient id="lgn5" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFC82E"/><stop offset="1" stop-color="#EFA500"/></linearGradient></defs><circle cx="12" cy="12" r="10.6" fill="#0b0b0d"/><path d="M 6.5,18.4 A 8.4,8.4 0 1 1 17.5,18.4" fill="none" stroke="#3f3f46" stroke-width="2.5" stroke-linecap="round"/><path d="M 6.5,18.4 A 8.4,8.4 0 1 1 17.5,18.4" fill="none" stroke="url(#lgn5)" stroke-width="2.5" stroke-linecap="round" pathLength="10" stroke-dasharray="5 10000"/><text x="12" y="12.9">5</text></svg>
               <span class="elo-chip up">+5 ELO</span>
             </span>
           </div>
@@ -553,28 +624,28 @@ table.adv td.best { color: var(--cyan); text-shadow: 0 0 14px rgba(47,214,246,.5
       </div>
       <div class="match">
         <div class="m-time">Sa 18:20<b>Match 10</b></div>
-        <div class="m-map">Mirage<small>5v5 · Premium</small></div>
+        <div class="m-mapcell"><img class="m-thumb" src="assets/map_mirage.jpg" alt="Mirage"><div class="m-map">Mirage<small>5v5 · Premium</small></div></div>
         <div class="m-score"><span class="res-chip w">WIN</span><span class="s">16 : 12</span></div>
         <div class="m-mvp">Top im Match<b>-neon666 · 25 Kills</b></div>
         <a class="m-link" href="https://www.faceit.com/de/cs2/room/" target="_blank" rel="noopener" title="Match-Room öffnen">↗</a>
       </div>
       <div class="match">
         <div class="m-time">Sa 17:02<b>Match 9</b></div>
-        <div class="m-map">Anubis<small>5v5 · Premium</small></div>
+        <div class="m-mapcell"><img class="m-thumb" src="assets/map_anubis.jpg" alt="Anubis"><div class="m-map">Anubis<small>5v5 · Premium</small></div></div>
         <div class="m-score"><span class="res-chip w">WIN</span><span class="s">16 : 9</span></div>
         <div class="m-mvp">Top im Match<b>theunc666 · 22 Kills</b></div>
         <a class="m-link" href="https://www.faceit.com/de/cs2/room/" target="_blank" rel="noopener" title="Match-Room öffnen">↗</a>
       </div>
       <div class="match">
         <div class="m-time">Sa 15:47<b>Match 8</b></div>
-        <div class="m-map">Inferno<small>5v5 · Premium</small></div>
+        <div class="m-mapcell"><img class="m-thumb" src="assets/map_inferno.jpg" alt="Inferno"><div class="m-map">Inferno<small>5v5 · Premium</small></div></div>
         <div class="m-score"><span class="res-chip l">LOSS</span><span class="s">10 : 16</span></div>
         <div class="m-mvp">Top im Match<b>kokolorez · 19 Kills</b></div>
         <a class="m-link" href="https://www.faceit.com/de/cs2/room/" target="_blank" rel="noopener" title="Match-Room öffnen">↗</a>
       </div>
       <div class="match">
         <div class="m-time">Sa 14:30<b>Match 7</b></div>
-        <div class="m-map">Ancient<small>5v5 · Premium</small></div>
+        <div class="m-mapcell"><img class="m-thumb" src="assets/map_ancient.jpg" alt="Ancient"><div class="m-map">Ancient<small>5v5 · Premium</small></div></div>
         <div class="m-score"><span class="res-chip w">WIN</span><span class="s">16 : 14</span></div>
         <div class="m-mvp">Top im Match<b>-neon666 · 27 Kills</b></div>
         <a class="m-link" href="https://www.faceit.com/de/cs2/room/" target="_blank" rel="noopener" title="Match-Room öffnen">↗</a>
@@ -613,7 +684,7 @@ table.adv td.best { color: var(--cyan); text-shadow: 0 0 14px rgba(47,214,246,.5
 
   <footer class="foot" id="foot">
     <span>Daten: FACEIT Data API · Poll alle 5 Min · alles serverseitig gespeichert (JSON), Handy &amp; TV sehen denselben Stand</span>
-    <span>SaltyBoomers · Berlin LAN 2026</span>
+    <span style="display:inline-flex;align-items:center;gap:7px"><img src="assets/icon_berlin.png" alt="" style="height:17px;width:17px;object-fit:contain">SaltyBoomers · Berlin LAN 2026</span>
   </footer>
 </div>
 
@@ -681,7 +752,7 @@ function drawerOpen(open) { drawer.classList.toggle("show", open); veil.classLis
 burger.onclick = () => drawerOpen(!drawer.classList.contains("show"));
 veil.onclick = () => drawerOpen(false);
 $("#drawerClose").onclick = () => drawerOpen(false);
-drawer.querySelectorAll("a[data-view]").forEach(a => a.onclick = e => { e.preventDefault(); setView(a.dataset.view); drawerOpen(false); });
+document.querySelectorAll("[data-view]").forEach(a => a.onclick = e => { e.preventDefault(); setView(a.dataset.view); drawerOpen(false); });
 drawer.querySelectorAll("a[data-close]").forEach(a => a.onclick = () => drawerOpen(false));
 
 /* Einweg-Start */
@@ -722,8 +793,8 @@ function fillBars() {
   document.querySelectorAll(".carry-bar i").forEach(b => setTimeout(() => b.style.width = b.dataset.w + "%", 60));
 }
 
-/* Fokus-Countdown: Beispiel-Match vor 3 Min beendet -> 15 Min Fokus */
-const matchEnd = Date.now() - 3 * 60 * 1000, FOCUS = 15 * 60 * 1000;
+/* Fokus-Countdown: Matchroom-Board bleibt 10 Min stehen */
+const matchEnd = Date.now() - 3 * 60 * 1000, FOCUS = 10 * 60 * 1000;
 setInterval(() => {
   const left = matchEnd + FOCUS - Date.now();
   if (left <= 0) { $("#focusCard").classList.add("hidden"); return; }
