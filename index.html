@@ -73,7 +73,7 @@ header.top {
   position: sticky; top: 0; z-index: 40;
   display: flex; align-items: center; gap: 16px;
   padding: 10px clamp(12px, 2vw, 22px);
-  background: rgba(7, 11, 20, .72); backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px);
+  background: rgba(7, 11, 20, .94);
   border-bottom: 1px solid var(--edge-soft);
   box-shadow: 0 10px 34px rgba(2,6,16,.5), 0 1px 0 rgba(47,214,246,.35), 0 2px 14px rgba(0,140,255,.25);
 }
@@ -97,6 +97,8 @@ header.top {
 .drawer-veil { position: fixed; inset: 0; background: rgba(3,6,12,.6); backdrop-filter: blur(3px);
   z-index: 45; opacity: 0; pointer-events: none; transition: opacity .25s; }
 .drawer-veil.show { opacity: 1; pointer-events: auto; }
+.drawer a svg, .drawer .nav svg { width: 18px; height: 18px; flex: none; opacity: .92; vertical-align: -3px; }
+.drawer a, .drawer .nav { align-items: center; }
 .drawer {
   position: fixed; top: 0; right: 0; bottom: 0; width: min(330px, 86vw); z-index: 46;
   background: rgba(12, 19, 33, .92); backdrop-filter: blur(22px); -webkit-backdrop-filter: blur(22px);
@@ -138,7 +140,7 @@ header.top {
 .kpi .lbl { font-size: 10.5px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
 .kpi .val { font-family: "Rajdhani", sans-serif; font-size: 33px; font-weight: 700; margin-top: 3px; line-height: 1.1; font-variant-numeric: tabular-nums; }
 .kpi .val .sub { font-size: 19px; color: var(--dim); padding: 0 3px; }
-.kpi .val .dash { font-size: 29px; color: var(--cyan); padding: 0 7px; font-weight: 600; }
+.kpi .val .dash { color: #fff; padding: 0 3px; }
 .kpi .val.up { color: var(--win); }
 .kpi .val.down { color: var(--loss); }
 
@@ -385,7 +387,7 @@ table.adv td.best { color: var(--cyan); text-shadow: 0 0 14px rgba(47,214,246,.5
 @media (max-width: 1000px) {
   .grid { grid-template-columns: 1fr; }
   .kpis { grid-template-columns: repeat(3, 1fr); gap: 9px; }
-  .kpi { padding: 12px 12px 10px; } .kpi .val { font-size: 24px; } .kpi .val .sub { font-size: 16px; } .kpi .val .dash { font-size: 20px; }
+  .kpi { padding: 12px 12px 10px; } .kpi .val { font-size: 24px; } .kpi .val .sub { font-size: 16px; } 
   .streak-wrap .flame-ico { width: 15px; height: 20px; } .burn { font-size: 24px; }
   .adv-grid { grid-template-columns: 1fr; }
   .carry-row {
@@ -412,6 +414,11 @@ table.adv td.best { color: var(--cyan); text-shadow: 0 0 14px rgba(47,214,246,.5
   *, *::before, *::after { transition: none !important; animation: none !important; }
   html { scroll-behavior: auto; }
 }
+@keyframes ringWin { 0%,100% { box-shadow: 0 0 0 1px rgba(34,197,94,.25), 0 0 20px rgba(34,197,94,.12); } 50% { box-shadow: 0 0 0 2px rgba(34,197,94,.62), 0 0 44px rgba(34,197,94,.3); } }
+@keyframes ringLoss { 0%,100% { box-shadow: 0 0 0 1px rgba(239,68,68,.25), 0 0 20px rgba(239,68,68,.12); } 50% { box-shadow: 0 0 0 2px rgba(239,68,68,.62), 0 0 44px rgba(239,68,68,.3); } }
+#focusCard.ring-win { animation: ringWin 4.5s ease-in-out infinite; }
+#focusCard.ring-loss { animation: ringLoss 4.5s ease-in-out infinite; }
+@media (prefers-reduced-motion: reduce) { #focusCard.ring-win, #focusCard.ring-loss { animation: none; box-shadow: 0 0 0 1px rgba(34,197,94,.35); } }
 </style>
 </head>
 <body>
@@ -488,7 +495,7 @@ table.adv td.best { color: var(--cyan); text-shadow: 0 0 14px rgba(47,214,246,.5
     <!-- KPIs -->
     <section class="kpis">
       <div class="kpi"><div class="lbl">Matches</div><div class="val" data-count="10">0</div></div>
-      <div class="kpi"><div class="lbl">Bilanz</div><div class="val">7<span class="dash">–</span>3</div></div>
+      <div class="kpi"><div class="lbl">Bilanz</div><div class="val">7<span class="dash">:</span>3</div></div>
       <div class="kpi"><div class="lbl">Winrate</div><div class="val" data-count="70" data-suffix="%">0%</div></div>
       <div class="kpi">
         <div class="lbl">Win-Streak</div>
@@ -693,11 +700,11 @@ table.adv td.best { color: var(--cyan); text-shadow: 0 0 14px rgba(47,214,246,.5
 <!-- ================= DRAWER ================= -->
 <div class="drawer-veil" id="veil"></div>
 <nav class="drawer" id="drawer">
-  <button class="close-x" id="drawerClose" aria-label="Schließen">✕</button>
+  <button class="close-x" id="drawerClose" aria-label="Schließen"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
   <h3>Ansicht</h3>
-  <a href="#" data-view="live">▼ Übersicht</a>
-  <a href="#" data-view="advanced">⚡ Advanced Stats</a>
-  <a href="#matchHistory" data-close>▤ Match-History</a>
+  <a href="#" data-view="live"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="3.5" width="7" height="7" rx="1.5"/><rect x="13.5" y="3.5" width="7" height="7" rx="1.5"/><rect x="3.5" y="13.5" width="7" height="7" rx="1.5"/><rect x="13.5" y="13.5" width="7" height="7" rx="1.5"/></svg>Übersicht</a>
+  <a href="#" data-view="advanced"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.5 12h3.2l2.6-6.5 4.4 13 2.6-6.5h4.2"/></svg>Advanced Stats</a>
+  <a href="#matchHistory" data-close><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></svg>Match-History</a>
   <h3>Stack auf FACEIT</h3>
   <a href="https://www.faceit.com/en/players/-neon666" target="_blank" rel="noopener">-neon666 <small>Lvl 10</small></a>
   <a href="https://www.faceit.com/en/players/kokolorez" target="_blank" rel="noopener">kokolorez <small>Lvl 9</small></a>
@@ -705,7 +712,7 @@ table.adv td.best { color: var(--cyan); text-shadow: 0 0 14px rgba(47,214,246,.5
   <a href="https://www.faceit.com/en/players/Shpooople" target="_blank" rel="noopener">Shpooople <small>Lvl 7</small></a>
   <a href="https://www.faceit.com/en/players/amaseling" target="_blank" rel="noopener">amaseling <small>Lvl 5</small></a>
   <h3>System</h3>
-  <button class="nav danger" id="btnReset">⟲ Daten zurücksetzen <small>2×&nbsp;bestätigen</small></button>
+  <button class="nav danger" id="btnReset"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 1 0 2.64-6.36L3 8"/><path d="M3 3v5h5"/></svg>Daten zurücksetzen <small>2×&nbsp;bestätigen</small></button>
 </nav>
 
 <!-- Start-Modal -->
@@ -805,6 +812,12 @@ setInterval(() => {
 }, 1000);
 
 /* Init */
+(function () {
+  const fc = document.getElementById("focusCard");
+  if (!fc) return;
+  const res = fc.querySelector(".f-score .res");
+  fc.classList.add(res && res.classList.contains("l") ? "ring-loss" : "ring-win");
+})();
 setView(localStorage.getItem("sb-started") === "1" ? "live" : "empty");
 </script>
 <script>
@@ -822,14 +835,14 @@ setView(localStorage.getItem("sb-started") === "1" ? "live" : "empty");
     W = c.width = Math.max(2, Math.round(innerWidth * sc));
     H = c.height = Math.max(2, Math.round(innerHeight * sc));
     flames = []; smoke = [];
-    for (let i = 0; i < W * 0.22; i++) flames.push(newFlame(true));
-    for (let i = 0; i < W * 0.075; i++) smoke.push(newSmoke(true));
+    for (let i = 0; i < W * 0.16; i++) flames.push(newFlame(true));
+    for (let i = 0; i < W * 0.06; i++) smoke.push(newSmoke(true));
     if (reduced) { step(0.016, true); return; }
   }
   function newFlame(mid) {
-    return { x: R(0, W), y: mid ? R(H * .3, H * 1.05) : H + R(2, 14),
-      r: R(2.2, 6.5), vy: R(46, 105), sw: R(6, 18), ph: R(0, 6.28),
-      life: R(0.55, 1), hot: Math.random() < 0.12 };
+    return { x: R(0, W), y: mid ? R(H * .25, H * 1.05) : H + R(2, 16),
+      r: R(3.2, 8.5), vy: R(72, 148), sw: R(2, 8), ph: R(0, 6.28),
+      life: R(0.5, 1), st: R(1.7, 2.6), hot: Math.random() < 0.14 };
   }
   function newSmoke(mid) {
     return { x: R(0, W), y: mid ? R(H * .2, H) : H + R(10, 40),
@@ -852,15 +865,18 @@ setView(localStorage.getItem("sb-started") === "1" ? "live" : "empty");
     // Flammen (additiv, blau)
     ctx.globalCompositeOperation = "lighter";
     for (const p of flames) {
-      p.y -= p.vy * dt; p.x += Math.sin(p.ph += p.sw * dt) * p.sw * dt;
-      p.life -= dt * 0.55;
-      if (p.life <= 0 || p.y < H * 0.05) Object.assign(p, newFlame(false));
-      const t = 1 - p.life, a = 0.5 * p.life * (p.hot ? 1.5 : 1);
-      const hue = p.hot ? 188 : 200 + t * 26, li = p.hot ? 78 : 58 - t * 16;
-      const g = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, p.r * (1 + t * 1.4));
+      p.y -= p.vy * dt; p.x += Math.sin(p.ph += p.sw * dt) * p.sw * dt * 0.55;
+      p.life -= dt * 0.5;
+      if (p.life <= 0 || p.y < H * 0.03) Object.assign(p, newFlame(false));
+      const t = 1 - p.life, a = 0.55 * p.life * (p.hot ? 1.4 : 1);
+      const hue = p.hot ? 188 : 202 + t * 24, li = p.hot ? 80 : 60 - t * 14;
+      const rw = p.r * 0.62, rh = p.r * p.st * (1 + t * 0.8);
+      ctx.save(); ctx.translate(p.x, p.y); ctx.scale(rw / rh, 1);
+      const g = ctx.createRadialGradient(0, 0, 0, 0, 0, rh);
       g.addColorStop(0, "hsla(" + hue + ",100%," + li + "%," + a + ")");
-      g.addColorStop(1, "hsla(" + (hue + 10) + ",100%,50%,0)");
-      ctx.fillStyle = g; ctx.beginPath(); ctx.arc(p.x, p.y, p.r * (1 + t * 1.4), 0, 6.283); ctx.fill();
+      g.addColorStop(0.55, "hsla(" + (hue + 6) + ",100%," + (li - 14) + "%," + a * 0.55 + ")");
+      g.addColorStop(1, "hsla(" + (hue + 14) + ",100%,50%,0)");
+      ctx.fillStyle = g; ctx.beginPath(); ctx.arc(0, 0, rh, 0, 6.283); ctx.fill(); ctx.restore();
     }
     if (!once) raf = requestAnimationFrame(loop);
   }
