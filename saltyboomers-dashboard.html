@@ -1645,6 +1645,10 @@ setView("live");
    Startzeitpunkt nur lokal auf diesem Gerät (localStorage), kein Token im Browser. */
 (function () {
   const LS_TS = "sb-start-ts", LS_ELO = "sb-start-elo";
+  /* Fester, zentraler Start (gilt auf jedem Gerät gleich): Do 29.10.2026 20:55 Uhr MEZ, Elo-Stand bei Start */
+  const FIXED = { ts: 1793303746029, elo: {"theunc666":1715,"amaseling":1152,"-neon666":2100,"kokolorez":1809,"Shpooople":1360} };
+  const startTs = () => FIXED.ts || +localStorage.getItem(LS_TS) || 0;
+  const baseElo = () => { if (FIXED.ts) return FIXED.elo; try { return JSON.parse(localStorage.getItem(LS_ELO) || "{}"); } catch (e) { return {}; } };
   const POLL_MS = 60 * 1000, FOCUS_MS = 10 * 60 * 1000;
   const MAPIMG = new Set(["ancient","anubis","dust2","inferno","mirage","nuke","overpass","train","vertigo"]);
   const $ = s => document.querySelector(s), $$ = s => Array.from(document.querySelectorAll(s));
@@ -1697,7 +1701,7 @@ setView("live");
   /* ---------- Zustand ---------- */
   function state() {
     const all = (DATA && DATA.matches ? DATA.matches.slice() : []).sort((a, b) => (b.finished_at || 0) - (a.finished_at || 0));
-    const ts = +localStorage.getItem(LS_TS) || 0;
+    const ts = startTs();
     if (!ts) return { mode: "warm", set: all, ts: 0 };
     const live = all.filter(m => (m.finished_at || 0) * 1000 > ts);
     return live.length ? { mode: "live", set: live, ts } : { mode: "wait", set: all, ts };
@@ -1804,7 +1808,7 @@ setView("live");
       const t = "Durchschnittliche aktuelle ELO der fünf SaltyBoomers."; const i = lbl.querySelector(".info"); i.dataset.tip = t; i.setAttribute("aria-label", t);
     } else {
       lbl.firstChild.nodeValue = "ELO seit Start";
-      let base = {}; try { base = JSON.parse(localStorage.getItem(LS_ELO) || "{}"); } catch (e) {}
+      let base = baseElo();
       let sum = 0, any = false;
       Object.entries((DATA && DATA.players) || {}).forEach(([n, p]) => { if (p.elo != null && base[n] != null) { sum += p.elo - base[n]; any = true; } });
       v.classList.toggle("up", sum >= 0); v.classList.toggle("down", sum < 0);
@@ -1817,7 +1821,7 @@ setView("live");
   function renderScore(st, A) {
     const panel = $("#scorePanel"); if (!panel) return;
     panel.querySelector(".ph .hint").textContent = "sortiert nach K/D · " + scope(st.mode);
-    let base = {}; try { base = JSON.parse(localStorage.getItem(LS_ELO) || "{}"); } catch (e) {}
+    let base = baseElo();
     const nicks = Object.keys((DATA && DATA.players) || {}).length ? Object.keys(DATA.players) : Object.keys(AV);
     const list = nicks.map(n => {
       const a = A.P[n]; const kd = a && a.Deaths ? a.Kills / a.Deaths : (a && a.Kills ? a.Kills : null);
@@ -2060,6 +2064,7 @@ setView("live");
     localStorage.removeItem(LS_TS); localStorage.removeItem(LS_ELO); localStorage.removeItem("sb-started");
     render(); toast("Zurück im Aufwärm-Modus. Die FACEIT-Daten bleiben erhalten.");
   };
+  if (FIXED.ts) { const rb = $("#btnReset"); if (rb) rb.style.display = "none"; }
   const fxBtn = $("#btnFxTest");
   if (fxBtn) fxBtn.onclick = () => { if (window.drawerOpen) drawerOpen(false); setTimeout(() => playStart(false), 250); };
   window.sbDebug = { render, state: () => state().mode, data: () => DATA, playStart };
