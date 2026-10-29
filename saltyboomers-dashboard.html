@@ -236,9 +236,11 @@ a.room:hover { text-decoration: underline; }
 .cyc { margin-left: auto; font-size: 11px; color: var(--dim); font-variant-numeric: tabular-nums; }
 
 /* ---- Bento (Advanced-Tab) ---- */
-.bento { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; padding: 2px 14px 10px; }
+.bento { display: grid; grid-template-columns: repeat(4, 1fr); grid-auto-flow: dense; gap: 12px; padding: 2px 14px 10px; }
 .b-tile { padding: 9px 13px; border-radius: 14px; background: linear-gradient(165deg, var(--glass), var(--glass-2)); border: 1px solid var(--edge-soft); box-shadow: inset 0 1px 0 rgba(255,255,255,.05); min-height: 58px; }
 .b-tile.wide { grid-column: span 2; }
+.b-tile.tall { grid-row: span 2; }
+.b-tile.hero { grid-column: span 2; grid-row: span 2; justify-content: center; }
 .b-tile .k { font: 600 10px "Inter", sans-serif; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); }
 .b-tile .v { font-family: "Rajdhani", sans-serif; font-size: 25px; font-weight: 700; line-height: 1.05; margin-top: 3px; font-variant-numeric: tabular-nums; }
 .b-tile .v .pct { font-size: 15px; }
@@ -873,7 +875,10 @@ table.adv td.best { color: var(--cyan); text-shadow: 0 0 14px rgba(200,206,212,.
   #advPanel .bento { flex: 1 1 0; min-height: 0; grid-template-columns: repeat(4, minmax(0,1fr));
     grid-auto-rows: minmax(0, 1fr); align-content: stretch; }
   #advPanel .b-tile { min-height: 0; overflow: hidden; display: flex; flex-direction: column; justify-content: center; }
-  #advPanel .b-tile.wide { grid-row: span 2; }
+  #advPanel .b-tile.wide { grid-column: span 2; }
+  #advPanel .b-tile.tall { grid-row: span 2; }
+  #advPanel .bento { grid-auto-flow: dense; }
+  #advPanel .b-tile.hero { grid-column: span 2; grid-row: span 2; }
   #advPanel .b-bars .row { margin-top: calc(4 * var(--u)); }
 
   /* Matches: Zeilen verteilen sich, was nicht passt wird ausgeblendet (JS) */
@@ -1103,9 +1108,8 @@ table.adv td.best { color: var(--cyan); text-shadow: 0 0 14px rgba(200,206,212,.
             <div class="b-tile"><div class="k">Flash-SR<span class="info" tabindex="0" data-tip="Anteil der Flashbangs, die einen Gegner tatsächlich blenden." aria-label="Anteil der Flashbangs, die einen Gegner tatsächlich blenden.">i</span></div><div class="v">41<span class="pct">%</span></div><div class="sub">Best: theunc666 · 53%</div></div>
             <div class="b-tile"><div class="k">Utility Dmg/R<span class="info" tabindex="0" data-tip="Schaden durch Granaten (HE, Molotov) pro Runde." aria-label="Schaden durch Granaten (HE, Molotov) pro Runde.">i</span></div><div class="v">12.4</div><div class="sub">HE 6.1 · Molly 4.8</div></div>
             <div class="b-tile"><div class="k">K/R<span class="info" tabindex="0" data-tip="Kills pro Runde im Schnitt." aria-label="Kills pro Runde im Schnitt.">i</span></div><div class="v">0.74</div><div class="sub">Ø Rundenzeit 1:33</div></div>
+            <div class="b-tile hero"><div class="k">Team-Profil</div><div class="v">Stack-Status</div><div class="sub">Siege, Runden, Map-Quote und Carry im Überblick.</div></div>
             <div class="b-tile"><div class="k">Ø Kills<span class="info" tabindex="0" data-tip="Durchschnittliche Kills pro Match." aria-label="Durchschnittliche Kills pro Match.">i</span></div><div class="v">16.2</div><div class="sub">Best: -neon666 · 19.4</div></div>
-            <div class="b-tile"><div class="k">MVP-Sterne<span class="info" tabindex="0" data-tip="Summe der MVP-Auszeichnungen über alle Matches." aria-label="Summe der MVP-Auszeichnungen über alle Matches.">i</span></div><div class="v b-cyan">14</div><div class="sub">-neon666 6 · kokolorez 4</div></div>
-            <div class="b-tile"><div class="k">Multi-Kills<span class="info" tabindex="0" data-tip="Runden mit mehreren Kills hintereinander (3k, 4k, Ace = 5 in einer Runde)." aria-label="Runden mit mehreren Kills hintereinander (3k, 4k, Ace = 5 in einer Runde).">i</span></div><div class="v">2<span class="pct"> Ace</span></div><div class="sub">4k ×5 · 3k ×9 · Knife ×3</div></div>
             <div class="b-tile wide">
               <div class="k">Carry-Ranking<span class="info" tabindex="0" data-tip="Wer das Team am stärksten getragen hat, gewichtet nach Kills, K/D, HS% und MVPs." aria-label="Wer das Team am stärksten getragen hat, gewichtet nach Kills, K/D, HS% und MVPs.">i</span></div>
               <div class="b-bars">
@@ -1116,12 +1120,16 @@ table.adv td.best { color: var(--cyan); text-shadow: 0 0 14px rgba(200,206,212,.
                 <div class="row"><span class="bn">amaseling</span><span class="b-bar"><i data-w="50"></i></span><b>0.84</b></div>
               </div>
             </div>
+            <div class="b-tile tall"><div class="k">MVP-Sterne<span class="info" tabindex="0" data-tip="Summe der MVP-Auszeichnungen über alle Matches." aria-label="Summe der MVP-Auszeichnungen über alle Matches.">i</span></div><div class="v b-cyan">14</div><div class="sub">-neon666 6 · kokolorez 4</div></div>
+            <div class="b-tile"><div class="k">Multi-Kills<span class="info" tabindex="0" data-tip="Runden mit mehreren Kills hintereinander (3k, 4k, Ace = 5 in einer Runde)." aria-label="Runden mit mehreren Kills hintereinander (3k, 4k, Ace = 5 in einer Runde).">i</span></div><div class="v">2<span class="pct"> Ace</span></div><div class="sub">4k ×5 · 3k ×9 · Knife ×3</div></div>
             <div class="b-tile"><div class="k">Map-Heat<span class="info" tabindex="0" data-tip="Gewinnquote pro Map, bei der das Team am stärksten war." aria-label="Gewinnquote pro Map, bei der das Team am stärksten war.">i</span></div><div class="v" style="font-size:calc(22 * var(--u))">Mirage <span class="b-up">80%</span></div><div class="sub">Nuke 75% · Inferno 33%</div></div>
             <div class="b-tile"><div class="k">Clutches<span class="info" tabindex="0" data-tip="Runden, in denen ein Spieler allein gegen mehrere Gegner gewonnen hat (1v2 = gegen zwei)." aria-label="Runden, in denen ein Spieler allein gegen mehrere Gegner gewonnen hat (1v2 = gegen zwei).">i</span></div><div class="v">1v2 31<span class="pct">%</span></div><div class="sub">1v1 58% · 1v3 12%</div></div>
             <div class="b-tile"><div class="k">Headshot-Quote<span class="info" tabindex="0" data-tip="Anteil der Kills, die per Kopfschuss passieren." aria-label="Anteil der Kills, die per Kopfschuss passieren.">i</span></div><div class="v" data-stat="bento.headshot_pct">—</div><div class="sub">Team-Schnitt</div></div>
             <div class="b-tile"><div class="k">Trade-Kills<span class="info" tabindex="0" data-tip="Rache-Kills innerhalb weniger Sekunden nach einem Teammate-Tod." aria-label="Rache-Kills innerhalb weniger Sekunden nach einem Teammate-Tod.">i</span></div><div class="v" data-stat="bento.trade_kills">—</div><div class="sub">Anzahl gesamt</div></div>
             <div class="b-tile"><div class="k">Eco-Winrate<span class="info" tabindex="0" data-tip="Gewinnquote in Runden mit wenig Geld." aria-label="Gewinnquote in Runden mit wenig Geld.">i</span></div><div class="v" data-stat="bento.eco_winrate">—</div><div class="sub">Eco-Runden</div></div>
             <div class="b-tile"><div class="k">Pistol-Winrate<span class="info" tabindex="0" data-tip="Gewinnquote der ersten Runde jeder Halbzeit." aria-label="Gewinnquote der ersten Runde jeder Halbzeit.">i</span></div><div class="v" data-stat="bento.pistol_winrate">—</div><div class="sub">Pistol-Runden</div></div>
+            <div class="b-tile"><div class="k">Entry-Kills<span class="info" tabindex="0" data-tip="Erste Kills einer Runde (Opening-Frags), Team gesamt.">i</span></div><div class="v">38</div><div class="sub">Ø 0.34 pro Runde</div></div>
+            <div class="b-tile"><div class="k">Flash-Assists<span class="info" tabindex="0" data-tip="Kills, die durch einen Flash des Teams ermöglicht wurden.">i</span></div><div class="v">21</div><div class="sub">Best: kokolorez · 7</div></div>
           </div>
         </section>
       </div>
@@ -1170,6 +1178,7 @@ table.adv td.best { color: var(--cyan); text-shadow: 0 0 14px rgba(200,206,212,.
         <div class="hl"><div class="k">Win-Streak<span class="info" tabindex="0" data-tip="Anzahl Siege in Folge bis zum aktuellen Stand." aria-label="Anzahl Siege in Folge bis zum aktuellen Stand.">i</span></div><div class="v"><span style="color:var(--fire2);text-shadow:0 0 12px rgba(255,120,0,.6)">4 in Folge</span> <span class="sub">— läuft</span></div></div>
         <div class="hl"><div class="k">Größter Stomp<span class="info" tabindex="0" data-tip="Das deutlichste Ergebnis der Session (größter Rundenvorsprung)." aria-label="Das deutlichste Ergebnis der Session (größter Rundenvorsprung).">i</span></div><div class="v">16 : 5 <span class="sub">Nuke, Fr 23:12</span></div></div>
         <div class="hl"><div class="k">Engstes Match<span class="info" tabindex="0" data-tip="Das knappste Match der Session." aria-label="Das knappste Match der Session.">i</span></div><div class="v">16 : 14 <span class="sub">Mirage, Sa 01:38</span></div></div>
+        <div class="hl"><div class="k">Entry-Erfolg<span class="info" tabindex="0" data-tip="Erfolgsquote beim Betreten eines Raums als Erster (Team-Ø)." aria-label="Erfolgsquote beim Betreten eines Raums als Erster (Team-Ø).">i</span></div><div class="v">58<span class="pct">%</span> <span class="sub">Team-Ø · 112 Runden</span></div></div>
         <div class="hl"><div class="k">Top-Fragger des Abends<span class="info" tabindex="0" data-tip="Spieler mit den meisten Kills in einem einzelnen Match." aria-label="Spieler mit den meisten Kills in einem einzelnen Match.">i</span></div><div class="v">-neon666 <span class="sub">34 Kills auf Inferno</span></div></div>
         <div class="hl"><div class="k">Bester Tag<span class="info" tabindex="0" data-tip="Tag mit der besten Bilanz (Siege, dann Rundendifferenz)." aria-label="Tag mit der besten Bilanz (Siege, dann Rundendifferenz).">i</span></div><div class="v">Samstag <span class="sub">5:0 · Runden 58:37</span></div></div>
         <div class="hl"><div class="k">MVP-König<span class="info" tabindex="0" data-tip="Spieler mit den meisten MVP-Auszeichnungen." aria-label="Spieler mit den meisten MVP-Auszeichnungen.">i</span></div><div class="v">-neon666 <span class="sub">4× MVP</span></div></div>
