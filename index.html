@@ -919,7 +919,8 @@ table.adv td.best { color: var(--cyan); text-shadow: 0 0 14px rgba(200,206,212,.
     #matchHistory .match.fit-hide { display: grid; }
   }
 
-#advPanel .bento.mosaic { display:grid !important; flex:1 1 auto; min-height:0; overflow-y:auto; align-content:start; grid-template-columns:repeat(4,minmax(0,1fr)) !important; grid-template-rows:none !important; grid-auto-rows:minmax(92px,auto) !important; grid-auto-flow:dense; gap:10px; padding:2px 14px 14px; }
+#advPanel { display:flex; flex-direction:column; min-height:0; max-height:calc(100vh - 140px); overflow:hidden; }
+#advPanel .bento.mosaic { display:grid !important; flex:1 1 0; min-height:0; overflow-y:auto; align-content:start; grid-template-columns:repeat(4,minmax(0,1fr)) !important; grid-template-rows:none !important; grid-auto-rows:minmax(92px,auto) !important; grid-auto-flow:dense; gap:10px; padding:2px 14px 14px; }
 #advPanel .bento.mosaic .b-tile { position:relative; overflow:hidden; min-height:92px; padding:8px 12px; word-break:break-word; }
 #advPanel .bento.mosaic .b-tile .v { font-size:20px; }
 #advPanel .bento.mosaic .b-tile .sub { font-size:10.5px; line-height:1.3; }
