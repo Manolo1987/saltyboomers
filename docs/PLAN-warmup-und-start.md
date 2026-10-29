@@ -42,7 +42,15 @@ Der Wechsel von 2 nach 3 passiert automatisch, sobald die Daten das hergeben. Da
 5. Test: Playwright auf 1080p/4K/1366. Den Start mit Fake-Matches vor und nach dem Startzeitpunkt simulieren.
 6. Security-Check: kein Key im Frontend, keine neuen externen Skripte.
 
+## Entscheidungen (29.10.)
+- Nur TV, kein Handy-Link.
+- Reset → zurück in den Aufwärm-Modus.
+
+## Validierung der Limits (29.10.)
+- GitHub Actions: Minimum 5 Minuten zwischen geplanten Läufen. Zur vollen Stunde gibt es oft Verzögerungen, Läufe können sogar ganz entfallen (offizielle GitHub-Doku). Bestätigt.
+- FACEIT Data API: Die offizielle Doku nennt **keine Zahl**, sie dokumentiert nur den Fehlercode 429. Die Werte 100/s, 400/10 s, 10.000/h und 300/min kommen aus Community-Quellen und sind nicht verifiziert. Messen geht nur mit dem Key, und der liegt nur als GitHub-Secret vor.
+- Früher stand im Chat: „5× pro Minute geht klar“. Das hat das FACEIT-Limit mit dem Takt von GitHub verwechselt. Mit GitHub Actions ist 1× pro Minute nicht möglich.
+
 ## Offene Fragen an Manu
-- Startzeit nur auf dem TV oder auch per Link für Handys?
-- Reichen 5–20 Minuten Verzögerung, oder lohnt sich ein Abruf-Dienst auf Astana?
-- Soll Reset wieder zurück in den Aufwärm-Modus führen?
+- Wo steht der TV: im selben Netz wie Astana oder woanders?
+- Abruf-Dienst auf Astana/Hermes-VM statt GitHub Actions?
