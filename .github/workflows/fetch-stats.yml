@@ -25,4 +25,8 @@ jobs:
           git config user.name "fetch-stats-bot"
           git config user.email "bot@users.noreply.github.com"
           git add stats.json
-          git diff --cached --quiet || (git commit -m "stats: aktualisieren" && git push)
+          git diff --cached --quiet && exit 0
+          git commit -m "stats: aktualisieren (Actions-Notlösung)"
+          # Astana pusht jede Minute; bei Konflikt gewinnt dessen Stand
+          git pull --rebase -X ours origin master || { git rebase --abort; exit 0; }
+          git push || true
