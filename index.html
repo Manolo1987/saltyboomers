@@ -50,7 +50,7 @@ body {
   background: radial-gradient(circle, rgba(64,86,244,.30), transparent 65%); animation: drift 32s ease-in-out infinite alternate-reverse; }
 @keyframes drift { from { transform: translate(0,0) scale(1); } to { transform: translate(6vw,4vw) scale(1.15); } }
 
-.wrap { max-width: none; margin: 0 auto; padding: 10px clamp(16px, 2.2vw, 40px) 12px; }
+.wrap { max-width: none; margin: 0; width: 100%; padding: 10px clamp(16px, 2.2vw, 40px) 12px; }
 
 /* ---- Glas-Panels ---- */
 .panel {
@@ -652,8 +652,8 @@ table.adv td.best { color: var(--cyan); text-shadow: 0 0 14px rgba(200,206,212,.
   }
 
   /* Hintergrund-Video: dunkler, ruhiger */
-  #bgvid { filter: blur(16px) saturate(.8) brightness(.38); opacity: .55; }
-  body.bg-dim #bgvid { filter: blur(16px) saturate(.5) brightness(.25); opacity: .4; }
+  #bgvid { filter: blur(16px) saturate(.85) brightness(.55); opacity: .65; }
+  body.bg-dim #bgvid { filter: blur(16px) saturate(.6) brightness(.4); opacity: .5; }
 
   /* Grundgerüst: Inhalt oben, Bar unten, nichts scrollt */
   html, body { height: 100%; }
@@ -804,6 +804,90 @@ table.adv td.best { color: var(--cyan); text-shadow: 0 0 14px rgba(200,206,212,.
     main, .grid, .matches { flex: none; }
     .grid { grid-template-columns: 1fr; }
     .bar { position: sticky; bottom: 0; }
+  }
+  /* ===================================================================
+     v3 · ganze Fläche nutzen: zwei Spalten statt schmaler Mittelspalte
+     links: Fokus-Karte + Scoreboard/Advanced · rechts: Matches + Highlights
+     =================================================================== */
+  :root {
+    --accent: #3aa8e8;                       /* Logo-Blau */
+    --accent-soft: rgba(58,168,232,.14);
+    --accent-edge: rgba(58,168,232,.38);
+    --cyan: var(--accent);
+    --cyan-soft: var(--accent-soft);
+  }
+  .wrap { width: 100%; margin: 0; max-width: none; align-self: stretch; }
+  main {
+    display: grid; gap: var(--sp); min-height: 0;
+    grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr);
+    grid-template-rows: auto auto minmax(0, 1fr);
+    grid-template-areas:
+      "kpis  kpis"
+      "focus side"
+      "stats side";
+  }
+  main.hidden { display: none; }
+  main > .grid { display: contents; }
+  .kpis { grid-area: kpis; }
+  #focusCard { grid-area: focus; }
+  .stats-col { grid-area: stats; min-height: 0; display: flex; flex-direction: column; }
+  .side { grid-area: side; min-height: 0; display: flex; flex-direction: column; gap: var(--sp); }
+  #matchHistory { flex: 0 1 auto; min-height: 0; display: flex; flex-direction: column; overflow: hidden; margin: 0; }
+
+  /* Scoreboard füllt die Spalte */
+  .stats-col > .panel { flex: 1 1 0; min-height: 0; display: flex; flex-direction: column; overflow: hidden; }
+  #scorePanel .carry-row { margin: 0; }
+  #scorePanel .carry-row:not(.head) { flex: 1 1 0; min-height: 0; padding-top: 0; padding-bottom: 0; }
+  #scorePanel .carry-row .num, .carry-row .num { font-size: calc(26 * var(--u)); }
+  .pname .nick { font-size: calc(20 * var(--u)); }
+  #scorePanel .rank { font-size: calc(22 * var(--u)); }
+  .carry-row .avatar, #scorePanel .carry-row .avatar { width: calc(48 * var(--u)); height: calc(48 * var(--u)); }
+  #scorePanel .carry-row { grid-template-columns: calc(30*var(--u)) calc(48*var(--u)) minmax(0,1.8fr) repeat(3, minmax(0,1fr)) calc(56*var(--u)); }
+
+  /* Advanced-Board: Kacheln teilen sich die verfügbare Höhe → passt immer */
+  #advPanel .bento { flex: 1 1 0; min-height: 0; grid-template-columns: repeat(4, minmax(0,1fr));
+    grid-auto-rows: minmax(0, 1fr); align-content: stretch; }
+  #advPanel .b-tile { min-height: 0; overflow: hidden; display: flex; flex-direction: column; justify-content: center; }
+  #advPanel .b-tile.wide { grid-row: span 2; }
+  #advPanel .b-bars .row { margin-top: calc(4 * var(--u)); }
+
+  /* Matches: Zeilen verteilen sich, was nicht passt wird ausgeblendet (JS) */
+  #matchHistory .match { flex: 0 0 auto; min-height: calc(62 * var(--u));
+    grid-template-columns: calc(84*var(--u)) minmax(0,1.3fr) calc(150*var(--u)) minmax(0,1.4fr) calc(32*var(--u)); }
+  #matchHistory .match.fit-hide { display: none; }
+
+  /* Highlights: 3×2-Raster, füllt den Rest der rechten Spalte */
+  .side > .hls { flex: 1 1 auto; min-height: calc(260 * var(--u)); display: grid; grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto; grid-auto-rows: minmax(0, 1fr); overflow: hidden; }
+  .side > .hls > .ph { grid-column: 1 / -1; }
+  .side > .hls .hl { display: flex; flex-direction: column; justify-content: center; min-height: 0;
+    border-bottom: 1px solid rgba(255,255,255,.05); }
+  .side > .hls .hl:nth-child(even) { border-right: 1px solid rgba(255,255,255,.05); }
+  .side > .hls .hl:nth-last-child(-n+2) { border-bottom: none; }
+  .side > .hls .hl .v { font-size: calc(20 * var(--u)); font-family: var(--font-num); font-weight: 700; }
+  .side > .hls .hl .v .sub { display: block; font-family: var(--font-ui); font-weight: 400; margin-top: calc(2 * var(--u)); }
+
+  /* ---- Minimalistische Akzentfarbe (Logo-Blau) ---- */
+  .ph h2 { display: flex; align-items: center; gap: calc(10 * var(--u)); }
+  .ph h2::before { content: ""; width: calc(4 * var(--u)); height: 1em; border-radius: 2px; background: var(--accent);
+    box-shadow: 0 0 calc(10 * var(--u)) rgba(58,168,232,.6); flex: none; }
+  .ph h2 em { color: var(--accent); font-style: normal; }
+  .kpi { border-top: calc(2 * var(--u)) solid var(--accent-edge); }
+  .vtab.active { background: var(--accent); border-color: var(--accent); color: #04121c; }
+  .adv-link { border-color: var(--accent-edge); background: var(--accent-soft); color: var(--accent); }
+  a.room, .countdown { color: var(--accent); }
+  .carry-row.top .rank, .rank { color: var(--accent); }
+  .carry-row.top { background: linear-gradient(90deg, var(--accent-soft), transparent 60%); }
+  .carry-bar i, .b-bars .b-bar i { background: linear-gradient(90deg, rgba(58,168,232,.35), var(--accent)); box-shadow: 0 0 8px rgba(58,168,232,.5); }
+  .b-cyan, table.adv td.best { color: var(--accent); text-shadow: none; }
+  .bar { border-top: 1px solid transparent;
+    border-image: linear-gradient(90deg, transparent, var(--accent-edge) 20%, var(--accent-edge) 80%, transparent) 1; }
+  .ticker-quote::before { content: "◆"; color: var(--accent); margin-right: .7em; font-size: .6em; vertical-align: .25em; }
+
+  @media (max-width: 1100px) {
+    main { display: flex; flex-direction: column; }
+    main > .grid, .side { display: flex; flex-direction: column; }
+    #matchHistory .match.fit-hide { display: grid; }
   }
 </style>
 </head>
@@ -1027,23 +1111,15 @@ table.adv td.best { color: var(--cyan); text-shadow: 0 0 14px rgba(200,206,212,.
                 <div class="row"><span class="bn">amaseling</span><span class="b-bar"><i data-w="50"></i></span><b>0.84</b></div>
               </div>
             </div>
-            <div class="b-tile"><div class="k">Map-Heat</div><div class="v" style="font-size:22px">Mirage <span class="b-up">80%</span></div><div class="sub">Nuke 75% · Inferno 33%</div></div>
+            <div class="b-tile"><div class="k">Map-Heat</div><div class="v" style="font-size:calc(22 * var(--u))">Mirage <span class="b-up">80%</span></div><div class="sub">Nuke 75% · Inferno 33%</div></div>
             <div class="b-tile"><div class="k">Clutches</div><div class="v">1v2 31<span class="pct">%</span></div><div class="sub">1v1 58% · 1v3 12%</div></div>
           </div>
         </section>
       </div>
 
-      <aside class="panel">
-        <div class="ph"><h2>Highlights</h2></div>
-        <div class="hl"><div class="k">Win-Streak</div><div class="v"><span style="color:var(--fire2);text-shadow:0 0 12px rgba(255,120,0,.6)">4 in Folge</span> <span class="sub">— läuft</span></div></div>
-        <div class="hl"><div class="k">Größter Stomp</div><div class="v">16 : 5 <span class="sub">Nuke, Fr 23:12</span></div></div>
-        <div class="hl"><div class="k">Engstes Match</div><div class="v">16 : 14 <span class="sub">Mirage, Sa 01:38</span></div></div>
-        <div class="hl"><div class="k">Top-Fragger des Abends</div><div class="v">-neon666 <span class="sub">34 Kills auf Inferno</span></div></div>
-        <div class="hl"><div class="k">Bester Tag</div><div class="v">Samstag <span class="sub">5:0 · Runden 58:37</span></div></div>
-        <div class="hl"><div class="k">MVP-König</div><div class="v">-neon666 <span class="sub">4× MVP</span></div></div>
-      </aside>
     </div>
 
+    <div class="side">
     <!-- Matchliste -->
     <section class="panel matches" id="matchHistory">
       <div class="ph">
@@ -1080,6 +1156,16 @@ table.adv td.best { color: var(--cyan); text-shadow: 0 0 14px rgba(200,206,212,.
       </div>
       <div class="searching">Warte auf das nächste Match … Poll alle 5 Minuten</div>
     </section>
+      <aside class="panel hls">
+        <div class="ph"><h2>Highlights</h2></div>
+        <div class="hl"><div class="k">Win-Streak</div><div class="v"><span style="color:var(--fire2);text-shadow:0 0 12px rgba(255,120,0,.6)">4 in Folge</span> <span class="sub">— läuft</span></div></div>
+        <div class="hl"><div class="k">Größter Stomp</div><div class="v">16 : 5 <span class="sub">Nuke, Fr 23:12</span></div></div>
+        <div class="hl"><div class="k">Engstes Match</div><div class="v">16 : 14 <span class="sub">Mirage, Sa 01:38</span></div></div>
+        <div class="hl"><div class="k">Top-Fragger des Abends</div><div class="v">-neon666 <span class="sub">34 Kills auf Inferno</span></div></div>
+        <div class="hl"><div class="k">Bester Tag</div><div class="v">Samstag <span class="sub">5:0 · Runden 58:37</span></div></div>
+        <div class="hl"><div class="k">MVP-König</div><div class="v">-neon666 <span class="sub">4× MVP</span></div></div>
+      </aside>
+    </div>
   </main>
 
 
@@ -1389,7 +1475,9 @@ setView(localStorage.getItem("sb-started") === "1" ? "live" : "empty");
     "ICH BIN FETT UND HÄSSLICH",
     "BABUSHKA DEBIL",
     "67",
-    "THEY TALK ABAOUT MY ONE TAPS"
+    "THEY TALK ABOUT MY ONE-TAPS",
+    "BERLIN INTERNATIONAL GAMING",
+    "BIST EIN TOLLER HECHT!"
 ];
   var box = document.getElementById("ticker"), el = document.getElementById("tickerQuote");
   if (!box || !el) return;
@@ -1406,6 +1494,24 @@ setView(localStorage.getItem("sb-started") === "1" ? "live" : "empty");
     a.onfinish = next;
   }
   (document.fonts && document.fonts.ready ? document.fonts.ready : Promise.resolve()).then(next);
+})();
+</script>
+<script>
+/* Matchliste: nur so viele Zeilen zeigen, wie vollständig reinpassen */
+(function () {
+  var box = document.getElementById("matchHistory");
+  if (!box || !window.ResizeObserver) return;
+  function fit() {
+    if (!box.offsetHeight) return;
+    var rows = box.querySelectorAll(".match");
+    rows.forEach(function (r) { r.classList.remove("fit-hide"); });
+    var limit = box.getBoundingClientRect().bottom - 2;
+    for (var k = rows.length - 1; k >= 0 && rows[k].getBoundingClientRect().bottom > limit; k--) {
+      rows[k].classList.add("fit-hide");
+    }
+  }
+  var t; new ResizeObserver(function () { clearTimeout(t); t = setTimeout(fit, 60); }).observe(box);
+  (document.fonts && document.fonts.ready ? document.fonts.ready : Promise.resolve()).then(fit);
 })();
 </script>
 </body>
