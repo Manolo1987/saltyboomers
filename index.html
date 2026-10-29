@@ -273,7 +273,7 @@ a.room:hover { text-decoration: underline; }
 
 /* ---- Carry-Board (Kartenzeilen statt Tablette) ---- */
 .carry-row {
-  display: grid; grid-template-columns: 26px 34px minmax(110px, 1.5fr) 30px 1fr 1fr 1fr 56px 74px;
+  display: grid; grid-template-columns: 26px 34px minmax(120px, 1.6fr) 32px 0.9fr 0.9fr 0.9fr 0.7fr 0.9fr;
   gap: 8px; align-items: center; padding: 3px 14px;
   border-bottom: 1px solid rgba(255,255,255,.05);
   transition: background .15s;
@@ -305,7 +305,7 @@ a.room:hover { text-decoration: underline; }
 .num small { display: block; font-family: "Inter", sans-serif; font-size: 10px; font-weight: 500; color: var(--muted); }
 .kd-good { color: var(--win); } .kd-bad { color: var(--loss); }
 .pct { font-size: 14px; color: var(--muted); font-weight: 600; }
-.carry-bar { grid-column: 3 / -1; height: 4px; border-radius: 4px; background: rgba(255,255,255,.06); overflow: hidden; margin-top: 2px; }
+.carry-bar { grid-column: 1 / -1; height: 4px; border-radius: 4px; background: rgba(255,255,255,.06); overflow: hidden; margin-top: 2px; }
 .carry-bar i { display: block; height: 100%; border-radius: 4px;
   background: linear-gradient(90deg, rgba(200,206,212,.4), var(--cyan));
   box-shadow: 0 0 10px rgba(200,206,212,.6); width: 0; transition: width 1.1s cubic-bezier(.2,.8,.25,1); }
@@ -316,7 +316,8 @@ a.room:hover { text-decoration: underline; }
 .carry-row .lvl .flvl { width: 30px; height: 30px; }
 .carry-row .elo { display: flex; align-items: center; justify-content: flex-end; }
 .carry-row .elo-chip { font-size: 15px; font-weight: 700; font-family: var(--font-num); letter-spacing: .02em; white-space: nowrap; }
-.carry-row.head > span:nth-last-child(1), .carry-row.head > span:nth-last-child(2) { text-align: right; }
+.carry-row.head .r { text-align: right; }
+.carry-row .num, .carry-row .elo { text-align: right; justify-content: flex-end; }
 
 
 /* ---- Info-Icon mit Tooltip ---- */
@@ -326,13 +327,13 @@ a.room:hover { text-decoration: underline; }
   font: 700 calc(9 * var(--u))/1 "Inter", sans-serif; text-transform: none; letter-spacing: 0;
   cursor: help; user-select: none; opacity: .75; }
 .info:hover, .info:focus { opacity: 1; color: var(--ink); border-color: var(--ink); outline: none; }
-.info::after { content: attr(data-tip); position: absolute; left: 50%; bottom: calc(100% + 8px);
-  transform: translateX(-50%) translateY(4px); width: max-content; max-width: calc(260 * var(--u));
-  padding: calc(8 * var(--u)) calc(10 * var(--u)); border-radius: 8px; background: rgba(12,14,20,.96);
-  border: 1px solid rgba(200,206,212,.25); color: var(--ink); font: 500 calc(12 * var(--u))/1.35 "Inter", sans-serif;
+.info::after { content: attr(data-tip); position: fixed; left: var(--tipx, 50%); top: var(--tipy, 50%);
+  transform: translate(-50%, calc(-100% - 10px)); width: max-content; max-width: min(260px, 80vw);
+  padding: 8px 10px; border-radius: 8px; background: rgba(12,14,20,.97);
+  border: 1px solid rgba(200,206,212,.25); color: var(--ink); font: 500 12px/1.35 "Inter", sans-serif;
   text-transform: none; letter-spacing: 0; white-space: normal; text-align: left; pointer-events: none;
-  opacity: 0; transition: opacity .15s, transform .15s; z-index: 50; box-shadow: 0 8px 24px rgba(0,0,0,.5); }
-.info:hover::after, .info:focus::after { opacity: 1; transform: translateX(-50%) translateY(0); }
+  opacity: 0; transition: opacity .15s; z-index: 9999; box-shadow: 0 8px 24px rgba(0,0,0,.5); }
+.info:hover::after, .info:focus::after { opacity: 1; }
 
 /* ---- FACEIT-Level-Badges (Original-Ring, 1:1 wie FACEIT-Rebrand) ---- */
 .flvl { width: 20px; height: 20px; flex: none; filter: drop-shadow(0 2px 5px rgba(0,0,0,.6)); }
@@ -1019,11 +1020,11 @@ table.adv td.best { color: var(--cyan); text-shadow: 0 0 14px rgba(200,206,212,.
         </div>
         <div class="carry-row head">
           <span>#</span><span></span><span>Spieler</span><span></span>
-          <span style="text-align:right">Kills<small>Deaths</small></span>
-          <span style="text-align:right">K/D</span>
-          <span style="text-align:right">HS%</span>
-          <span style="text-align:right">MVP</span>
-          <span style="text-align:right">ELO</span>
+          <span class="r">Kills<small>Deaths</small></span>
+          <span class="r">K/D</span>
+          <span class="r">HS%</span>
+          <span class="r">MVP</span>
+          <span class="r">ELO</span>
         </div>
 
         <div class="carry-row top">
@@ -1549,6 +1550,14 @@ setView(localStorage.getItem("sb-started") === "1" ? "live" : "empty");
     document.querySelectorAll('[data-stat]').forEach(el=>el.textContent='Keine Daten');
   });
 })();
+</script>
+<script>
+document.addEventListener('pointerover', e => {
+  const i = e.target.closest && e.target.closest('.info'); if (!i) return;
+  const r = i.getBoundingClientRect();
+  i.style.setProperty('--tipx', (r.left + r.width/2) + 'px');
+  i.style.setProperty('--tipy', r.top + 'px');
+});
 </script>
 </body>
 </html>
