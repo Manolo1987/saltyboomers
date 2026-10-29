@@ -977,6 +977,42 @@ table.adv td.best { color: var(--cyan); text-shadow: 0 0 14px rgba(200,206,212,.
   #advPanel .bento.adv2 { grid-template-columns:repeat(2, minmax(0,1fr)); grid-template-rows:none; grid-auto-rows:minmax(84px,auto); overflow:visible; }
 }
 </style>
+<style>
+/* ---- Zustände warm/wait/live + Start-Effekt ---- */
+.f-count { display:flex; align-items:center; gap:calc(10*var(--u,1px)); }
+.btn-start.go { font-size:calc(16*var(--u,1px)); padding:calc(9*var(--u,1px)) calc(22*var(--u,1px)); border-radius:calc(12*var(--u,1px));
+  animation: goPulse 2.4s ease-in-out infinite; white-space:nowrap; }
+@keyframes goPulse { 0%,100% { box-shadow:0 0 0 0 rgba(111,240,255,.55), 0 10px 30px rgba(23,184,221,.35); }
+  50% { box-shadow:0 0 0 calc(12*var(--u,1px)) rgba(111,240,255,0), 0 10px 30px rgba(23,184,221,.55); } }
+.btn-start.go.charge { animation:none; transform:scale(.84); filter:brightness(1.7) saturate(1.3); transition:transform .4s cubic-bezier(.5,0,.9,.4), filter .4s; }
+.btn-start.go.gone { opacity:0; transform:scale(1.8); transition:opacity .18s, transform .18s; }
+.wait-badge { display:inline-flex; align-items:center; gap:calc(8*var(--u,1px)); padding:calc(6*var(--u,1px)) calc(14*var(--u,1px));
+  border-radius:999px; border:1px solid rgba(255,154,31,.55); color:var(--fire2,#ff9a1f); font-weight:700; letter-spacing:.08em;
+  text-transform:uppercase; font-size:calc(12*var(--u,1px)); white-space:nowrap; }
+.wait-badge::before { content:""; width:calc(8*var(--u,1px)); height:calc(8*var(--u,1px)); border-radius:50%; background:currentColor; animation:pulse 1.6s infinite; }
+body.st-wait .kpis, body.st-wait #scorePanel, body.st-wait #advPanel, body.st-wait aside.hls, body.st-wait #matchHistory { opacity:.5; filter:saturate(.55); transition:opacity .6s, filter .6s; }
+.map-thumb.none, .m-thumb.none { visibility:hidden; }
+#fxCanvas { position:fixed; inset:0; width:100vw; height:100vh; z-index:80; pointer-events:none; }
+#fxStreak { position:fixed; inset:0; z-index:81; pointer-events:none; transform:translateX(-130%);
+  background:linear-gradient(100deg, transparent 38%, rgba(180,245,255,0) 44%, rgba(200,250,255,.75) 50%, rgba(180,245,255,0) 56%, transparent 62%); }
+#fxStreak.run { animation:fxStreak .75s cubic-bezier(.3,.7,.3,1) forwards; }
+@keyframes fxStreak { to { transform:translateX(130%); } }
+#fxGo { position:fixed; inset:0; z-index:82; display:flex; align-items:center; justify-content:center; pointer-events:none; opacity:0;
+  font-family:"Rajdhani",sans-serif; font-weight:700; font-size:calc(170*var(--u,1px)); letter-spacing:.08em; color:#fff;
+  text-shadow:0 0 30px rgba(111,240,255,.95), 0 0 110px rgba(23,184,221,.75), 0 6px 0 rgba(0,0,0,.35); }
+#fxGo.run { animation:fxGo 1.8s cubic-bezier(.2,.8,.2,1) forwards; }
+@keyframes fxGo { 0% { opacity:0; transform:scale(2.4); filter:blur(8px); } 14% { opacity:1; transform:scale(1); filter:none; }
+  22% { transform:scale(1.07); } 30% { transform:scale(1); } 78% { opacity:1; } 100% { opacity:0; transform:scale(.9); } }
+body.fx-shake .wrap { animation:fxShake .45s; }
+@keyframes fxShake { 0%,100% { transform:none; } 20% { transform:translate(-6px,3px); } 40% { transform:translate(5px,-4px); }
+  60% { transform:translate(-3px,2px); } 80% { transform:translate(2px,-1px); } }
+.flip { animation:flipIn .7s cubic-bezier(.2,.8,.2,1) both; }
+@keyframes flipIn { 0% { transform:perspective(700px) rotateX(85deg); opacity:.15; } 100% { transform:none; opacity:1; } }
+@media (prefers-reduced-motion: reduce) {
+  .btn-start.go { animation:none; } #fxCanvas, #fxStreak { display:none; } body.fx-shake .wrap, .flip { animation:none; }
+  #fxGo.run { animation:fxGoFade 1.6s forwards; } @keyframes fxGoFade { 0%,100% { opacity:0; } 15%,75% { opacity:1; } }
+}
+</style>
 </head>
 <body class="bg-off">
 
@@ -1028,7 +1064,7 @@ table.adv td.best { color: var(--cyan); text-shadow: 0 0 14px rgba(200,206,212,.
             <span class="swing-chip">+9.4% Swing</span>
           </div>
           <div class="f-side">
-            <div>Board verschwindet in <span class="countdown" id="countdown">09:57</span></div>
+            <div id="fCount" class="f-count">Board verschwindet in <span class="countdown" id="countdown">—</span></div>
             <div class="f-links">
               <a class="room" href="https://www.faceit.com/de/cs2/room/" target="_blank" rel="noopener">Match-Room <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 3h6v6"/><path d="M10 14 21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></svg></a>
               <button class="adv-link" data-view="advanced"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.5 12h3.2l2.6-6.5 4.4 13 2.6-6.5h4.2"/></svg>Advanced Stats</button>
@@ -1048,9 +1084,9 @@ table.adv td.best { color: var(--cyan); text-shadow: 0 0 14px rgba(200,206,212,.
 
     <!-- KPIs -->
     <section class="kpis">
-      <div class="kpi"><div class="lbl">Matches<span class="info" tabindex="0" data-tip="Anzahl gespielter Matches in dieser Session." aria-label="Anzahl gespielter Matches in dieser Session.">i</span></div><div class="val" data-count="10">0</div></div>
+      <div class="kpi"><div class="lbl">Matches<span class="info" tabindex="0" data-tip="Anzahl gespielter Matches in dieser Session." aria-label="Anzahl gespielter Matches in dieser Session.">i</span></div><div class="val">0</div></div>
       <div class="kpi"><div class="lbl">Bilanz<span class="info" tabindex="0" data-tip="Siege : Niederlagen in dieser Session." aria-label="Siege : Niederlagen in dieser Session.">i</span></div><div class="val">7<span class="colon">:</span>3</div></div>
-      <div class="kpi"><div class="lbl">Winrate<span class="info" tabindex="0" data-tip="Anteil gewonnener Matches in Prozent." aria-label="Anteil gewonnener Matches in Prozent.">i</span></div><div class="val" data-count="70" data-suffix="%">0%</div></div>
+      <div class="kpi"><div class="lbl">Winrate<span class="info" tabindex="0" data-tip="Anteil gewonnener Matches in Prozent." aria-label="Anteil gewonnener Matches in Prozent.">i</span></div><div class="val">0%</div></div>
       <div class="kpi">
         <div class="lbl">Win-Streak<span class="info" tabindex="0" data-tip="Anzahl Siege in Folge bis zum aktuellen Stand." aria-label="Anzahl Siege in Folge bis zum aktuellen Stand.">i</span></div>
         <div class="streak-wrap">
@@ -1060,11 +1096,11 @@ table.adv td.best { color: var(--cyan); text-shadow: 0 0 14px rgba(200,206,212,.
               <stop offset="0" stop-color="#ffe08a"/><stop offset=".55" stop-color="#ff9a1f"/><stop offset="1" stop-color="#ff4d00"/>
             </linearGradient></defs>
           </svg>
-          <span class="burn" data-count="4">0</span>
+          <span class="burn">0</span>
         </div>
       </div>
       <div class="kpi"><div class="lbl">Runden<span class="info" tabindex="0" data-tip="Gewonnene : verlorene Runden über alle Matches." aria-label="Gewonnene : verlorene Runden über alle Matches.">i</span></div><div class="val">112<span class="colon">:</span>89</div></div>
-      <div class="kpi"><div class="lbl">ELO-Verlauf<span class="info" tabindex="0" data-tip="Summe der ELO-Punkte, die über alle Matches gewonnen (+) oder verloren (−) wurden." aria-label="Summe der ELO-Punkte, die über alle Matches gewonnen (+) oder verloren (−) wurden.">i</span></div><div class="val up" data-count="94" data-prefix="+" data-suffix="">+0</div></div>
+      <div class="kpi"><div class="lbl">ELO-Verlauf<span class="info" tabindex="0" data-tip="Summe der ELO-Punkte, die über alle Matches gewonnen (+) oder verloren (−) wurden." aria-label="Summe der ELO-Punkte, die über alle Matches gewonnen (+) oder verloren (−) wurden.">i</span></div><div class="val up">+0</div></div>
     </section>
 
     <!-- Carry + Highlights -->
@@ -1218,7 +1254,7 @@ table.adv td.best { color: var(--cyan); text-shadow: 0 0 14px rgba(200,206,212,.
         <div class="m-mvp">Top im Match<b>-neon666 · 27 Kills</b></div>
         <a class="m-link" href="https://www.faceit.com/de/cs2/room/" target="_blank" rel="noopener" title="Match-Room öffnen"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 3h6v6"/><path d="M10 14 21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></svg></a>
       </div>
-      <div class="searching">Warte auf das nächste Match … Poll alle 5 Minuten</div>
+      <div class="searching">Lade Daten …</div>
     </section>
       <aside class="panel hls">
         <div class="ph"><h2>Highlights</h2></div>
@@ -1238,7 +1274,7 @@ table.adv td.best { color: var(--cyan); text-shadow: 0 0 14px rgba(200,206,212,.
 
 
   <footer class="foot" id="foot">
-    <span>Daten: FACEIT Data API · Poll alle 5 Min · alles serverseitig gespeichert (JSON), Handy &amp; TV sehen denselben Stand</span>
+    <span>Daten: FACEIT Data API · Abruf jede Minute · Stand <b id="footStand">—</b></span>
     <span style="display:inline-flex;align-items:center;gap:7px"><img src="assets/icon_berlin.png" alt="" style="height:17px;width:17px;object-fit:contain">SaltyBoomers · Berlin LAN 2026</span>
   </footer>
 </div>
@@ -1271,14 +1307,15 @@ table.adv td.best { color: var(--cyan); text-shadow: 0 0 14px rgba(200,206,212,.
   <a href="https://www.faceit.com/en/players/amaseling" target="_blank" rel="noopener">amaseling <small>Lvl 5</small></a>
   
   <h3>System</h3>
-  <button class="nav danger" id="btnReset"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 1 0 2.64-6.36L3 8"/><path d="M3 3v5h5"/></svg>Daten zurücksetzen <small>2×&nbsp;bestätigen</small></button>
+  <button class="nav" id="btnFxTest"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M11 5 6 9H2v6h4l5 4V5z"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M19 5a10 10 0 0 1 0 14"/></svg>Start-Effekt testen <small>ohne Start</small></button>
+  <button class="nav danger" id="btnReset"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 1 0 2.64-6.36L3 8"/><path d="M3 3v5h5"/></svg>Zurück zum Aufwärmen <small>bestätigen</small></button>
 </nav>
 
 <!-- Start-Modal -->
 <div class="modal-veil" id="startModal">
   <div class="modal">
-    <h3>Stack wirklich starten?</h3>
-    <p>Ab jetzt zählt jedes Match. Der Knopf verschwindet danach — ein versehentlicher Reset ist ausgeschlossen. Daten werden serverseitig gespeichert.</p>
+    <h3>Wochenende starten?</h3>
+    <p>Ab jetzt zählt jedes Stack-Match, das nach diesem Klick endet. Bis das erste Match drin ist, siehst du weiter die Aufwärm-Zahlen (abgedunkelt). Der Startzeitpunkt wird nur auf diesem Gerät gespeichert.</p>
     <div class="row">
       <button class="btn-ghost" id="mCancel">Abbrechen</button>
       <button class="btn-confirm" id="mConfirm">Ja, starten</button>
@@ -1289,11 +1326,11 @@ table.adv td.best { color: var(--cyan); text-shadow: 0 0 14px rgba(200,206,212,.
 <!-- Reset-Modal -->
 <div class="modal-veil" id="resetModal">
   <div class="modal">
-    <h3 style="color:var(--loss)">Alles löschen?</h3>
-    <p>Sämtliche Wochenend-Stats werden gelöscht und der Zähler steht auf null. Das kann man nicht rückgängig machen.</p>
+    <h3 style="color:var(--loss)">Zurück zum Aufwärmen?</h3>
+    <p>Der Startzeitpunkt wird gelöscht, das Dashboard zeigt wieder die letzten 30 Stack-Matches. Die FACEIT-Daten selbst bleiben erhalten.</p>
     <div class="row">
       <button class="btn-ghost" id="rCancel">Abbrechen</button>
-      <button class="btn-confirm" id="rConfirm" style="background:linear-gradient(135deg,#ff8d97,#e0434f);color:#fff;box-shadow:0 8px 24px rgba(224,67,79,.3)">Ja, löschen</button>
+      <button class="btn-confirm" id="rConfirm" style="background:linear-gradient(135deg,#ff8d97,#e0434f);color:#fff;box-shadow:0 8px 24px rgba(224,67,79,.3)">Ja, zurücksetzen</button>
     </div>
   </div>
 </div>
@@ -1330,26 +1367,6 @@ document.querySelectorAll("[data-view]").forEach(a => a.onclick = e => {
 });
 drawer.querySelectorAll("a[data-close]").forEach(a => a.onclick = () => drawerOpen(false));
 
-/* Einweg-Start */
-$("#btnStart").onclick = () => $("#startModal").classList.add("show");
-$("#mCancel").onclick = () => $("#startModal").classList.remove("show");
-$("#mConfirm").onclick = () => {
-  $("#startModal").classList.remove("show");
-  localStorage.setItem("sb-started", "1");
-  setView("live");
-  toast("<b>Läuft.</b> Seit jetzt wird jedes Stack-Match gezählt.");
-};
-
-/* Reset (im Drawer, doppelt bestätigt) */
-$("#btnReset").onclick = () => { drawerOpen(false); $("#resetModal").classList.add("show"); };
-$("#rCancel").onclick = () => $("#resetModal").classList.remove("show");
-$("#rConfirm").onclick = () => {
-  $("#resetModal").classList.remove("show");
-  localStorage.removeItem("sb-started");
-  setView("empty");
-  toast("Daten gelöscht. Neues Wochenende kann kommen.");
-};
-
 /* Count-up */
 let counted = false;
 function countUp() {
@@ -1367,15 +1384,6 @@ function countUp() {
 function fillBars() {
   document.querySelectorAll(".carry-bar i").forEach(b => setTimeout(() => b.style.width = b.dataset.w + "%", 60));
 }
-
-/* Fokus-Countdown: Matchroom-Board bleibt 4 Min stehen */
-const matchEnd = Date.now(), FOCUS = 4 * 60 * 1000;
-setInterval(() => {
-  const left = matchEnd + FOCUS - Date.now();
-  if (left <= 0) { $("#focusCard").classList.add("hidden"); return; }
-  const m = Math.floor(left / 60000), s = Math.floor(left % 60000 / 1000);
-  $("#countdown").textContent = m + ":" + String(s).padStart(2, "0");
-}, 1000);
 
 /* Tabs im Live-View: Scoreboard ↔ Advanced-Bento, Auto-Wechsel alle 2 Min */
 const tabs = { score: $("#scorePanel"), adv: $("#advPanel") };
@@ -1401,14 +1409,8 @@ setInterval(() => {
   if (el) el.textContent = Math.floor(cycLeft / 60) + ":" + String(cycLeft % 60).padStart(2, "0");
 }, 1000);
 
-/* Init */
-(function () {
-  const fc = document.getElementById("focusCard");
-  if (!fc) return;
-  const res = fc.querySelector(".f-score .res");
-  fc.classList.add(res && res.classList.contains("l") ? "ring-loss" : "ring-win");
-})();
-setView(localStorage.getItem("sb-started") === "1" ? "live" : "empty");
+/* Init: immer Live-Layout; Daten + Zustand kommen aus dem Daten-Script unten */
+setView("live");
 </script>
 <script>
 /* Video-Hintergrund: bei prefers-reduced-motion anhalten (Poster bleibt stehen) */
@@ -1578,34 +1580,12 @@ setView(localStorage.getItem("sb-started") === "1" ? "live" : "empty");
       rows[k].classList.add("fit-hide");
     }
   }
+  window.sbFitMatches = function () { setTimeout(fit, 30); };
   var t; new ResizeObserver(function () { clearTimeout(t); t = setTimeout(fit, 60); }).observe(box);
   (document.fonts && document.fonts.ready ? document.fonts.ready : Promise.resolve()).then(fit);
 })();
 </script>
 
-<script>
-/* stats.json (von GitHub Actions gepflegt). null/fehlend -> "Keine Daten", nie 0. */
-(function(){
-  function get(obj, path){ return path.split('.').reduce((o,k)=>o==null?null:o[k], obj); }
-  function fmt(path, v){
-    if (v == null) return null;
-    if (path.endsWith('_pct') || path.endsWith('winrate')) return v + '%';
-    return v;
-  }
-  fetch('stats.json', {cache:'no-store'}).then(r=>r.ok?r.json():null).then(d=>{
-    document.querySelectorAll('[data-stat]').forEach(el=>{
-      const path = el.dataset.stat;
-      let v = d ? get(d, path) : null;
-      if (v && typeof v === 'object') {
-        v = (v.map ? v.map + ' ' + (v.winrate!=null ? v.winrate+'%' : '') : null);
-      } else v = fmt(path, v);
-      el.textContent = v ?? 'Keine Daten'; el.classList.toggle('na', v == null);
-    });
-  }).catch(()=>{
-    document.querySelectorAll('[data-stat]').forEach(el=>{el.textContent='Keine Daten'; el.classList.add('na');});
-  });
-})();
-</script>
 <script>
 (() => {
   const tip = document.createElement('div');
@@ -1629,6 +1609,430 @@ setView(localStorage.getItem("sb-started") === "1" ? "live" : "empty");
   document.addEventListener('focusin', e => { const i = e.target.closest && e.target.closest('.info'); if (i) show(i); });
   document.addEventListener('focusout', hide);
   window.addEventListener('scroll', () => { if (cur) show(cur); }, true);
+})();
+</script>
+<script>
+/* ================= DATEN + ZUSTÄNDE + START-EFFEKT =================
+   stats.json kommt jede Minute vom Publisher auf Astana (über GitHub Pages).
+   Zustände: warm (letzte 30 Matches) → wait (gestartet, noch kein neues Match) → live.
+   Startzeitpunkt nur lokal auf diesem Gerät (localStorage), kein Token im Browser. */
+(function () {
+  const LS_TS = "sb-start-ts", LS_ELO = "sb-start-elo";
+  const POLL_MS = 60 * 1000, FOCUS_MS = 10 * 60 * 1000;
+  const MAPIMG = new Set(["ancient","anubis","dust2","inferno","mirage","nuke","overpass","train","vertigo"]);
+  const $ = s => document.querySelector(s), $$ = s => Array.from(document.querySelectorAll(s));
+  const esc = s => String(s == null ? "" : s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+  const tip = t => `<span class="info" tabindex="0" data-tip="${esc(t)}" aria-label="${esc(t)}">i</span>`;
+  let DATA = null, lastMode = null, lastTopId = null;
+
+  /* Avatare aus dem vorhandenen Markup merken (nick → Bild) */
+  const AV = {};
+  $$("#scorePanel .carry-row:not(.head)").forEach(r => {
+    const n = r.querySelector(".nick"), i = r.querySelector("img.avatar");
+    if (n && i) AV[n.textContent.trim()] = i.getAttribute("src");
+  });
+
+  /* ---------- Helfer ---------- */
+  const mapKey = m => String(m || "").replace(/^de_/, "").toLowerCase();
+  const mapName = m => { const k = mapKey(m); return k ? k.charAt(0).toUpperCase() + k.slice(1) : "—"; };
+  const mapImg = m => MAPIMG.has(mapKey(m)) ? `assets/map_${mapKey(m)}.jpg` : "";
+  const d = ts => new Date(ts * 1000);
+  const when = ts => { const x = d(ts); return x.toLocaleDateString("de-DE", { weekday: "short" }).replace(".", "") + " " + x.toLocaleTimeString("de-DE", { hour: "2-digit", minute: "2-digit" }); };
+  const pct = (a, b) => b ? Math.round(100 * a / b) : null;
+  const r2 = v => v == null || !isFinite(v) ? null : Math.round(v * 100) / 100;
+  const r1 = v => v == null || !isFinite(v) ? null : Math.round(v * 10) / 10;
+  const signed = v => (v > 0 ? "+" : v < 0 ? "−" : "±") + Math.abs(v);
+  const room = id => "https://www.faceit.com/de/cs2/room/" + encodeURIComponent(id);
+  const queue = c => String(c || "").replace(/^Europe\s*/i, "").replace("5v5 Queue", "5v5 · Queue") || "5v5";
+  const S = (p, k) => (p && typeof p[k] === "number") ? p[k] : 0;
+
+  const LVL = { 1:["#EEEEEE","#BDBDBD"], 2:["#1CE400","#12A300"], 3:["#1CE400","#12A300"], 4:["#FFD02E","#EFB000"],
+    5:["#FFC82E","#EFA500"], 6:["#FFBD20","#F09A00"], 7:["#FFB014","#F08A00"], 8:["#FE7A0A","#E05A00"],
+    9:["#FE630A","#D64A00"], 10:["#FF4A5E","#E00030"] };
+  function lvlSvg(l) {
+    l = Math.max(1, Math.min(10, +l || 1)); const c = LVL[l], id = "lgx" + l;
+    return `<svg class="flvl" viewBox="0 0 24 24"><defs><linearGradient id="${id}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${c[0]}"/><stop offset="1" stop-color="${c[1]}"/></linearGradient></defs><circle cx="12" cy="12" r="10.6" fill="#0b0b0d"/><path d="M 6.5,18.4 A 8.4,8.4 0 1 1 17.5,18.4" fill="none" stroke="#3f3f46" stroke-width="2.5" stroke-linecap="round"/><path d="M 6.5,18.4 A 8.4,8.4 0 1 1 17.5,18.4" fill="none" stroke="url(#${id})" stroke-width="2.5" stroke-linecap="round" pathLength="10" stroke-dasharray="${l} 10000"/><text x="12" y="12.9">${l}</text></svg>`;
+  }
+
+  /* Zahl weich hochzählen (von aktuellem Wert) */
+  function anim(el, to, opt) {
+    opt = opt || {}; const pre = opt.pre || "", suf = opt.suf || "", dec = opt.dec || 0;
+    if (to == null) { el.textContent = "—"; el.classList.add("na"); return; }
+    el.classList.remove("na");
+    const from = parseFloat(el.dataset.v || "0") || 0; el.dataset.v = to;
+    const fmt = v => (opt.sign ? signed(+v.toFixed(dec)) : pre + v.toFixed(dec)) + suf;
+    if (matchMedia("(prefers-reduced-motion: reduce)").matches || from === to) { el.textContent = fmt(to); return; }
+    const t0 = performance.now(), dur = 900;
+    (function tick(t) { const p = Math.min(1, (t - t0) / dur), e = 1 - Math.pow(1 - p, 3);
+      el.textContent = fmt(from + (to - from) * e); if (p < 1) requestAnimationFrame(tick); })(t0);
+  }
+
+  /* ---------- Zustand ---------- */
+  function state() {
+    const all = (DATA && DATA.matches ? DATA.matches.slice() : []).sort((a, b) => (b.finished_at || 0) - (a.finished_at || 0));
+    const ts = +localStorage.getItem(LS_TS) || 0;
+    if (!ts) return { mode: "warm", set: all, ts: 0 };
+    const live = all.filter(m => (m.finished_at || 0) * 1000 > ts);
+    return live.length ? { mode: "live", set: live, ts } : { mode: "wait", set: all, ts };
+  }
+  const scope = m => m === "live" ? "seit Start" : "letzte " + ((DATA && DATA.match_count) || 30) + " Stack-Matches";
+
+  function aggregate(set) {
+    const P = {}, rows = [];
+    set.forEach(m => Object.entries(m.players || {}).forEach(([nick, s]) => {
+      rows.push({ nick, s, m });
+      const a = P[nick] || (P[nick] = { nick, n: 0, rounds: 0, adr: 0 });
+      a.n++; a.rounds += m.rounds || 0; a.adr += S(s, "ADR");
+      for (const k in s) if (typeof s[k] === "number") a[k] = (a[k] || 0) + s[k];
+    }));
+    const T = {}; rows.forEach(r => { for (const k in r.s) if (typeof r.s[k] === "number") T[k] = (T[k] || 0) + r.s[k]; });
+    T.prounds = rows.reduce((x, r) => x + (r.m.rounds || 0), 0); T.rows = rows.length;
+    return { P, T, rows };
+  }
+  const best = (P, fn, min) => {
+    let b = null; Object.values(P).forEach(a => { if (min && !min(a)) return; const v = fn(a); if (v != null && isFinite(v) && (!b || v > b.v)) b = { nick: a.nick, v }; });
+    return b;
+  };
+  function streakNow(set) { let s = 0; for (const m of set) { if (m.win) s++; else break; } return s; }
+  function streakMax(set) { let s = 0, mx = 0; set.slice().reverse().forEach(m => { s = m.win ? s + 1 : 0; mx = Math.max(mx, s); }); return mx; }
+  function mapStats(set) {
+    const M = {}; set.forEach(m => { if (!m.map || m.win == null) return; const x = M[m.map] || (M[m.map] = { map: m.map, n: 0, w: 0 }); x.n++; if (m.win) x.w++; });
+    return Object.values(M).map(x => Object.assign(x, { wr: Math.round(100 * x.w / x.n) }));
+  }
+  function topInMatch(m) {
+    return Object.entries(m.players || {}).map(([nick, s]) => ({ nick, s }))
+      .sort((a, b) => S(b.s, "Kills") - S(a.s, "Kills") || S(b.s, "K/D Ratio") - S(a.s, "K/D Ratio"))[0] || null;
+  }
+  const elo = n => DATA && DATA.players && DATA.players[n] ? DATA.players[n] : {};
+
+  /* ---------- Fokus-Karte (letztes Match) ---------- */
+  function renderFocus(st) {
+    const fc = $("#focusCard"), m = st.set[0];
+    if (!fc) return;
+    if (!m) { fc.classList.add("hidden"); return; }
+    const img = mapImg(m.map);
+    fc.querySelector(".focus-mapbg").style.backgroundImage = img ? `url('${img}')` : "none";
+    const th = fc.querySelector(".map-thumb"); th.src = img || "assets/logo_ring.png"; th.alt = mapName(m.map); th.classList.toggle("none", !img);
+    fc.querySelector(".map").textContent = mapName(m.map);
+    fc.querySelector(".focus-tag").innerHTML = `<span class="dot"></span> ${st.mode === "live" ? "Letztes Match · Wochenende live" : st.mode === "wait" ? "Gestartet · letztes Match vor dem Start" : "Aufwärmen · letztes Stack-Match"}`;
+    fc.querySelector(".f-meta small").textContent = `${when(m.finished_at)} · Match ${st.set.length} · ${queue(m.competition)}`;
+    const res = fc.querySelector(".f-score .res");
+    res.className = "res " + (m.win ? "w" : "l"); res.textContent = m.win ? "WIN" : "LOSS";
+    fc.querySelector(".f-score .s").innerHTML = `${m.score[0] ?? "—"}<span class="colon">:</span>${m.score[1] ?? "—"}`;
+    fc.classList.remove("ring-win", "ring-loss"); fc.classList.add(m.win ? "ring-win" : "ring-loss");
+    const top = topInMatch(m), spot = fc.querySelector(".mvp-spot");
+    if (top) {
+      spot.querySelector("b").textContent = top.nick;
+      spot.querySelector("div small").textContent = `Top · ${S(top.s, "Kills")} Kills · ${r2(S(top.s, "K/D Ratio")).toFixed(2)} K/D`;
+      spot.querySelector(".swing-chip").textContent = `ADR ${Math.round(S(top.s, "ADR"))}`;
+    }
+    fc.querySelector("a.room").href = room(m.match_id);
+    const rows = Object.entries(m.players || {}).map(([nick, s]) => ({ nick, s })).sort((a, b) => S(b.s, "Kills") - S(a.s, "Kills"));
+    fc.querySelector(".f-board").innerHTML =
+      `<div class="fb-row fb-head"><span class="p">Spieler</span><span>K / D / A</span><span>K/D</span><span>ADR</span><span>HS%</span></div>` +
+      rows.map((r, i) => `<div class="fb-row${i === 0 ? " mvp" : ""}"><span class="p">${i === 0 ? '<img class="crown-inline" src="assets/icon_crown.png" alt="MVP"> ' : ""}${esc(r.nick)}</span><span>${S(r.s,"Kills")} / ${S(r.s,"Deaths")} / ${S(r.s,"Assists")}</span><span>${r2(S(r.s,"K/D Ratio")).toFixed(2)}</span><span>${Math.round(S(r.s,"ADR"))}</span><span>${Math.round(S(r.s,"Headshots %"))}%</span></div>`).join("");
+    const side = $("#fCount");
+    if (st.mode === "warm") {
+      side.innerHTML = `<button class="btn-start go" id="btnGo">▶ Wochenende starten</button>`;
+      $("#btnGo").onclick = () => $("#startModal").classList.add("show");
+    } else if (st.mode === "wait") {
+      side.innerHTML = `<span class="wait-badge">Live ab dem ersten Match</span>`;
+    } else {
+      side.innerHTML = `Board verschwindet in <span class="countdown" id="countdown">—</span>`;
+    }
+    fc.dataset.end = (m.finished_at || 0) * 1000;
+    focusTick();
+  }
+  function focusTick() {
+    const fc = $("#focusCard"); if (!fc) return;
+    const st = lastMode;
+    if (st !== "live") { fc.classList.remove("hidden"); return; }
+    const left = (+fc.dataset.end || 0) + FOCUS_MS - Date.now();
+    fc.classList.toggle("hidden", left <= 0);
+    const cd = $("#countdown");
+    if (cd && left > 0) cd.textContent = Math.floor(left / 60000) + ":" + String(Math.floor(left % 60000 / 1000)).padStart(2, "0");
+  }
+  setInterval(focusTick, 1000);
+
+  /* ---------- KPIs ---------- */
+  function renderKpis(st) {
+    const k = $$(".kpis .kpi"), set = st.set, w = set.filter(m => m.win).length, l = set.filter(m => m.win === false).length;
+    const sc = st.mode === "live" ? "in dieser Session" : "in den letzten Stack-Matches";
+    const setTip = (i, t) => { const e = k[i].querySelector(".info"); if (e) { e.dataset.tip = t; e.setAttribute("aria-label", t); } };
+    setTip(0, "Anzahl gespielter Stack-Matches " + sc + "."); setTip(1, "Siege : Niederlagen " + sc + "."); setTip(2, "Anteil gewonnener Matches " + sc + ".");
+    anim(k[0].querySelector(".val"), set.length);
+    k[1].querySelector(".val").innerHTML = `${w}<span class="colon">:</span>${l}`;
+    anim(k[2].querySelector(".val"), set.length ? Math.round(100 * w / set.length) : null, { suf: "%" });
+    anim(k[3].querySelector(".burn"), streakNow(set));
+    const rw = set.reduce((a, m) => a + (m.score[0] || 0), 0), rl = set.reduce((a, m) => a + (m.score[1] || 0), 0);
+    k[4].querySelector(".val").innerHTML = `${rw}<span class="colon">:</span>${rl}`;
+    const lbl = k[5].querySelector(".lbl"), v = k[5].querySelector(".val");
+    if (st.mode === "warm") {
+      lbl.firstChild.nodeValue = "Ø ELO";
+      const e = Object.values((DATA && DATA.players) || {}).map(p => p.elo).filter(x => x != null);
+      v.classList.remove("up", "down"); anim(v, e.length ? Math.round(e.reduce((a, b) => a + b, 0) / e.length) : null);
+      const t = "Durchschnittliche aktuelle ELO der fünf SaltyBoomers."; const i = lbl.querySelector(".info"); i.dataset.tip = t; i.setAttribute("aria-label", t);
+    } else {
+      lbl.firstChild.nodeValue = "ELO seit Start";
+      let base = {}; try { base = JSON.parse(localStorage.getItem(LS_ELO) || "{}"); } catch (e) {}
+      let sum = 0, any = false;
+      Object.entries((DATA && DATA.players) || {}).forEach(([n, p]) => { if (p.elo != null && base[n] != null) { sum += p.elo - base[n]; any = true; } });
+      v.classList.toggle("up", sum >= 0); v.classList.toggle("down", sum < 0);
+      anim(v, any ? sum : null, { sign: true });
+      const t = "Summe der ELO-Änderung aller fünf seit dem Klick auf Start."; const i = lbl.querySelector(".info"); i.dataset.tip = t; i.setAttribute("aria-label", t);
+    }
+  }
+
+  /* ---------- Scoreboard ---------- */
+  function renderScore(st, A) {
+    const panel = $("#scorePanel"); if (!panel) return;
+    panel.querySelector(".ph .hint").textContent = "sortiert nach K/D · " + scope(st.mode);
+    let base = {}; try { base = JSON.parse(localStorage.getItem(LS_ELO) || "{}"); } catch (e) {}
+    const nicks = Object.keys((DATA && DATA.players) || {}).length ? Object.keys(DATA.players) : Object.keys(AV);
+    const list = nicks.map(n => {
+      const a = A.P[n]; const kd = a && a.Deaths ? a.Kills / a.Deaths : (a && a.Kills ? a.Kills : null);
+      return { n, a, kd };
+    }).sort((x, y) => (y.kd ?? -1) - (x.kd ?? -1));
+    const kds = list.map(x => x.kd).filter(x => x != null), mx = Math.max(...kds, 0), mn = Math.min(...kds, 0);
+    const rows = $$("#scorePanel .carry-row:not(.head)");
+    rows.forEach(r => r.remove());
+    list.forEach((x, i) => {
+      const a = x.a, p = elo(x.n), row = document.createElement("div");
+      row.className = "carry-row" + (i === 0 ? " top" : "");
+      let eloHtml;
+      if (st.mode === "warm") eloHtml = p.elo != null ? `<span class="elo-chip">${p.elo}</span>` : "—";
+      else { const dlt = p.elo != null && base[x.n] != null ? p.elo - base[x.n] : null;
+        eloHtml = dlt == null ? "—" : `<span class="elo-chip ${dlt >= 0 ? "up" : "down"}">${signed(dlt)} ELO</span>`; }
+      const w = x.kd == null ? 0 : (mx === mn ? 100 : Math.round(18 + 82 * (x.kd - mn) / (mx - mn)));
+      row.innerHTML = `<span class="rank">${i + 1}</span>` +
+        (AV[x.n] ? `<img class="avatar" src="${esc(AV[x.n])}" alt="">` : `<span class="avatar"></span>`) +
+        `<div class="pname"><span class="nick">${esc(x.n)}</span></div><div class="lvl">${lvlSvg(p.level)}</div>` +
+        (a ? `<div class="num">${a.Kills || 0}<small>Deaths ${a.Deaths || 0}</small></div>` +
+             `<div class="num ${x.kd >= 1 ? "kd-good" : "kd-bad"}">${x.kd.toFixed(2)}</div>` +
+             `<div class="num">${pct(a.Headshots || 0, a.Kills || 0) ?? "—"}<span class="pct">%</span></div>` +
+             `<div class="num">${a.MVPs || 0}</div>`
+           : `<div class="num na">—</div><div class="num na">—</div><div class="num na">—</div><div class="num na">—</div>`) +
+        `<div class="elo">${eloHtml}</div><div class="carry-bar"><i data-w="${w}"></i></div>`;
+      panel.appendChild(row);
+      setTimeout(() => { const b = row.querySelector(".carry-bar i"); if (b) b.style.width = w + "%"; }, 60);
+    });
+  }
+
+  /* ---------- Matchliste ---------- */
+  function renderMatches(st) {
+    const box = $("#matchHistory"); if (!box) return;
+    box.querySelector(".ph .hint").textContent = scope(st.mode) + " · neueste zuerst";
+    box.querySelectorAll(".match").forEach(x => x.remove());
+    const srch = box.querySelector(".searching");
+    const N = st.set.length;
+    st.set.forEach((m, i) => {
+      const t = topInMatch(m), img = mapImg(m.map), el = document.createElement("div");
+      el.className = "match";
+      el.innerHTML = `<div class="m-time">${when(m.finished_at)}<b>Match ${N - i}</b></div>` +
+        `<div class="m-mapcell"><img class="m-thumb${img ? "" : " none"}" src="${img || "assets/logo_ring.png"}" alt="${esc(mapName(m.map))}"><div class="m-map">${esc(mapName(m.map))}<small>${esc(queue(m.competition))} · ${Object.keys(m.players || {}).length}er-Stack</small></div></div>` +
+        `<div class="m-score"><span class="s">${m.score[0] ?? "—"}<span class="colon">:</span>${m.score[1] ?? "—"}</span><span class="res-chip ${m.win ? "w" : "l"}">${m.win ? "WIN" : "LOSS"}</span></div>` +
+        `<div class="m-mvp">Top im Match<b>${t ? esc(t.nick) + " · " + S(t.s, "Kills") + " Kills" : "—"}</b></div>` +
+        `<a class="m-link" href="${room(m.match_id)}" target="_blank" rel="noopener" title="Match-Room öffnen"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 3h6v6"/><path d="M10 14 21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></svg></a>`;
+      box.insertBefore(el, srch);
+    });
+    srch.textContent = st.mode === "warm" ? "Aufwärmen · neue Matches kommen automatisch (Abruf jede Minute)"
+      : st.mode === "wait" ? "Warte auf das erste Match nach dem Start …" : "Warte auf das nächste Match … Abruf jede Minute";
+    if (window.sbFitMatches) window.sbFitMatches();
+  }
+
+  /* ---------- Highlights ---------- */
+  function renderHighlights(st, A) {
+    const box = $("aside.hls"); if (!box) return;
+    const set = st.set, ms = mapStats(set).filter(x => x.n >= 2);
+    const hl = (k, t, v, sub) => `<div class="hl"><div class="k">${k}${tip(t)}</div><div class="v">${v}${sub ? ` <span class="sub">${sub}</span>` : ""}</div></div>`;
+    const na = '<span class="na">—</span>';
+    const sNow = streakNow(set), sMax = streakMax(set);
+    const wins = set.filter(m => m.win && m.score[0] != null), stomp = wins.sort((a, b) => (b.score[0] - b.score[1]) - (a.score[0] - a.score[1]))[0];
+    const close = set.filter(m => m.score[0] != null).slice().sort((a, b) => Math.abs(a.score[0] - a.score[1]) - Math.abs(b.score[0] - b.score[1]) || (b.rounds || 0) - (a.rounds || 0))[0];
+    let tf = null; A.rows.forEach(r => { if (!tf || S(r.s, "Kills") > S(tf.s, "Kills")) tf = r; });
+    const days = {}; set.forEach(m => { const x = d(m.finished_at), key = x.toDateString(); const o = days[key] || (days[key] = { x, w: 0, l: 0, rw: 0, rl: 0 }); m.win ? o.w++ : o.l++; o.rw += m.score[0] || 0; o.rl += m.score[1] || 0; });
+    const bd = Object.values(days).sort((a, b) => b.w - a.w || (b.rw - b.rl) - (a.rw - a.rl))[0];
+    const mvp = best(A.P, a => a.MVPs || 0);
+    const bm = ms.slice().sort((a, b) => b.wr - a.wr || b.n - a.n)[0], wm = ms.slice().sort((a, b) => a.wr - b.wr || b.n - a.n)[0];
+    const pe = Object.entries((DATA && DATA.players) || {}).filter(([, p]) => p.elo != null).sort((a, b) => b[1].elo - a[1].elo)[0];
+    const fire = v => `<span style="color:var(--fire2);text-shadow:0 0 12px rgba(255,120,0,.6)">${v}</span>`;
+    box.innerHTML = `<div class="ph"><h2>Highlights</h2></div>` +
+      hl("Win-Streak", "Siege in Folge bis zum aktuellen Stand. Darunter die längste Serie.", sNow >= 2 ? fire(sNow + " in Folge") : sNow + " in Folge", "längste Serie " + sMax) +
+      hl("Größter Stomp", "Deutlichster Sieg (größter Rundenvorsprung).", stomp ? `${stomp.score[0]} : ${stomp.score[1]}` : na, stomp ? `${mapName(stomp.map)}, ${when(stomp.finished_at)}` : "") +
+      hl("Engstes Match", "Knappstes Ergebnis.", close ? `${close.score[0]} : ${close.score[1]}` : na, close ? `${mapName(close.map)}, ${when(close.finished_at)}` : "") +
+      hl("Entry-Erfolg", "Gewonnene Eröffnungs-Duelle zu allen Eröffnungs-Duellen (Team).", A.T["Entry Count"] ? `${pct(A.T["Entry Wins"] || 0, A.T["Entry Count"])}<span class="pct">%</span>` : na, A.T["Entry Count"] ? `Team · ${A.T["Entry Count"]} Duelle` : "") +
+      hl("Top-Fragger", "Meiste Kills in einem einzelnen Match.", tf ? esc(tf.nick) : na, tf ? `${S(tf.s, "Kills")} Kills auf ${mapName(tf.m.map)}` : "") +
+      hl("Bester Tag", "Tag mit den meisten Siegen, danach Rundendifferenz.", bd ? bd.x.toLocaleDateString("de-DE", { weekday: "long" }) : na, bd ? `${bd.w}:${bd.l} · Runden ${bd.rw}:${bd.rl}` : "") +
+      hl("MVP-König", "Meiste MVP-Auszeichnungen.", mvp && mvp.v ? esc(mvp.nick) : na, mvp && mvp.v ? `${mvp.v}× MVP` : "") +
+      hl("Beste Map", "Höchste Gewinnquote (ab 2 Matches auf der Map).", bm ? `${mapName(bm.map)} ${bm.wr}%` : na, bm ? `${bm.w}:${bm.n - bm.w}` : "") +
+      hl("Schlechteste Map", "Niedrigste Gewinnquote (ab 2 Matches auf der Map).", wm ? `${mapName(wm.map)} ${wm.wr}%` : na, wm ? `${wm.w}:${wm.n - wm.w}` : "") +
+      hl("Höchste ELO", "Aktuell höchster ELO-Stand im Stack.", pe ? esc(pe[0]) : na, pe ? `${pe[1].elo} · Lvl ${pe[1].level}` : "");
+  }
+
+  /* ---------- Advanced-Bento ---------- */
+  function renderBento(st, A) {
+    const panel = $("#advPanel"); if (!panel) return;
+    panel.querySelector(".ph .hint").textContent = "Team · " + scope(st.mode) + " · FACEIT Data API";
+    const T = A.T, P = A.P, n = st.set.length;
+    const who = (b, f) => b ? `Best: ${esc(b.nick)} · ${f(b.v)}` : "";
+    const ms = mapStats(st.set).filter(x => x.n >= 2).sort((a, b) => b.wr - a.wr || b.n - a.n);
+    const ace = T["Penta Kills"] || 0;
+    const tiles = [
+      [1, "Entry-SR", "Gewonnene Eröffnungs-Duelle zu allen Eröffnungs-Duellen.", T["Entry Count"] ? `${pct(T["Entry Wins"] || 0, T["Entry Count"])}<span class="pct">%</span>` : null, `${T["Entry Count"] || 0} Duelle · Team`, pct(T["Entry Wins"] || 0, T["Entry Count"] || 0) >= 50 ? "b-up" : ""],
+      [0, "Opening-Kills", "Erste Kills einer Runde, Team gesamt.", T["First Kills"] ?? null, n ? `Ø ${r1((T["First Kills"] || 0) / n)} pro Match` : ""],
+      [0, "Flash-SR", "Anteil der Flashbangs, die mindestens einen Gegner blenden.", T["Flash Count"] ? `${pct(T["Flash Successes"] || 0, T["Flash Count"])}<span class="pct">%</span>` : null, who(best(P, a => pct(a["Flash Successes"] || 0, a["Flash Count"] || 0), a => (a["Flash Count"] || 0) >= 10), v => v + "%")],
+      [0, "Utility Dmg/R", "Granatenschaden (HE, Molotov) pro Spieler und Runde.", T.prounds ? r1((T["Utility Damage"] || 0) / T.prounds) : null, who(best(P, a => a.rounds ? (a["Utility Damage"] || 0) / a.rounds : null), v => r1(v))],
+      [0, "K/R", "Kills pro Runde im Schnitt.", T.prounds ? r2((T.Kills || 0) / T.prounds).toFixed(2) : null, who(best(P, a => a.rounds ? (a.Kills || 0) / a.rounds : null), v => r2(v).toFixed(2))],
+      [1, "Multi-Kills", "Runden mit mehreren Kills eines Spielers (Ace = 5 in einer Runde).", `${ace}<span class="pct"> Ace</span>`, `4k ×${T["Quadro Kills"] || 0} · 3k ×${T["Triple Kills"] || 0} · 2k ×${T["Double Kills"] || 0}`],
+      [1, "Map-Heat", "Gewinnquote pro Map (ab 2 Matches).", ms[0] ? `${mapName(ms[0].map)} <span class="${ms[0].wr >= 50 ? "b-up" : ""}">${ms[0].wr}%</span>` : null, ms.slice(1, 4).map(x => `${mapName(x.map)} ${x.wr}%`).join(" · ")],
+      [0, "Ø Kills", "Durchschnittliche Kills pro Spieler und Match.", A.rows.length ? r1((T.Kills || 0) / A.rows.length) : null, who(best(P, a => a.n ? (a.Kills || 0) / a.n : null), v => r1(v))],
+      [0, "MVP-Sterne", "Summe der MVP-Auszeichnungen.", T.MVPs ?? null, Object.values(P).sort((a, b) => (b.MVPs || 0) - (a.MVPs || 0)).slice(0, 2).map(a => `${esc(a.nick)} ${a.MVPs || 0}`).join(" · "), "b-cyan"],
+      [0, "Headshot-Quote", "Anteil der Kills per Kopfschuss.", T.Kills ? `${pct(T.Headshots || 0, T.Kills)}<span class="pct">%</span>` : null, who(best(P, a => pct(a.Headshots || 0, a.Kills || 0), a => (a.Kills || 0) >= 20), v => v + "%")],
+      [0, "Sniper-Kills", "Kills mit AWP oder Scout.", T["Sniper Kills"] ?? null, who(best(P, a => a["Sniper Kills"] || 0), v => v)],
+      [1, "Clutches", "Runden, die ein Spieler allein gegen mehrere gewinnt (1v2 = gegen zwei).", T["1v2Count"] ? `1v2 ${pct(T["1v2Wins"] || 0, T["1v2Count"])}<span class="pct">%</span>` : null, `1v1 ${T["1v1Count"] ? pct(T["1v1Wins"] || 0, T["1v1Count"]) + "%" : "—"} · ${(T["1v1Wins"] || 0) + (T["1v2Wins"] || 0)} gewonnen`],
+      [0, "Pistol-Kills", "Kills mit Pistolen.", T["Pistol Kills"] ?? null, who(best(P, a => a["Pistol Kills"] || 0), v => v)],
+      [0, "Ø ADR", "Schaden pro Runde, Durchschnitt pro Spieler.", A.rows.length ? Math.round(A.rows.reduce((x, r) => x + S(r.s, "ADR"), 0) / A.rows.length) : null, who(best(P, a => a.n ? a.adr / a.n : null), v => Math.round(v))],
+      [0, "Zeus & Messer", "Kills mit Taser und Messer.", (T["Zeus Kills"] || 0) + (T["Knife Kills"] || 0), `Zeus ${T["Zeus Kills"] || 0} · Messer ${T["Knife Kills"] || 0}`],
+      [0, "Geblendete Gegner", "Gegner, die durch eigene Flashbangs geblendet wurden.", T["Enemies Flashed"] ?? null, who(best(P, a => a["Enemies Flashed"] || 0), v => v)],
+    ];
+    panel.querySelector(".bento.adv2").innerHTML = tiles.map(([wide, k, t, v, sub, cls]) =>
+      `<div class="b-tile${wide ? " wide" : ""}"><div class="k">${k}${tip(t)}</div><div class="v ${v == null ? "na" : (cls || "")}">${v == null ? "—" : v}</div><div class="sub">${sub || ""}</div></div>`).join("");
+  }
+
+  /* ---------- Gesamt ---------- */
+  function render() {
+    if (!DATA) return;
+    const st = state(), A = aggregate(st.set);
+    const changed = lastMode && lastMode !== st.mode;
+    const goneLive = lastMode === "wait" && st.mode === "live";
+    lastMode = st.mode;
+    document.body.classList.remove("st-warm", "st-wait", "st-live"); document.body.classList.add("st-" + st.mode);
+    renderFocus(st); renderKpis(st); renderScore(st, A); renderMatches(st); renderHighlights(st, A); renderBento(st, A);
+    const fs = $("#footStand"); if (fs && DATA.updated_at) fs.textContent = new Date(DATA.updated_at).toLocaleTimeString("de-DE", { hour: "2-digit", minute: "2-digit" });
+    if (goneLive) liveFlip();
+    else if (st.mode === "live" && lastTopId && st.set[0] && st.set[0].match_id !== lastTopId) liveFlip(true);
+    lastTopId = st.set[0] ? st.set[0].match_id : null;
+    return changed;
+  }
+  function load() {
+    return fetch("stats.json?t=" + Date.now(), { cache: "no-store" }).then(r => r.ok ? r.json() : Promise.reject(r.status))
+      .then(j => { if (j && Array.isArray(j.matches)) { DATA = j; render(); } })
+      .catch(() => { if (!DATA) window.toast && toast("<b>Keine Daten.</b> stats.json nicht erreichbar, neuer Versuch in 1 Min."); });
+  }
+  load(); setInterval(() => { if (!document.hidden) load(); }, POLL_MS);
+  document.addEventListener("visibilitychange", () => { if (!document.hidden) load(); });
+
+  /* ================= SOUND (WebAudio, selbst erzeugt, keine Dateien) ================= */
+  let AC = null;
+  function ac() { if (!AC) { const C = window.AudioContext || window.webkitAudioContext; if (!C) return null; AC = new C(); } if (AC.state === "suspended") AC.resume(); return AC; }
+  function noiseBuf(c, sec) { const b = c.createBuffer(1, c.sampleRate * sec, c.sampleRate), d = b.getChannelData(0); for (let i = 0; i < d.length; i++) d[i] = Math.random() * 2 - 1; return b; }
+  function master(c) {
+    const comp = c.createDynamicsCompressor(); comp.threshold.value = -10; comp.ratio.value = 4;
+    const g = c.createGain(); g.gain.value = 0.85; g.connect(comp); comp.connect(c.destination); return g;
+  }
+  function sfxStart() {
+    const c = ac(); if (!c) return; const t = c.currentTime + 0.02, out = master(c);
+    // 1) Aufladen: Rauschen durch Bandpass, Frequenz steigt (Whoosh)
+    const n = c.createBufferSource(); n.buffer = noiseBuf(c, 0.6);
+    const bp = c.createBiquadFilter(); bp.type = "bandpass"; bp.Q.value = 1.2; bp.frequency.setValueAtTime(300, t); bp.frequency.exponentialRampToValueAtTime(5000, t + 0.42);
+    const ng = c.createGain(); ng.gain.setValueAtTime(0.0001, t); ng.gain.exponentialRampToValueAtTime(0.5, t + 0.35); ng.gain.exponentialRampToValueAtTime(0.0001, t + 0.5);
+    n.connect(bp); bp.connect(ng); ng.connect(out); n.start(t); n.stop(t + 0.6);
+    // 2) Knall: tiefer Sinus fällt (Bass-Schlag) + gefiltertes Rauschen
+    const tb = t + 0.42;
+    const o = c.createOscillator(); o.type = "sine"; o.frequency.setValueAtTime(140, tb); o.frequency.exponentialRampToValueAtTime(38, tb + 0.6);
+    const og = c.createGain(); og.gain.setValueAtTime(1.0, tb); og.gain.exponentialRampToValueAtTime(0.0001, tb + 0.9);
+    o.connect(og); og.connect(out); o.start(tb); o.stop(tb + 1);
+    const b = c.createBufferSource(); b.buffer = noiseBuf(c, 0.8);
+    const lp = c.createBiquadFilter(); lp.type = "lowpass"; lp.frequency.setValueAtTime(2400, tb); lp.frequency.exponentialRampToValueAtTime(200, tb + 0.7);
+    const bg = c.createGain(); bg.gain.setValueAtTime(0.7, tb); bg.gain.exponentialRampToValueAtTime(0.0001, tb + 0.75);
+    b.connect(lp); lp.connect(bg); bg.connect(out); b.start(tb); b.stop(tb + 0.8);
+    // 3) Kurzer Ton nach oben (zwei Stimmen) zum "GO"
+    [0, 7].forEach((semi, i) => {
+      const tt = tb + 0.18 + i * 0.09, f = 440 * Math.pow(2, semi / 12);
+      const s = c.createOscillator(); s.type = "triangle"; s.frequency.setValueAtTime(f, tt); s.frequency.exponentialRampToValueAtTime(f * 2, tt + 0.22);
+      const sg = c.createGain(); sg.gain.setValueAtTime(0.0001, tt); sg.gain.exponentialRampToValueAtTime(0.28, tt + 0.03); sg.gain.exponentialRampToValueAtTime(0.0001, tt + 0.45);
+      s.connect(sg); sg.connect(out); s.start(tt); s.stop(tt + 0.5);
+    });
+  }
+  function sfxPing() {
+    const c = ac(); if (!c || c.state !== "running") return; const t = c.currentTime + 0.02, out = master(c);
+    [0, 4, 7].forEach((semi, i) => { const tt = t + i * 0.08, s = c.createOscillator(), g = c.createGain();
+      s.type = "sine"; s.frequency.value = 660 * Math.pow(2, semi / 12);
+      g.gain.setValueAtTime(0.0001, tt); g.gain.exponentialRampToValueAtTime(0.22, tt + 0.02); g.gain.exponentialRampToValueAtTime(0.0001, tt + 0.35);
+      s.connect(g); g.connect(out); s.start(tt); s.stop(tt + 0.4); });
+  }
+
+  /* ================= START-EFFEKT (Canvas + CSS, ohne Bibliothek) ================= */
+  const reduce = () => matchMedia("(prefers-reduced-motion: reduce)").matches;
+  function ensureFx() {
+    if ($("#fxCanvas")) return;
+    const cv = document.createElement("canvas"); cv.id = "fxCanvas"; document.body.appendChild(cv);
+    const sk = document.createElement("div"); sk.id = "fxStreak"; document.body.appendChild(sk);
+    const go = document.createElement("div"); go.id = "fxGo"; go.textContent = "GO GO GO"; document.body.appendChild(go);
+  }
+  function burst(x, y) {
+    const cv = $("#fxCanvas"), cx = cv.getContext("2d"), dpr = Math.min(2, window.devicePixelRatio || 1);
+    cv.width = innerWidth * dpr; cv.height = innerHeight * dpr; cx.scale(dpr, dpr);
+    const cols = ["#6ff0ff", "#17b8dd", "#ffffff", "#ffb347", "#ff7a1a"], P = [];
+    const big = Math.max(innerWidth, innerHeight);
+    for (let i = 0; i < 260; i++) { const a = Math.random() * 6.283, sp = (0.25 + Math.random()) * big / 55;
+      P.push({ x, y, vx: Math.cos(a) * sp, vy: Math.sin(a) * sp, r: 1.5 + Math.random() * 4.5, c: cols[i % cols.length], life: 1, dec: 0.008 + Math.random() * 0.014 }); }
+    let ring = 0; const t0 = performance.now();
+    (function tick(now) {
+      cx.clearRect(0, 0, innerWidth, innerHeight);
+      ring = (now - t0) / 1000;
+      if (ring < 0.6) { cx.beginPath(); cx.arc(x, y, ring * big * 1.4, 0, 6.283); cx.strokeStyle = `rgba(160,240,255,${(0.6 - ring) * 1.4})`; cx.lineWidth = 6 + 30 * (0.6 - ring); cx.stroke(); }
+      if (ring < 0.18) { const g = cx.createRadialGradient(x, y, 0, x, y, big * 0.5); g.addColorStop(0, `rgba(255,255,255,${0.9 - ring * 5})`); g.addColorStop(1, "rgba(255,255,255,0)"); cx.fillStyle = g; cx.fillRect(0, 0, innerWidth, innerHeight); }
+      let alive = 0;
+      P.forEach(p => { if (p.life <= 0) return; alive++;
+        p.x += p.vx; p.y += p.vy; p.vx *= 0.955; p.vy = p.vy * 0.955 + 0.12; p.life -= p.dec;
+        cx.globalAlpha = Math.max(0, p.life); cx.fillStyle = p.c; cx.shadowColor = p.c; cx.shadowBlur = 12;
+        cx.beginPath(); cx.arc(p.x, p.y, p.r * (0.5 + p.life), 0, 6.283); cx.fill(); });
+      cx.globalAlpha = 1; cx.shadowBlur = 0;
+      if (alive || ring < 0.6) requestAnimationFrame(tick); else cx.clearRect(0, 0, innerWidth, innerHeight);
+    })(t0);
+  }
+  /* Effekt abspielen. commit=true speichert den Start, false = nur Test. */
+  function playStart(commit) {
+    ensureFx(); sfxStart();
+    const btn = $("#btnGo"), r = btn ? btn.getBoundingClientRect() : { left: innerWidth / 2, top: innerHeight / 2, width: 0, height: 0 };
+    const x = r.left + r.width / 2, y = r.top + r.height / 2;
+    if (btn) btn.classList.add("charge");
+    const go = $("#fxGo"), sk = $("#fxStreak");
+    setTimeout(() => {
+      if (btn) btn.classList.add("gone");
+      if (!reduce()) { burst(x, y); sk.classList.remove("run"); void sk.offsetWidth; sk.classList.add("run");
+        document.body.classList.add("fx-shake"); setTimeout(() => document.body.classList.remove("fx-shake"), 500); }
+      go.classList.remove("run"); void go.offsetWidth; go.classList.add("run");
+      if (commit) {
+        localStorage.setItem(LS_TS, String(Date.now()));
+        const snap = {}; Object.entries((DATA && DATA.players) || {}).forEach(([n, p]) => { if (p.elo != null) snap[n] = p.elo; });
+        localStorage.setItem(LS_ELO, JSON.stringify(snap));
+        localStorage.removeItem("sb-started");
+        setTimeout(() => { render(); toast("<b>Läuft.</b> Ab jetzt zählt jedes Stack-Match, das nach diesem Klick endet."); }, 700);
+      } else setTimeout(() => btn && btn.classList.remove("charge", "gone"), 1800);
+    }, 420);
+  }
+  function liveFlip(small) {
+    const els = $$(".kpis .kpi, #advPanel .b-tile, aside.hls .hl, #scorePanel .carry-row:not(.head)");
+    els.forEach((e, i) => { e.classList.remove("flip"); void e.offsetWidth; e.style.animationDelay = (i * 0.035) + "s"; e.classList.add("flip"); });
+    sfxPing();
+    if (!small) toast("<b>Wochenende live!</b> Das erste Match ist drin.");
+  }
+
+  /* ---------- Knöpfe ---------- */
+  $("#mCancel").onclick = () => $("#startModal").classList.remove("show");
+  $("#mConfirm").onclick = () => { $("#startModal").classList.remove("show"); playStart(true); };
+  $("#btnReset").onclick = () => { if (window.drawerOpen) drawerOpen(false); $("#resetModal").classList.add("show"); };
+  $("#rCancel").onclick = () => $("#resetModal").classList.remove("show");
+  $("#rConfirm").onclick = () => {
+    $("#resetModal").classList.remove("show");
+    localStorage.removeItem(LS_TS); localStorage.removeItem(LS_ELO); localStorage.removeItem("sb-started");
+    render(); toast("Zurück im Aufwärm-Modus. Die FACEIT-Daten bleiben erhalten.");
+  };
+  const fxBtn = $("#btnFxTest");
+  if (fxBtn) fxBtn.onclick = () => { if (window.drawerOpen) drawerOpen(false); setTimeout(() => playStart(false), 250); };
+  window.sbDebug = { render, state: () => state().mode, data: () => DATA, playStart };
 })();
 </script>
 </body>
