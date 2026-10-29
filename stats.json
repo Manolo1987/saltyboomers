@@ -1,0 +1,22 @@
+{
+  "generated_at": "2026-10-29T12:35:43.252040+00:00",
+  "match_count": 30,
+  "bento": {
+    "headshot_pct": null,
+    "trade_kills": null,
+    "eco_winrate": null,
+    "pistol_winrate": null
+  },
+  "highlights": {
+    "best_map": {
+      "map": "de_dust2",
+      "winrate": 66.7
+    },
+    "worst_map": {
+      "map": "de_anubis",
+      "winrate": 33.3
+    },
+    "elo_peak": null
+  },
+  "note": "Felder mit null: in der Match-API nicht gefunden (Payload prüfen)."
+}
