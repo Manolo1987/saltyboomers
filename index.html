@@ -9,7 +9,7 @@
 <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=VT323&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root {
   --bg: #060607;
@@ -273,7 +273,7 @@ a.room:hover { text-decoration: underline; }
 
 /* ---- Carry-Board (Kartenzeilen statt Tablette) ---- */
 .carry-row {
-  display: grid; grid-template-columns: 26px 34px minmax(130px, 1.5fr) 1fr 1fr 1fr 56px;
+  display: grid; grid-template-columns: 26px 34px minmax(110px, 1.5fr) 30px 1fr 1fr 1fr 56px 74px;
   gap: 8px; align-items: center; padding: 3px 14px;
   border-bottom: 1px solid rgba(255,255,255,.05);
   transition: background .15s;
@@ -309,6 +309,30 @@ a.room:hover { text-decoration: underline; }
 .carry-bar i { display: block; height: 100%; border-radius: 4px;
   background: linear-gradient(90deg, rgba(200,206,212,.4), var(--cyan));
   box-shadow: 0 0 10px rgba(200,206,212,.6); width: 0; transition: width 1.1s cubic-bezier(.2,.8,.25,1); }
+
+
+/* Level- und ELO-Spalten: feste Breite, Badge rechts neben dem Namen */
+.carry-row .lvl { display: flex; align-items: center; justify-content: flex-start; }
+.carry-row .lvl .flvl { width: 30px; height: 30px; }
+.carry-row .elo { display: flex; align-items: center; justify-content: flex-end; }
+.carry-row .elo-chip { font-size: 15px; font-weight: 700; font-family: var(--font-num); letter-spacing: .02em; white-space: nowrap; }
+.carry-row.head > span:nth-last-child(1), .carry-row.head > span:nth-last-child(2) { text-align: right; }
+
+
+/* ---- Info-Icon mit Tooltip ---- */
+.info { display: inline-flex; align-items: center; justify-content: center; position: relative;
+  width: calc(14 * var(--u)); height: calc(14 * var(--u)); margin-left: .45em; vertical-align: middle;
+  border-radius: 50%; border: 1px solid rgba(200,206,212,.45); color: var(--muted);
+  font: 700 calc(9 * var(--u))/1 "Inter", sans-serif; text-transform: none; letter-spacing: 0;
+  cursor: help; user-select: none; opacity: .75; }
+.info:hover, .info:focus { opacity: 1; color: var(--ink); border-color: var(--ink); outline: none; }
+.info::after { content: attr(data-tip); position: absolute; left: 50%; bottom: calc(100% + 8px);
+  transform: translateX(-50%) translateY(4px); width: max-content; max-width: calc(260 * var(--u));
+  padding: calc(8 * var(--u)) calc(10 * var(--u)); border-radius: 8px; background: rgba(12,14,20,.96);
+  border: 1px solid rgba(200,206,212,.25); color: var(--ink); font: 500 calc(12 * var(--u))/1.35 "Inter", sans-serif;
+  text-transform: none; letter-spacing: 0; white-space: normal; text-align: left; pointer-events: none;
+  opacity: 0; transition: opacity .15s, transform .15s; z-index: 50; box-shadow: 0 8px 24px rgba(0,0,0,.5); }
+.info:hover::after, .info:focus::after { opacity: 1; transform: translateX(-50%) translateY(0); }
 
 /* ---- FACEIT-Level-Badges (Original-Ring, 1:1 wie FACEIT-Rebrand) ---- */
 .flvl { width: 20px; height: 20px; flex: none; filter: drop-shadow(0 2px 5px rgba(0,0,0,.6)); }
@@ -591,7 +615,7 @@ table.adv td.best { color: var(--cyan); text-shadow: 0 0 14px rgba(200,206,212,.
   #scorePanel .carry-row:not(.head) { grid-auto-rows: minmax(0, auto); row-gap: 0; }
   /* Eine Reihe statt Umbruch: Spalten an schmale Stats-Spalte anpassen */
   #scorePanel .carry-row {
-    grid-template-columns: calc(20*var(--u)) calc(28*var(--u)) minmax(0,1.6fr) repeat(3, minmax(0,1fr)) calc(40*var(--u));
+    grid-template-columns: calc(20*var(--u)) calc(28*var(--u)) minmax(0,1.6fr) calc(30*var(--u)) repeat(3, minmax(0,1fr)) calc(40*var(--u)) calc(60*var(--u));
     column-gap: calc(6 * var(--u)); }
   #scorePanel .carry-bar { grid-column: 1 / -1; height: calc(2 * var(--u)); margin-top: calc(1 * var(--u)); }
   /* Panel bekommt die fehlende Hoehe: Matches-Block gibt sie ab */
@@ -686,7 +710,7 @@ table.adv td.best { color: var(--cyan); text-shadow: 0 0 14px rgba(200,206,212,.
   .f-links { gap: calc(14 * var(--u)); margin-top: calc(2 * var(--u)); }
   .view-tabs { gap: calc(8 * var(--u)); margin-bottom: calc(8 * var(--u)); }
   .carry-row, #scorePanel .carry-row { padding-left: var(--px); padding-right: var(--px); column-gap: calc(10 * var(--u)); }
-  #scorePanel .carry-row { grid-template-columns: calc(22*var(--u)) calc(32*var(--u)) minmax(0,1.6fr) repeat(3, minmax(0,1fr)) calc(44*var(--u)); }
+  #scorePanel .carry-row { grid-template-columns: calc(22*var(--u)) calc(32*var(--u)) minmax(0,1.6fr) calc(34*var(--u)) repeat(3, minmax(0,1fr)) calc(44*var(--u)) calc(70*var(--u)); }
   #scorePanel .carry-row.head { padding-top: calc(4 * var(--u)); padding-bottom: calc(4 * var(--u)); }
   .fb-row { padding: calc(4 * var(--u)) calc(14 * var(--u)); gap: calc(10 * var(--u));
             grid-template-columns: minmax(0, 1.3fr) .95fr .6fr .6fr .75fr; }
@@ -792,8 +816,9 @@ table.adv td.best { color: var(--cyan); text-shadow: 0 0 14px rgba(200,206,212,.
     mask-image: linear-gradient(90deg, transparent, #000 3%, #000 97%, transparent); }
   .ticker-quote { position: absolute; top: 50%; left: 0; white-space: nowrap; will-change: transform;
     transform: translate(100vw, -50%);
-    font-family: var(--font-num); font-size: calc(24 * var(--u)); font-weight: 700; line-height: 1;
-    letter-spacing: .12em; text-transform: uppercase; color: var(--ink); }
+    font-family: "VT323", monospace; font-size: calc(34 * var(--u)); font-weight: 400; line-height: 1;
+    letter-spacing: .06em; text-transform: uppercase; color: var(--ink);
+    -webkit-font-smoothing: none; font-smooth: never; image-rendering: pixelated; }
   #bgToast { bottom: calc(var(--bar) + var(--sp) * 2); }
 
   /* Schmale Screens (kein TV): stapeln, Scroll erlaubt */
@@ -842,7 +867,7 @@ table.adv td.best { color: var(--cyan); text-shadow: 0 0 14px rgba(200,206,212,.
   .pname .nick { font-size: calc(20 * var(--u)); }
   #scorePanel .rank { font-size: calc(22 * var(--u)); }
   .carry-row .avatar, #scorePanel .carry-row .avatar { width: calc(48 * var(--u)); height: calc(48 * var(--u)); }
-  #scorePanel .carry-row { grid-template-columns: calc(30*var(--u)) calc(48*var(--u)) minmax(0,1.8fr) repeat(3, minmax(0,1fr)) calc(56*var(--u)); }
+  #scorePanel .carry-row { grid-template-columns: calc(30*var(--u)) calc(48*var(--u)) minmax(0,1.8fr) calc(40*var(--u)) repeat(3, minmax(0,1fr)) calc(56*var(--u)) calc(84*var(--u)); }
 
   /* Advanced-Board: Kacheln teilen sich die verfügbare Höhe → passt immer */
   #advPanel .bento { flex: 1 1 0; min-height: 0; grid-template-columns: repeat(4, minmax(0,1fr));
@@ -882,7 +907,6 @@ table.adv td.best { color: var(--cyan); text-shadow: 0 0 14px rgba(200,206,212,.
   .b-cyan, table.adv td.best { color: var(--accent); text-shadow: none; }
   .bar { border-top: 1px solid transparent;
     border-image: linear-gradient(90deg, transparent, var(--accent-edge) 20%, var(--accent-edge) 80%, transparent) 1; }
-  .ticker-quote::before { content: "◆"; color: var(--accent); margin-right: .7em; font-size: .6em; vertical-align: .25em; }
 
   @media (max-width: 1100px) {
     main { display: flex; flex-direction: column; }
@@ -961,11 +985,11 @@ table.adv td.best { color: var(--cyan); text-shadow: 0 0 14px rgba(200,206,212,.
 
     <!-- KPIs -->
     <section class="kpis">
-      <div class="kpi"><div class="lbl">Matches</div><div class="val" data-count="10">0</div></div>
-      <div class="kpi"><div class="lbl">Bilanz</div><div class="val">7<span class="colon">:</span>3</div></div>
-      <div class="kpi"><div class="lbl">Winrate</div><div class="val" data-count="70" data-suffix="%">0%</div></div>
+      <div class="kpi"><div class="lbl">Matches<span class="info" tabindex="0" data-tip="Anzahl gespielter Matches in dieser Session." aria-label="Anzahl gespielter Matches in dieser Session.">i</span></div><div class="val" data-count="10">0</div></div>
+      <div class="kpi"><div class="lbl">Bilanz<span class="info" tabindex="0" data-tip="Siege : Niederlagen in dieser Session." aria-label="Siege : Niederlagen in dieser Session.">i</span></div><div class="val">7<span class="colon">:</span>3</div></div>
+      <div class="kpi"><div class="lbl">Winrate<span class="info" tabindex="0" data-tip="Anteil gewonnener Matches in Prozent." aria-label="Anteil gewonnener Matches in Prozent.">i</span></div><div class="val" data-count="70" data-suffix="%">0%</div></div>
       <div class="kpi">
-        <div class="lbl">Win-Streak</div>
+        <div class="lbl">Win-Streak<span class="info" tabindex="0" data-tip="Anzahl Siege in Folge bis zum aktuellen Stand." aria-label="Anzahl Siege in Folge bis zum aktuellen Stand.">i</span></div>
         <div class="streak-wrap">
           <svg class="flame-ico" viewBox="0 0 24 28" fill="none">
             <path d="M12 1C13 6 20 8 20 16a8 8 0 1 1-16 0C4 11 8 9 9 5c1 2 3 3 3 6 0 0 0-6 0-10z" fill="url(#fg)"/>
@@ -976,8 +1000,8 @@ table.adv td.best { color: var(--cyan); text-shadow: 0 0 14px rgba(200,206,212,.
           <span class="burn" data-count="4">0</span>
         </div>
       </div>
-      <div class="kpi"><div class="lbl">Runden</div><div class="val">112<span class="colon">:</span>89</div></div>
-      <div class="kpi"><div class="lbl">ELO-Verlauf</div><div class="val up" data-count="94" data-prefix="+" data-suffix="">+0</div></div>
+      <div class="kpi"><div class="lbl">Runden<span class="info" tabindex="0" data-tip="Gewonnene : verlorene Runden über alle Matches." aria-label="Gewonnene : verlorene Runden über alle Matches.">i</span></div><div class="val">112<span class="colon">:</span>89</div></div>
+      <div class="kpi"><div class="lbl">ELO-Verlauf<span class="info" tabindex="0" data-tip="Summe der ELO-Punkte, die über alle Matches gewonnen (+) oder verloren (−) wurden." aria-label="Summe der ELO-Punkte, die über alle Matches gewonnen (+) oder verloren (−) wurden.">i</span></div><div class="val up" data-count="94" data-prefix="+" data-suffix="">+0</div></div>
     </section>
 
     <!-- Carry + Highlights -->
@@ -994,23 +1018,20 @@ table.adv td.best { color: var(--cyan); text-shadow: 0 0 14px rgba(200,206,212,.
           <span class="hint">Kills, K/D, HS%, MVPs — gewichtet</span>
         </div>
         <div class="carry-row head">
-          <span>#</span><span></span><span>Spieler</span>
+          <span>#</span><span></span><span>Spieler</span><span></span>
           <span style="text-align:right">Kills<small>Deaths</small></span>
           <span style="text-align:right">K/D</span>
           <span style="text-align:right">HS%</span>
           <span style="text-align:right">MVP</span>
+          <span style="text-align:right">ELO</span>
         </div>
 
         <div class="carry-row top">
           <span class="rank">1</span>
           <img class="avatar" src="https://distribution.faceit-cdn.net/images/0a227bd4-6955-4af8-af06-3623d5041ce9.jpg" alt="">
-          <div class="pname">
-            <span class="nick">-neon666</span>
-            <span class="lvlrow">
-              <svg class="flvl" viewBox="0 0 24 24"><defs><linearGradient id="lgn10" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FF4A5E"/><stop offset="1" stop-color="#E00030"/></linearGradient></defs><circle cx="12" cy="12" r="10.6" fill="#0b0b0d"/><path d="M 6.5,18.4 A 8.4,8.4 0 1 1 17.5,18.4" fill="none" stroke="#3f3f46" stroke-width="2.5" stroke-linecap="round"/><path d="M 6.5,18.4 A 8.4,8.4 0 1 1 17.5,18.4" fill="none" stroke="url(#lgn10)" stroke-width="2.5" stroke-linecap="round" pathLength="10" stroke-dasharray="10 10000"/><text x="12" y="12.9">10</text></svg>
-              <span class="elo-chip up">+52 ELO</span>
-            </span>
-          </div>
+          <div class="pname"><span class="nick">-neon666</span></div>
+          <div class="lvl"><svg class="flvl" viewBox="0 0 24 24"><defs><linearGradient id="lgn10" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FF4A5E"/><stop offset="1" stop-color="#E00030"/></linearGradient></defs><circle cx="12" cy="12" r="10.6" fill="#0b0b0d"/><path d="M 6.5,18.4 A 8.4,8.4 0 1 1 17.5,18.4" fill="none" stroke="#3f3f46" stroke-width="2.5" stroke-linecap="round"/><path d="M 6.5,18.4 A 8.4,8.4 0 1 1 17.5,18.4" fill="none" stroke="url(#lgn10)" stroke-width="2.5" stroke-linecap="round" pathLength="10" stroke-dasharray="10 10000"/><text x="12" y="12.9">10</text></svg></div>
+          <div class="elo"><span class="elo-chip up">+52 ELO</span></div>
           <div class="num">68<small>Deaths 41</small></div>
           <div class="num kd-good">1.66</div>
           <div class="num">58<span class="pct">%</span></div>
@@ -1021,13 +1042,9 @@ table.adv td.best { color: var(--cyan); text-shadow: 0 0 14px rgba(200,206,212,.
         <div class="carry-row">
           <span class="rank">2</span>
           <img class="avatar" src="https://distribution.faceit-cdn.net/images/b05feccf-e6c1-4729-80f7-289d8a90343f.jpg" alt="">
-          <div class="pname">
-            <span class="nick">kokolorez</span>
-            <span class="lvlrow">
-              <svg class="flvl" viewBox="0 0 24 24"><defs><linearGradient id="lgn9" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FE630A"/><stop offset="1" stop-color="#D64A00"/></linearGradient></defs><circle cx="12" cy="12" r="10.6" fill="#0b0b0d"/><path d="M 6.5,18.4 A 8.4,8.4 0 1 1 17.5,18.4" fill="none" stroke="#3f3f46" stroke-width="2.5" stroke-linecap="round"/><path d="M 6.5,18.4 A 8.4,8.4 0 1 1 17.5,18.4" fill="none" stroke="url(#lgn9)" stroke-width="2.5" stroke-linecap="round" pathLength="10" stroke-dasharray="9 10000"/><text x="12" y="12.9">9</text></svg>
-              <span class="elo-chip up">+31 ELO</span>
-            </span>
-          </div>
+          <div class="pname"><span class="nick">kokolorez</span></div>
+          <div class="lvl"><svg class="flvl" viewBox="0 0 24 24"><defs><linearGradient id="lgn9" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FE630A"/><stop offset="1" stop-color="#D64A00"/></linearGradient></defs><circle cx="12" cy="12" r="10.6" fill="#0b0b0d"/><path d="M 6.5,18.4 A 8.4,8.4 0 1 1 17.5,18.4" fill="none" stroke="#3f3f46" stroke-width="2.5" stroke-linecap="round"/><path d="M 6.5,18.4 A 8.4,8.4 0 1 1 17.5,18.4" fill="none" stroke="url(#lgn9)" stroke-width="2.5" stroke-linecap="round" pathLength="10" stroke-dasharray="9 10000"/><text x="12" y="12.9">9</text></svg></div>
+          <div class="elo"><span class="elo-chip up">+31 ELO</span></div>
           <div class="num">57<small>Deaths 47</small></div>
           <div class="num kd-good">1.21</div>
           <div class="num">47<span class="pct">%</span></div>
@@ -1038,13 +1055,9 @@ table.adv td.best { color: var(--cyan); text-shadow: 0 0 14px rgba(200,206,212,.
         <div class="carry-row">
           <span class="rank">3</span>
           <img class="avatar" src="https://assets.faceit-cdn.net/avatars/e0fea518-3b2c-4bfd-9ed5-beb730cd335f_1586109360935.jpg" alt="">
-          <div class="pname">
-            <span class="nick">theunc666</span>
-            <span class="lvlrow">
-              <svg class="flvl" viewBox="0 0 24 24"><defs><linearGradient id="lgn8" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FE7A0A"/><stop offset="1" stop-color="#E05A00"/></linearGradient></defs><circle cx="12" cy="12" r="10.6" fill="#0b0b0d"/><path d="M 6.5,18.4 A 8.4,8.4 0 1 1 17.5,18.4" fill="none" stroke="#3f3f46" stroke-width="2.5" stroke-linecap="round"/><path d="M 6.5,18.4 A 8.4,8.4 0 1 1 17.5,18.4" fill="none" stroke="url(#lgn8)" stroke-width="2.5" stroke-linecap="round" pathLength="10" stroke-dasharray="8 10000"/><text x="12" y="12.9">8</text></svg>
-              <span class="elo-chip up">+18 ELO</span>
-            </span>
-          </div>
+          <div class="pname"><span class="nick">theunc666</span></div>
+          <div class="lvl"><svg class="flvl" viewBox="0 0 24 24"><defs><linearGradient id="lgn8" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FE7A0A"/><stop offset="1" stop-color="#E05A00"/></linearGradient></defs><circle cx="12" cy="12" r="10.6" fill="#0b0b0d"/><path d="M 6.5,18.4 A 8.4,8.4 0 1 1 17.5,18.4" fill="none" stroke="#3f3f46" stroke-width="2.5" stroke-linecap="round"/><path d="M 6.5,18.4 A 8.4,8.4 0 1 1 17.5,18.4" fill="none" stroke="url(#lgn8)" stroke-width="2.5" stroke-linecap="round" pathLength="10" stroke-dasharray="8 10000"/><text x="12" y="12.9">8</text></svg></div>
+          <div class="elo"><span class="elo-chip up">+18 ELO</span></div>
           <div class="num">54<small>Deaths 48</small></div>
           <div class="num kd-good">1.13</div>
           <div class="num">52<span class="pct">%</span></div>
@@ -1055,13 +1068,9 @@ table.adv td.best { color: var(--cyan); text-shadow: 0 0 14px rgba(200,206,212,.
         <div class="carry-row">
           <span class="rank">4</span>
           <img class="avatar" src="https://distribution.faceit-cdn.net/images/e189caeb-c1dd-44f4-80ef-cff85c14d9ad.jpg" alt="">
-          <div class="pname">
-            <span class="nick">Shpooople</span>
-            <span class="lvlrow">
-              <svg class="flvl" viewBox="0 0 24 24"><defs><linearGradient id="lgn7" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFB014"/><stop offset="1" stop-color="#F08A00"/></linearGradient></defs><circle cx="12" cy="12" r="10.6" fill="#0b0b0d"/><path d="M 6.5,18.4 A 8.4,8.4 0 1 1 17.5,18.4" fill="none" stroke="#3f3f46" stroke-width="2.5" stroke-linecap="round"/><path d="M 6.5,18.4 A 8.4,8.4 0 1 1 17.5,18.4" fill="none" stroke="url(#lgn7)" stroke-width="2.5" stroke-linecap="round" pathLength="10" stroke-dasharray="7 10000"/><text x="12" y="12.9">7</text></svg>
-              <span class="elo-chip down">−12 ELO</span>
-            </span>
-          </div>
+          <div class="pname"><span class="nick">Shpooople</span></div>
+          <div class="lvl"><svg class="flvl" viewBox="0 0 24 24"><defs><linearGradient id="lgn7" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFB014"/><stop offset="1" stop-color="#F08A00"/></linearGradient></defs><circle cx="12" cy="12" r="10.6" fill="#0b0b0d"/><path d="M 6.5,18.4 A 8.4,8.4 0 1 1 17.5,18.4" fill="none" stroke="#3f3f46" stroke-width="2.5" stroke-linecap="round"/><path d="M 6.5,18.4 A 8.4,8.4 0 1 1 17.5,18.4" fill="none" stroke="url(#lgn7)" stroke-width="2.5" stroke-linecap="round" pathLength="10" stroke-dasharray="7 10000"/><text x="12" y="12.9">7</text></svg></div>
+          <div class="elo"><span class="elo-chip down">−12 ELO</span></div>
           <div class="num">46<small>Deaths 47</small></div>
           <div class="num kd-bad">0.98</div>
           <div class="num">44<span class="pct">%</span></div>
@@ -1072,13 +1081,9 @@ table.adv td.best { color: var(--cyan); text-shadow: 0 0 14px rgba(200,206,212,.
         <div class="carry-row">
           <span class="rank">5</span>
           <img class="avatar" src="https://assets.faceit-cdn.net/avatars/1db98bfd-afce-419a-ad6f-c18d5db53601_1557778115480.jpg" alt="">
-          <div class="pname">
-            <span class="nick">amaseling</span>
-            <span class="lvlrow">
-              <svg class="flvl" viewBox="0 0 24 24"><defs><linearGradient id="lgn5" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFC82E"/><stop offset="1" stop-color="#EFA500"/></linearGradient></defs><circle cx="12" cy="12" r="10.6" fill="#0b0b0d"/><path d="M 6.5,18.4 A 8.4,8.4 0 1 1 17.5,18.4" fill="none" stroke="#3f3f46" stroke-width="2.5" stroke-linecap="round"/><path d="M 6.5,18.4 A 8.4,8.4 0 1 1 17.5,18.4" fill="none" stroke="url(#lgn5)" stroke-width="2.5" stroke-linecap="round" pathLength="10" stroke-dasharray="5 10000"/><text x="12" y="12.9">5</text></svg>
-              <span class="elo-chip up">+5 ELO</span>
-            </span>
-          </div>
+          <div class="pname"><span class="nick">amaseling</span></div>
+          <div class="lvl"><svg class="flvl" viewBox="0 0 24 24"><defs><linearGradient id="lgn5" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFC82E"/><stop offset="1" stop-color="#EFA500"/></linearGradient></defs><circle cx="12" cy="12" r="10.6" fill="#0b0b0d"/><path d="M 6.5,18.4 A 8.4,8.4 0 1 1 17.5,18.4" fill="none" stroke="#3f3f46" stroke-width="2.5" stroke-linecap="round"/><path d="M 6.5,18.4 A 8.4,8.4 0 1 1 17.5,18.4" fill="none" stroke="url(#lgn5)" stroke-width="2.5" stroke-linecap="round" pathLength="10" stroke-dasharray="5 10000"/><text x="12" y="12.9">5</text></svg></div>
+          <div class="elo"><span class="elo-chip up">+5 ELO</span></div>
           <div class="num">39<small>Deaths 46</small></div>
           <div class="num kd-bad">0.84</div>
           <div class="num">39<span class="pct">%</span></div>
@@ -1093,16 +1098,16 @@ table.adv td.best { color: var(--cyan); text-shadow: 0 0 14px rgba(200,206,212,.
             <span class="hint">Team-Ø über alle Matches · FACEIT Data API v4</span>
           </div>
           <div class="bento">
-            <div class="b-tile"><div class="k">Opening K/D</div><div class="v">0.71</div><div class="sub">First-Kill-WR 52%</div></div>
-            <div class="b-tile"><div class="k">Entry-SR</div><div class="v b-up">58<span class="pct">%</span></div><div class="sub">112 Runden · Team-Ø</div></div>
-            <div class="b-tile"><div class="k">Flash-SR</div><div class="v">41<span class="pct">%</span></div><div class="sub">Best: theunc666 · 53%</div></div>
-            <div class="b-tile"><div class="k">Utility Dmg/R</div><div class="v">12.4</div><div class="sub">HE 6.1 · Molly 4.8</div></div>
-            <div class="b-tile"><div class="k">K/R</div><div class="v">0.74</div><div class="sub">Ø Rundenzeit 1:33</div></div>
-            <div class="b-tile"><div class="k">Ø Kills</div><div class="v">16.2</div><div class="sub">Best: -neon666 · 19.4</div></div>
-            <div class="b-tile"><div class="k">MVP-Sterne</div><div class="v b-cyan">14</div><div class="sub">-neon666 6 · kokolorez 4</div></div>
-            <div class="b-tile"><div class="k">Multi-Kills</div><div class="v">2<span class="pct"> Ace</span></div><div class="sub">4k ×5 · 3k ×9 · Knife ×3</div></div>
+            <div class="b-tile"><div class="k">Opening K/D<span class="info" tabindex="0" data-tip="Kills zu Toden in den ersten Gefechten einer Runde. Über 1 heißt: öfter Opener-Kills als Opfer." aria-label="Kills zu Toden in den ersten Gefechten einer Runde. Über 1 heißt: öfter Opener-Kills als Opfer.">i</span></div><div class="v">0.71</div><div class="sub">First-Kill-WR 52%</div></div>
+            <div class="b-tile"><div class="k">Entry-SR<span class="info" tabindex="0" data-tip="Erfolgsquote beim Betreten eines Raums als Erster (Entry-Frags gewonnen zu Versuchen)." aria-label="Erfolgsquote beim Betreten eines Raums als Erster (Entry-Frags gewonnen zu Versuchen).">i</span></div><div class="v b-up">58<span class="pct">%</span></div><div class="sub">112 Runden · Team-Ø</div></div>
+            <div class="b-tile"><div class="k">Flash-SR<span class="info" tabindex="0" data-tip="Anteil der Flashbangs, die einen Gegner tatsächlich blenden." aria-label="Anteil der Flashbangs, die einen Gegner tatsächlich blenden.">i</span></div><div class="v">41<span class="pct">%</span></div><div class="sub">Best: theunc666 · 53%</div></div>
+            <div class="b-tile"><div class="k">Utility Dmg/R<span class="info" tabindex="0" data-tip="Schaden durch Granaten (HE, Molotov) pro Runde." aria-label="Schaden durch Granaten (HE, Molotov) pro Runde.">i</span></div><div class="v">12.4</div><div class="sub">HE 6.1 · Molly 4.8</div></div>
+            <div class="b-tile"><div class="k">K/R<span class="info" tabindex="0" data-tip="Kills pro Runde im Schnitt." aria-label="Kills pro Runde im Schnitt.">i</span></div><div class="v">0.74</div><div class="sub">Ø Rundenzeit 1:33</div></div>
+            <div class="b-tile"><div class="k">Ø Kills<span class="info" tabindex="0" data-tip="Durchschnittliche Kills pro Match." aria-label="Durchschnittliche Kills pro Match.">i</span></div><div class="v">16.2</div><div class="sub">Best: -neon666 · 19.4</div></div>
+            <div class="b-tile"><div class="k">MVP-Sterne<span class="info" tabindex="0" data-tip="Summe der MVP-Auszeichnungen über alle Matches." aria-label="Summe der MVP-Auszeichnungen über alle Matches.">i</span></div><div class="v b-cyan">14</div><div class="sub">-neon666 6 · kokolorez 4</div></div>
+            <div class="b-tile"><div class="k">Multi-Kills<span class="info" tabindex="0" data-tip="Runden mit mehreren Kills hintereinander (3k, 4k, Ace = 5 in einer Runde)." aria-label="Runden mit mehreren Kills hintereinander (3k, 4k, Ace = 5 in einer Runde).">i</span></div><div class="v">2<span class="pct"> Ace</span></div><div class="sub">4k ×5 · 3k ×9 · Knife ×3</div></div>
             <div class="b-tile wide">
-              <div class="k">Carry-Ranking</div>
+              <div class="k">Carry-Ranking<span class="info" tabindex="0" data-tip="Wer das Team am stärksten getragen hat, gewichtet nach Kills, K/D, HS% und MVPs." aria-label="Wer das Team am stärksten getragen hat, gewichtet nach Kills, K/D, HS% und MVPs.">i</span></div>
               <div class="b-bars">
                 <div class="row"><span class="bn">-neon666</span><span class="b-bar"><i data-w="100"></i></span><b>1.66</b></div>
                 <div class="row"><span class="bn">kokolorez</span><span class="b-bar"><i data-w="73"></i></span><b>1.21</b></div>
@@ -1111,8 +1116,8 @@ table.adv td.best { color: var(--cyan); text-shadow: 0 0 14px rgba(200,206,212,.
                 <div class="row"><span class="bn">amaseling</span><span class="b-bar"><i data-w="50"></i></span><b>0.84</b></div>
               </div>
             </div>
-            <div class="b-tile"><div class="k">Map-Heat</div><div class="v" style="font-size:calc(22 * var(--u))">Mirage <span class="b-up">80%</span></div><div class="sub">Nuke 75% · Inferno 33%</div></div>
-            <div class="b-tile"><div class="k">Clutches</div><div class="v">1v2 31<span class="pct">%</span></div><div class="sub">1v1 58% · 1v3 12%</div></div>
+            <div class="b-tile"><div class="k">Map-Heat<span class="info" tabindex="0" data-tip="Gewinnquote pro Map, bei der das Team am stärksten war." aria-label="Gewinnquote pro Map, bei der das Team am stärksten war.">i</span></div><div class="v" style="font-size:calc(22 * var(--u))">Mirage <span class="b-up">80%</span></div><div class="sub">Nuke 75% · Inferno 33%</div></div>
+            <div class="b-tile"><div class="k">Clutches<span class="info" tabindex="0" data-tip="Runden, in denen ein Spieler allein gegen mehrere Gegner gewonnen hat (1v2 = gegen zwei)." aria-label="Runden, in denen ein Spieler allein gegen mehrere Gegner gewonnen hat (1v2 = gegen zwei).">i</span></div><div class="v">1v2 31<span class="pct">%</span></div><div class="sub">1v1 58% · 1v3 12%</div></div>
           </div>
         </section>
       </div>
@@ -1158,12 +1163,12 @@ table.adv td.best { color: var(--cyan); text-shadow: 0 0 14px rgba(200,206,212,.
     </section>
       <aside class="panel hls">
         <div class="ph"><h2>Highlights</h2></div>
-        <div class="hl"><div class="k">Win-Streak</div><div class="v"><span style="color:var(--fire2);text-shadow:0 0 12px rgba(255,120,0,.6)">4 in Folge</span> <span class="sub">— läuft</span></div></div>
-        <div class="hl"><div class="k">Größter Stomp</div><div class="v">16 : 5 <span class="sub">Nuke, Fr 23:12</span></div></div>
-        <div class="hl"><div class="k">Engstes Match</div><div class="v">16 : 14 <span class="sub">Mirage, Sa 01:38</span></div></div>
-        <div class="hl"><div class="k">Top-Fragger des Abends</div><div class="v">-neon666 <span class="sub">34 Kills auf Inferno</span></div></div>
-        <div class="hl"><div class="k">Bester Tag</div><div class="v">Samstag <span class="sub">5:0 · Runden 58:37</span></div></div>
-        <div class="hl"><div class="k">MVP-König</div><div class="v">-neon666 <span class="sub">4× MVP</span></div></div>
+        <div class="hl"><div class="k">Win-Streak<span class="info" tabindex="0" data-tip="Anzahl Siege in Folge bis zum aktuellen Stand." aria-label="Anzahl Siege in Folge bis zum aktuellen Stand.">i</span></div><div class="v"><span style="color:var(--fire2);text-shadow:0 0 12px rgba(255,120,0,.6)">4 in Folge</span> <span class="sub">— läuft</span></div></div>
+        <div class="hl"><div class="k">Größter Stomp<span class="info" tabindex="0" data-tip="Das deutlichste Ergebnis der Session (größter Rundenvorsprung)." aria-label="Das deutlichste Ergebnis der Session (größter Rundenvorsprung).">i</span></div><div class="v">16 : 5 <span class="sub">Nuke, Fr 23:12</span></div></div>
+        <div class="hl"><div class="k">Engstes Match<span class="info" tabindex="0" data-tip="Das knappste Match der Session." aria-label="Das knappste Match der Session.">i</span></div><div class="v">16 : 14 <span class="sub">Mirage, Sa 01:38</span></div></div>
+        <div class="hl"><div class="k">Top-Fragger des Abends<span class="info" tabindex="0" data-tip="Spieler mit den meisten Kills in einem einzelnen Match." aria-label="Spieler mit den meisten Kills in einem einzelnen Match.">i</span></div><div class="v">-neon666 <span class="sub">34 Kills auf Inferno</span></div></div>
+        <div class="hl"><div class="k">Bester Tag<span class="info" tabindex="0" data-tip="Tag mit der besten Bilanz (Siege, dann Rundendifferenz)." aria-label="Tag mit der besten Bilanz (Siege, dann Rundendifferenz).">i</span></div><div class="v">Samstag <span class="sub">5:0 · Runden 58:37</span></div></div>
+        <div class="hl"><div class="k">MVP-König<span class="info" tabindex="0" data-tip="Spieler mit den meisten MVP-Auszeichnungen." aria-label="Spieler mit den meisten MVP-Auszeichnungen.">i</span></div><div class="v">-neon666 <span class="sub">4× MVP</span></div></div>
       </aside>
     </div>
   </main>
@@ -1487,7 +1492,7 @@ setView(localStorage.getItem("sb-started") === "1" ? "live" : "empty");
     el.textContent = quotes[i]; i = (i + 1) % quotes.length;
     if (still) { el.style.left = "50%"; el.style.transform = "translate(-50%, -50%)"; setTimeout(next, 8000); return; }
     var W = box.clientWidth, w = el.offsetWidth;
-    var speed = Math.max(W / 11, 60);           /* px/s: ganze Breite in ~11 s */
+    var speed = Math.max(W / 22, 45);           /* px/s: ganze Breite in ~22 s */
     var a = el.animate(
       [{ transform: "translate(" + W + "px, -50%)" }, { transform: "translate(" + (-w) + "px, -50%)" }],
       { duration: (W + w) / speed * 1000, easing: "linear", fill: "forwards" });

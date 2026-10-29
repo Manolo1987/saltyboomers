@@ -7,3 +7,9 @@ players.json
 package*.json
 "Dashboard Entwurf.html"
 saltyboomers-dashboard.html
+
+# Ausnahmen (Pipeline braucht diese Dateien im Repo)
+!fetch_stats.py
+!lookup_players.py
+!players.json
+!saltyboomers-dashboard.html
