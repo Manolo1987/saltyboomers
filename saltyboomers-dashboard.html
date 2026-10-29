@@ -325,15 +325,14 @@ a.room:hover { text-decoration: underline; }
   width: calc(14 * var(--u)); height: calc(14 * var(--u)); margin-left: .45em; vertical-align: middle;
   border-radius: 50%; border: 1px solid rgba(200,206,212,.45); color: var(--muted);
   font: 700 calc(9 * var(--u))/1 "Inter", sans-serif; text-transform: none; letter-spacing: 0;
-  cursor: help; user-select: none; opacity: .75; }
-.info:hover, .info:focus { opacity: 1; color: var(--ink); border-color: var(--ink); outline: none; }
-.info::after { content: attr(data-tip); position: fixed; left: var(--tipx, 50%); top: var(--tipy, 50%);
-  transform: translate(-50%, calc(-100% - 10px)); width: max-content; max-width: min(260px, 80vw);
-  padding: 8px 10px; border-radius: 8px; background: rgba(12,14,20,.97);
-  border: 1px solid rgba(200,206,212,.25); color: var(--ink); font: 500 12px/1.35 "Inter", sans-serif;
-  text-transform: none; letter-spacing: 0; white-space: normal; text-align: left; pointer-events: none;
-  opacity: 0; transition: opacity .15s; z-index: 9999; box-shadow: 0 8px 24px rgba(0,0,0,.5); }
-.info:hover::after, .info:focus::after { opacity: 1; }
+  cursor: help; user-select: none; }
+.info:hover, .info:focus { color: var(--ink); border-color: var(--ink); outline: none; }
+#infoTip { position: fixed; left: 0; top: 0; z-index: 99999; pointer-events: none;
+  width: max-content; max-width: min(260px, 80vw); padding: 8px 10px; border-radius: 8px;
+  background: rgba(12,14,20,.97); border: 1px solid rgba(200,206,212,.25); color: #e8eaed;
+  font: 500 12px/1.35 "Inter", sans-serif; text-align: left; white-space: normal;
+  box-shadow: 0 8px 24px rgba(0,0,0,.5); opacity: 0; transition: opacity .12s; }
+#infoTip.on { opacity: 1; }
 
 /* ---- FACEIT-Level-Badges (Original-Ring, 1:1 wie FACEIT-Rebrand) ---- */
 .flvl { width: 20px; height: 20px; flex: none; filter: drop-shadow(0 2px 5px rgba(0,0,0,.6)); }
@@ -1552,12 +1551,29 @@ setView(localStorage.getItem("sb-started") === "1" ? "live" : "empty");
 })();
 </script>
 <script>
-document.addEventListener('pointerover', e => {
-  const i = e.target.closest && e.target.closest('.info'); if (!i) return;
-  const r = i.getBoundingClientRect();
-  i.style.setProperty('--tipx', (r.left + r.width/2) + 'px');
-  i.style.setProperty('--tipy', r.top + 'px');
-});
+(() => {
+  const tip = document.createElement('div');
+  tip.id = 'infoTip';
+  document.body.appendChild(tip);
+  let cur = null;
+  function show(i) {
+    const txt = i.getAttribute('data-tip'); if (!txt) return;
+    tip.textContent = txt; cur = i;
+    const r = i.getBoundingClientRect();
+    const w = tip.offsetWidth, h = tip.offsetHeight;
+    let x = r.left + r.width / 2 - w / 2;
+    x = Math.max(8, Math.min(x, window.innerWidth - w - 8));
+    let y = r.top - h - 10; if (y < 8) y = r.bottom + 10;
+    tip.style.left = x + 'px'; tip.style.top = y + 'px';
+    tip.classList.add('on');
+  }
+  function hide() { tip.classList.remove('on'); cur = null; }
+  document.addEventListener('pointerover', e => { const i = e.target.closest && e.target.closest('.info'); if (i) show(i); else if (cur) hide(); });
+  document.addEventListener('pointerout', e => { if (e.target.closest && e.target.closest('.info')) hide(); });
+  document.addEventListener('focusin', e => { const i = e.target.closest && e.target.closest('.info'); if (i) show(i); });
+  document.addEventListener('focusout', hide);
+  window.addEventListener('scroll', () => { if (cur) show(cur); }, true);
+})();
 </script>
 </body>
 </html>
