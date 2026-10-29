@@ -51,6 +51,13 @@ Der Wechsel von 2 nach 3 passiert automatisch, sobald die Daten das hergeben. Da
 - FACEIT Data API: Die offizielle Doku nennt **keine Zahl**, sie dokumentiert nur den Fehlercode 429. Die Werte 100/s, 400/10 s, 10.000/h und 300/min kommen aus Community-Quellen und sind nicht verifiziert. Messen geht nur mit dem Key, und der liegt nur als GitHub-Secret vor.
 - Früher stand im Chat: „5× pro Minute geht klar“. Das hat das FACEIT-Limit mit dem Takt von GitHub verwechselt. Mit GitHub Actions ist 1× pro Minute nicht möglich.
 
-## Offene Fragen an Manu
-- Wo steht der TV: im selben Netz wie Astana oder woanders?
-- Abruf-Dienst auf Astana/Hermes-VM statt GitHub Actions?
+## Umgesetzt: Publisher auf Astana (29.10.)
+- TV steht nicht im Netz von Astana, deshalb laufen die Daten über GitHub Pages. Kein offener Port.
+- Hermes-VM: `~/sb-publisher/publish.sh`, cron jede Minute, `flock` gegen doppelte Läufe, Log `~/sb-publisher/publish.log`, Cache `~/sb-publisher/cache/`, eigener Clone `~/sb-publisher/repo`.
+- Key: `~/.config/saltyboomers/faceit.env` (chmod 600, `FACEIT_API_KEY=...`). Fehlt die Datei, wartet das Skript still.
+- Push: Deploy-Key `~/.ssh/sb_publisher_ed25519` mit Schreibrecht **nur** auf Repo saltyboomers (GitHub Key-ID 168116196).
+- `fetch_stats.py` v2: Historie aller 5 Spieler → Matches mit ≥2 SaltyBoomers im selben Team, die letzten 30 einzeln mit Werten pro Spieler; neue Matches werden einzeln nachgeladen, Matches ohne fertige FACEIT-Statistik (404) beim nächsten Lauf erneut. Pause 0,25 s zwischen Requests, bei 429/5xx wiederholen. Schreibt nur bei inhaltlicher Änderung.
+- Pro Minute ca. 5–6 Requests, alle 5 Min +5 für ELO.
+- GitHub Actions bleibt alle 30 Min als Notlösung. Bei Konflikt gewinnt der Stand von Astana.
+- Sicherheitsfolge: Jeder Code auf `master` läuft auf der VM mit dem Key. Nur Manu/Hermes pushen.
+- Offen: echter Lauf mit Key, Payload-Felder prüfen, Zeit von Matchende bis TV messen.
