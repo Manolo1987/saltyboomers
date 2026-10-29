@@ -976,6 +976,46 @@ table.adv td.best { color: var(--cyan); text-shadow: 0 0 14px rgba(200,206,212,.
 @media (max-width:1100px) {
   #advPanel .bento.adv2 { grid-template-columns:repeat(2, minmax(0,1fr)); grid-template-rows:none; grid-auto-rows:minmax(84px,auto); overflow:visible; }
 }
+
+/* ================= ENTRANCE (Begrüßung mit Emblem) ================= */
+#entrance { position: fixed; inset: 0; z-index: 90; display: flex; align-items: center; justify-content: center;
+  background: radial-gradient(ellipse at 50% 38%, #1c4066 0%, #07101e 55%, #03070e 100%);
+  --r: 0px; }
+#entrance.iris { -webkit-mask-image: radial-gradient(circle at 50% 42%, transparent var(--r), #000 calc(var(--r) + 2px));
+  mask-image: radial-gradient(circle at 50% 42%, transparent var(--r), #000 calc(var(--r) + 2px)); }
+#entrance.gone { display: none; }
+.ent-in { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 1.6vh; padding: 3vh 4vw; }
+.ent-emblem { position: relative; height: 44vh; max-width: 80vw; aspect-ratio: 1100 / 755; animation: entFloat 6s ease-in-out infinite; }
+.ent-emblem::before { content: ""; position: absolute; inset: -12% -8%; z-index: -1; border-radius: 50%;
+  background: radial-gradient(closest-side, rgba(120,200,255,.35), rgba(120,200,255,0)); animation: entGlow 4s ease-in-out infinite; }
+.ent-emblem img { width: 100%; height: 100%; object-fit: contain; display: block; filter: drop-shadow(0 1.2vh 3vh rgba(0,0,0,.6)); }
+.ent-emblem .shine { position: absolute; inset: 0; pointer-events: none; overflow: hidden;
+  -webkit-mask: url(assets/emblem_berlin.webp) center / contain no-repeat; mask: url(assets/emblem_berlin.webp) center / contain no-repeat; }
+.ent-emblem .shine::after { content: ""; position: absolute; top: -20%; bottom: -20%; width: 30%; left: -40%; transform: skewX(-20deg);
+  background: linear-gradient(90deg, rgba(255,255,255,0), rgba(255,255,255,.55), rgba(255,255,255,0)); animation: entShine 5s ease-in-out 1.2s infinite; }
+.ent-av { display: flex; gap: 1.2vh; margin-top: .4vh; }
+.ent-av img { width: 6.4vh; height: 6.4vh; border-radius: 50%; object-fit: cover; border: .25vh solid rgba(170,215,255,.7);
+  box-shadow: 0 .6vh 1.6vh rgba(0,0,0,.5); opacity: 0; animation: entPop .5s cubic-bezier(.2,1.4,.4,1) forwards; }
+.ent-in h2 { margin: .6vh 0 0; font-size: 4.4vh; font-weight: 800; letter-spacing: .02em; color: #fff; text-shadow: 0 .3vh 1.2vh rgba(0,0,0,.6); }
+.ent-in p { margin: 0; font-size: 2.3vh; color: #b9cde0; max-width: 60vw; }
+.ent-btn { margin-top: 1.4vh; font: inherit; font-size: 2.6vh; font-weight: 800; letter-spacing: .06em; color: #04121f; cursor: pointer;
+  padding: 1.5vh 4.2vh; border: 0; border-radius: 99px; background: linear-gradient(135deg, #e9f6ff, #8fd0ff 55%, #4aa8e8);
+  box-shadow: 0 1.2vh 3.4vh rgba(74,168,232,.45), inset 0 .2vh 0 rgba(255,255,255,.8); transition: transform .2s, box-shadow .2s; }
+.ent-btn:hover, .ent-btn:focus-visible { transform: translateY(-.3vh) scale(1.03); outline: none; box-shadow: 0 1.6vh 4.4vh rgba(74,168,232,.65), 0 0 0 .4vh rgba(200,235,255,.5); }
+@keyframes entFloat { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-1vh); } }
+@keyframes entGlow { 0%,100% { opacity: .65; transform: scale(1); } 50% { opacity: 1; transform: scale(1.06); } }
+@keyframes entShine { 0% { left: -40%; } 45%, 100% { left: 130%; } }
+@keyframes entPop { from { opacity: 0; transform: translateY(1vh) scale(.6); } to { opacity: 1; transform: none; } }
+/* Abgang: Emblem fliegt auf die Kamera zu, Rest fällt weg, Loch reißt von der Mitte auf */
+#entrance.out .ent-emblem { animation: entFly .9s cubic-bezier(.6,0,.9,.5) forwards; }
+#entrance.out .ent-in > :not(.ent-emblem) { transition: opacity .3s, transform .4s; opacity: 0; transform: translateY(3vh); }
+@keyframes entFly { 0% { transform: scale(1); filter: brightness(1); } 30% { transform: scale(.92); filter: brightness(1.4); }
+  100% { transform: scale(3.2); filter: brightness(2.4) blur(.6vh); opacity: 0; } }
+.ent-ring { position: fixed; left: 50%; top: 42%; width: 10vh; height: 10vh; margin: -5vh 0 0 -5vh; border-radius: 50%; z-index: 91; pointer-events: none;
+  border: .6vh solid rgba(180,230,255,.9); box-shadow: 0 0 4vh rgba(140,210,255,.9), inset 0 0 3vh rgba(140,210,255,.7);
+  animation: entRing 1s cubic-bezier(.2,.7,.3,1) forwards; }
+@keyframes entRing { from { transform: scale(.4); opacity: 1; } to { transform: scale(30); opacity: 0; } }
+@media (prefers-reduced-motion: reduce) { .ent-emblem, .ent-emblem::before, .ent-emblem .shine::after { animation: none; } #entrance.out { transition: opacity .4s; opacity: 0; } }
 </style>
 <style>
 /* ---- Zustände warm/wait/live + Start-Effekt ---- */
@@ -1342,7 +1382,7 @@ body.fx-shake .wrap { animation:fxShake .45s; }
 <div class="modal-veil" id="startModal">
   <div class="modal">
     <h3>Wochenende starten?</h3>
-    <p>Ab jetzt zählt jedes Stack-Match, das nach diesem Klick endet. Bis das erste Match drin ist, siehst du weiter die Aufwärm-Zahlen (abgedunkelt). Der Startzeitpunkt wird nur auf diesem Gerät gespeichert.</p>
+    <p>Gezählt wird jedes Stack-Match ab Freitag, 14:00 Uhr. Das gilt auf allen Geräten gleich. Bis das erste Match drin ist, siehst du weiter die Aufwärm-Zahlen (abgedunkelt).</p>
     <div class="row">
       <button class="btn-ghost" id="mCancel">Abbrechen</button>
       <button class="btn-confirm" id="mConfirm">Ja, starten</button>
@@ -1646,9 +1686,17 @@ setView("live");
 (function () {
   const LS_TS = "sb-start-ts", LS_ELO = "sb-start-elo";
   /* Fester, zentraler Start (gilt auf jedem Gerät gleich): Do 29.10.2026 20:55 Uhr MEZ, Elo-Stand bei Start */
-  const FIXED = { ts: 1793303746029, elo: {"theunc666":1715,"amaseling":1152,"-neon666":2100,"kokolorez":1809,"Shpooople":1360} };
-  const startTs = () => FIXED.ts || +localStorage.getItem(LS_TS) || 0;
-  const baseElo = () => { if (FIXED.ts) return FIXED.elo; try { return JSON.parse(localStorage.getItem(LS_ELO) || "{}"); } catch (e) { return {}; } };
+  /* Fester Start für alle Geräte: Fr 30.10.2026 14:00 Uhr (MEZ = 13:00 UTC).
+     Elo-Stand beim Start schreibt der Publisher um 14:00 in weekend.json. Vorher gilt der aktuelle Stand (±0). */
+  const FIXED = { ts: Date.UTC(2026, 9, 30, 13, 0, 0), label: "Fr 14:00 Uhr" };
+  const LS_PRESSED = "sb-pressed-" + FIXED.ts;          // Knopf auf diesem Gerät schon gedrückt (nur fürs Aussehen)
+  let WEEKEND = null;
+  const startTs = () => FIXED.ts;
+  const pressed = () => !!localStorage.getItem(LS_PRESSED);
+  const baseElo = () => {
+    if (WEEKEND && WEEKEND.start_ts === FIXED.ts && WEEKEND.start_elo) return WEEKEND.start_elo;
+    const b = {}; Object.entries((DATA && DATA.players) || {}).forEach(([n, p]) => { if (p.elo != null) b[n] = p.elo; }); return b;
+  };
   const POLL_MS = 60 * 1000, FOCUS_MS = 10 * 60 * 1000;
   const MAPIMG = new Set(["ancient","anubis","dust2","inferno","mirage","nuke","overpass","train","vertigo"]);
   const $ = s => document.querySelector(s), $$ = s => Array.from(document.querySelectorAll(s));
@@ -1701,8 +1749,9 @@ setView("live");
   /* ---------- Zustand ---------- */
   function state() {
     const all = (DATA && DATA.matches ? DATA.matches.slice() : []).sort((a, b) => (b.finished_at || 0) - (a.finished_at || 0));
-    const ts = startTs();
-    if (!ts) return { mode: "warm", set: all, ts: 0 };
+    const ts = startTs(), early = Date.now() < ts;
+    if (early && !pressed()) return { mode: "warm", set: all, ts };
+    if (early) return { mode: "wait", set: all, ts, early: true };
     const live = all.filter(m => (m.finished_at || 0) * 1000 > ts);
     return live.length ? { mode: "live", set: live, ts } : { mode: "wait", set: all, ts };
   }
@@ -1768,7 +1817,7 @@ setView("live");
       slot.innerHTML = `<button class="go-btn" id="btnGo" aria-label="Wochenende starten" title="Wochenende starten"><span class="go-in"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M7.05 6.6a7.5 7.5 0 1 0 9.9 0"/><path d="M12 3.2v8"/></svg><b>START</b></span></button>`;
       $("#btnGo").onclick = () => $("#startModal").classList.add("show");
     } else if (st.mode === "wait") {
-      side.innerHTML = `<span class="wait-badge">Live ab dem ersten Match</span>`;
+      side.innerHTML = `<span class="wait-badge">${st.early ? "Live ab " + FIXED.label : "Live ab dem ersten Match"}</span>`;
     } else {
       side.innerHTML = `Board verschwindet in <span class="countdown" id="countdown">—</span>`;
     }
@@ -1813,7 +1862,7 @@ setView("live");
       Object.entries((DATA && DATA.players) || {}).forEach(([n, p]) => { if (p.elo != null && base[n] != null) { sum += p.elo - base[n]; any = true; } });
       v.classList.toggle("up", sum >= 0); v.classList.toggle("down", sum < 0);
       anim(v, any ? sum : null, { sign: true });
-      const t = "Summe der ELO-Änderung aller fünf seit dem Klick auf Start."; const i = lbl.querySelector(".info"); i.dataset.tip = t; i.setAttribute("aria-label", t);
+      const t = "Summe der ELO-Änderung aller fünf seit dem Start (Fr 14:00 Uhr)."; const i = lbl.querySelector(".info"); i.dataset.tip = t; i.setAttribute("aria-label", t);
     }
   }
 
@@ -1948,12 +1997,21 @@ setView("live");
     lastTopId = st.set[0] ? st.set[0].match_id : null;
     return changed;
   }
+  function loadWeekend() {
+    return fetch("weekend.json?t=" + Date.now(), { cache: "no-store" }).then(r => r.ok ? r.json() : null).then(j => { WEEKEND = j; }).catch(() => {});
+  }
   function load() {
+    loadWeekend();
     return fetch("stats.json?t=" + Date.now(), { cache: "no-store" }).then(r => r.ok ? r.json() : Promise.reject(r.status))
       .then(j => { if (j && Array.isArray(j.matches)) { DATA = j; render(); } })
       .catch(() => { if (!DATA) window.toast && toast("<b>Keine Daten.</b> stats.json nicht erreichbar, neuer Versuch in 1 Min."); });
   }
   load(); setInterval(() => { if (!document.hidden) load(); }, POLL_MS);
+  /* Punkt 14:00: auf jedem Gerät automatisch umschalten (mit Effekt, falls der Knopf hier noch nicht gedrückt wurde) */
+  (function armStart() {
+    const left = startTs() - Date.now(); if (left <= 0) return;
+    setTimeout(() => { if (lastMode === "warm" && $("#btnGo")) playStart("auto"); else render(); }, Math.min(left + 300, 2147000000));
+  })();
   document.addEventListener("visibilitychange", () => { if (!document.hidden) load(); });
 
   /* ================= SOUND (WebAudio, selbst erzeugt, keine Dateien) ================= */
@@ -2027,8 +2085,10 @@ setView("live");
     })(t0);
   }
   /* Effekt abspielen. commit=true speichert den Start, false = nur Test. */
+  const LETSGO = new Audio("assets/okay_lets_go.mp3"); LETSGO.preload = "auto"; LETSGO.volume = 0.9;
+  function letsGo() { try { LETSGO.currentTime = 0; const p = LETSGO.play(); if (p && p.catch) p.catch(() => {}); } catch (e) {} }
   function playStart(commit) {
-    ensureFx(); sfxStart();
+    ensureFx(); sfxStart(); setTimeout(letsGo, 950);   // nach dem Knall: "Okay, let's go"
     const btn = $("#btnGo"), r = btn ? btn.getBoundingClientRect() : { left: innerWidth / 2, top: innerHeight / 2, width: 0, height: 0 };
     const x = r.left + r.width / 2, y = r.top + r.height / 2;
     if (btn) btn.classList.add("charge");
@@ -2039,11 +2099,9 @@ setView("live");
         document.body.classList.add("fx-shake"); setTimeout(() => document.body.classList.remove("fx-shake"), 500); }
       go.classList.remove("run"); void go.offsetWidth; go.classList.add("run");
       if (commit) {
-        localStorage.setItem(LS_TS, String(Date.now()));
-        const snap = {}; Object.entries((DATA && DATA.players) || {}).forEach(([n, p]) => { if (p.elo != null) snap[n] = p.elo; });
-        localStorage.setItem(LS_ELO, JSON.stringify(snap));
-        localStorage.removeItem("sb-started");
-        setTimeout(() => { render(); toast("<b>Läuft.</b> Ab jetzt zählt jedes Stack-Match, das nach diesem Klick endet."); }, 700);
+        if (commit === true) localStorage.setItem(LS_PRESSED, "1");
+        const early = Date.now() < startTs();
+        setTimeout(() => { render(); toast(early ? `<b>Gestartet.</b> Die Stats zählen ab ${FIXED.label}, auf allen Geräten gleich.` : "<b>Läuft.</b> Jedes Stack-Match seit " + FIXED.label + " zählt."); }, 700);
       } else setTimeout(() => btn && btn.classList.remove("charge", "gone"), 1800);
     }, 420);
   }
@@ -2061,13 +2119,57 @@ setView("live");
   $("#rCancel").onclick = () => $("#resetModal").classList.remove("show");
   $("#rConfirm").onclick = () => {
     $("#resetModal").classList.remove("show");
-    localStorage.removeItem(LS_TS); localStorage.removeItem(LS_ELO); localStorage.removeItem("sb-started");
+    localStorage.removeItem(LS_TS); localStorage.removeItem(LS_ELO); localStorage.removeItem("sb-started"); localStorage.removeItem(LS_PRESSED);
     render(); toast("Zurück im Aufwärm-Modus. Die FACEIT-Daten bleiben erhalten.");
   };
   if (FIXED.ts) { const rb = $("#btnReset"); if (rb) rb.style.display = "none"; }
   const fxBtn = $("#btnFxTest");
   if (fxBtn) fxBtn.onclick = () => { if (window.drawerOpen) drawerOpen(false); setTimeout(() => playStart(false), 250); };
   window.sbDebug = { render, state: () => state().mode, data: () => DATA, playStart };
+})();
+</script>
+
+<!-- ================= ENTRANCE ================= -->
+<div id="entrance" role="dialog" aria-label="Willkommen">
+  <div class="ent-in">
+    <div class="ent-emblem"><img src="assets/emblem_berlin.webp" alt="SaltyBoomers · Berlin LAN 2026"><span class="shine"></span></div>
+    <div class="ent-av" id="entAv"></div>
+    <h2>Bereit, SaltyBoomers?</h2>
+    <p id="entTxt">Die Stats zählen ab Freitag, 14:00 Uhr.</p>
+    <button class="ent-btn" id="entGo" autofocus>▶ Jetzt starten</button>
+  </div>
+</div>
+<script>
+(function () {
+  const ent = document.getElementById("entrance"); if (!ent) return;
+  document.body.classList.add("ent-on");
+  const START = Date.UTC(2026, 9, 30, 13, 0, 0);
+  if (Date.now() >= START) document.getElementById("entTxt").textContent = "Das Wochenende läuft. Jedes Stack-Match seit Freitag, 14:00 Uhr zählt.";
+  const av = document.getElementById("entAv");
+  document.querySelectorAll("#scorePanel .carry-row:not(.head) img.avatar").forEach((im, i) => {
+    const c = document.createElement("img"); c.src = im.getAttribute("src"); c.alt = ""; c.onerror = () => c.remove(); c.style.animationDelay = (0.25 + i * 0.09) + "s"; av.appendChild(c); });
+  const btn = document.getElementById("entGo"); setTimeout(() => btn.focus(), 50);
+  function whoosh() {
+    try { const C = window.AudioContext || window.webkitAudioContext; if (!C) return; const c = window.__sbAC || (window.__sbAC = new C()); if (c.state === "suspended") c.resume();
+      const t = c.currentTime + 0.02, n = c.createBufferSource(), b = c.createBuffer(1, c.sampleRate * 0.9, c.sampleRate), d = b.getChannelData(0);
+      for (let i = 0; i < d.length; i++) d[i] = Math.random() * 2 - 1; n.buffer = b;
+      const f = c.createBiquadFilter(); f.type = "bandpass"; f.Q.value = 0.9; f.frequency.setValueAtTime(200, t); f.frequency.exponentialRampToValueAtTime(3200, t + 0.55); f.frequency.exponentialRampToValueAtTime(600, t + 0.85);
+      const g = c.createGain(); g.gain.setValueAtTime(0.0001, t); g.gain.exponentialRampToValueAtTime(0.45, t + 0.4); g.gain.exponentialRampToValueAtTime(0.0001, t + 0.88);
+      n.connect(f); f.connect(g); g.connect(c.destination); n.start(t); n.stop(t + 0.9); } catch (e) {}
+  }
+  btn.onclick = () => {
+    btn.onclick = null; whoosh();
+    if (matchMedia("(prefers-reduced-motion: reduce)").matches) { ent.classList.add("out"); setTimeout(() => { ent.classList.add("gone"); document.body.classList.remove("ent-on"); }, 420); return; }
+    ent.classList.add("out");
+    setTimeout(() => {
+      const ring = document.createElement("div"); ring.className = "ent-ring"; document.body.appendChild(ring); setTimeout(() => ring.remove(), 1100);
+      ent.classList.add("iris"); document.body.classList.add("ent-leave"); document.body.classList.remove("ent-on");
+      const t0 = performance.now(), max = Math.hypot(innerWidth, innerHeight);
+      (function tick(now) { const p = Math.min(1, (now - t0) / 750), e = p * p * (3 - 2 * p);
+        ent.style.setProperty("--r", (e * max) + "px"); if (p < 1) requestAnimationFrame(tick);
+        else { ent.classList.add("gone"); setTimeout(() => document.body.classList.remove("ent-leave"), 600); const g = document.getElementById("btnGo"); if (g) g.focus(); } })(t0);
+    }, 380);
+  };
 })();
 </script>
 </body>
