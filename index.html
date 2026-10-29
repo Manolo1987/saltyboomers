@@ -1012,6 +1012,27 @@ body.fx-shake .wrap { animation:fxShake .45s; }
   .btn-start.go { animation:none; } #fxCanvas, #fxStreak { display:none; } body.fx-shake .wrap, .flip { animation:none; }
   #fxGo.run { animation:fxGoFade 1.6s forwards; } @keyframes fxGoFade { 0%,100% { opacity:0; } 15%,75% { opacity:1; } }
 }
+
+/* ---- Runder Start-Knopf (Fokus-Karte, rechts neben Map) ---- */
+.f-meta .map-row { width: 100%; }
+.go-slot { margin-left: auto; display: flex; align-items: center; padding-right: calc(6*var(--u,1px)); }
+.go-slot:empty { display: none; }
+.go-btn { --d: calc(66*var(--u,1px)); width: var(--d); height: var(--d); border-radius: 50%; flex: none; cursor: pointer;
+  display: grid; place-items: center; padding: 0; border: calc(2*var(--u,1px)) solid rgba(190,255,215,.75);
+  background: radial-gradient(circle at 35% 30%, #7dffae 0%, #2ed46f 45%, #13a04c 100%);
+  box-shadow: 0 0 0 0 rgba(52,217,123,.55), 0 calc(8*var(--u,1px)) calc(26*var(--u,1px)) rgba(10,90,40,.6), inset 0 calc(2*var(--u,1px)) calc(6*var(--u,1px)) rgba(255,255,255,.45);
+  animation: goBreath 2.8s ease-in-out infinite; transition: transform .2s, filter .2s; }
+.go-btn svg { width: 46%; height: 46%; fill: #fff; margin-left: 8%; filter: drop-shadow(0 1px 3px rgba(0,60,20,.6)); }
+.go-btn:hover, .go-btn:focus-visible { filter: brightness(1.12); transform: scale(1.06); outline: none; }
+@keyframes goBreath {
+  0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(52,217,123,.55), 0 calc(8*var(--u,1px)) calc(26*var(--u,1px)) rgba(10,90,40,.6), inset 0 calc(2*var(--u,1px)) calc(6*var(--u,1px)) rgba(255,255,255,.45); }
+  50% { transform: scale(1.07); box-shadow: 0 0 0 calc(16*var(--u,1px)) rgba(52,217,123,0), 0 calc(8*var(--u,1px)) calc(34*var(--u,1px)) rgba(20,160,70,.75), inset 0 calc(2*var(--u,1px)) calc(6*var(--u,1px)) rgba(255,255,255,.45); } }
+.go-btn.charge { animation: none; transform: scale(.82); filter: brightness(1.6) saturate(1.3); transition: transform .4s cubic-bezier(.5,0,.9,.4), filter .4s; }
+.go-btn.gone { opacity: 0; transform: scale(1.9); transition: opacity .18s, transform .18s; }
+/* Flamme nur ab 3 Siegen in Folge */
+.streak-wrap:not(.hot) .flame-ico { display: none; }
+.streak-wrap:not(.hot) .burn { background: none; color: var(--ink); -webkit-text-fill-color: currentColor; filter: none; animation: none; }
+@media (prefers-reduced-motion: reduce) { .go-btn { animation: none; } }
 </style>
 </head>
 <body class="bg-off">
@@ -1052,6 +1073,7 @@ body.fx-shake .wrap { animation:fxShake .45s; }
           <div class="map-row">
             <img class="map-thumb" src="assets/map_mirage.jpg" alt="Mirage">
             <div class="map">Mirage</div>
+            <span class="go-slot" id="goSlot"></span>
           </div>
           <small>Sa 18:20 · Match 10 · 5v5 Premium</small>
           <div class="f-score">
@@ -1065,10 +1087,6 @@ body.fx-shake .wrap { animation:fxShake .45s; }
           </div>
           <div class="f-side">
             <div id="fCount" class="f-count">Board verschwindet in <span class="countdown" id="countdown">—</span></div>
-            <div class="f-links">
-              <a class="room" href="https://www.faceit.com/de/cs2/room/" target="_blank" rel="noopener">Match-Room <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 3h6v6"/><path d="M10 14 21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></svg></a>
-              <button class="adv-link" data-view="advanced"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.5 12h3.2l2.6-6.5 4.4 13 2.6-6.5h4.2"/></svg>Advanced Stats</button>
-            </div>
           </div>
         </div>
         <div class="f-board">
@@ -1726,14 +1744,15 @@ setView("live");
       spot.querySelector("div small").textContent = `Top · ${S(top.s, "Kills")} Kills · ${r2(S(top.s, "K/D Ratio")).toFixed(2)} K/D`;
       spot.querySelector(".swing-chip").textContent = `ADR ${Math.round(S(top.s, "ADR"))}`;
     }
-    fc.querySelector("a.room").href = room(m.match_id);
     const rows = Object.entries(m.players || {}).map(([nick, s]) => ({ nick, s })).sort((a, b) => S(b.s, "Kills") - S(a.s, "Kills"));
     fc.querySelector(".f-board").innerHTML =
       `<div class="fb-row fb-head"><span class="p">Spieler</span><span>K / D / A</span><span>K/D</span><span>ADR</span><span>HS%</span></div>` +
       rows.map((r, i) => `<div class="fb-row${i === 0 ? " mvp" : ""}"><span class="p">${i === 0 ? '<img class="crown-inline" src="assets/icon_crown.png" alt="MVP"> ' : ""}${esc(r.nick)}</span><span>${S(r.s,"Kills")} / ${S(r.s,"Deaths")} / ${S(r.s,"Assists")}</span><span>${r2(S(r.s,"K/D Ratio")).toFixed(2)}</span><span>${Math.round(S(r.s,"ADR"))}</span><span>${Math.round(S(r.s,"Headshots %"))}%</span></div>`).join("");
-    const side = $("#fCount");
+    const side = $("#fCount"), slot = $("#goSlot");
+    slot.innerHTML = "";
+    side.style.display = st.mode === "warm" ? "none" : "";
     if (st.mode === "warm") {
-      side.innerHTML = `<button class="btn-start go" id="btnGo">▶ Wochenende starten</button>`;
+      slot.innerHTML = `<button class="go-btn" id="btnGo" aria-label="Wochenende starten" title="Wochenende starten"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.2v13.6a1 1 0 0 0 1.5.86l10.9-6.8a1 1 0 0 0 0-1.72L9.5 4.34A1 1 0 0 0 8 5.2z"/></svg></button>`;
       $("#btnGo").onclick = () => $("#startModal").classList.add("show");
     } else if (st.mode === "wait") {
       side.innerHTML = `<span class="wait-badge">Live ab dem ersten Match</span>`;
@@ -1763,7 +1782,9 @@ setView("live");
     anim(k[0].querySelector(".val"), set.length);
     k[1].querySelector(".val").innerHTML = `${w}<span class="colon">:</span>${l}`;
     anim(k[2].querySelector(".val"), set.length ? Math.round(100 * w / set.length) : null, { suf: "%" });
-    anim(k[3].querySelector(".burn"), streakNow(set));
+    const sn = streakNow(set);
+    k[3].querySelector(".streak-wrap").classList.toggle("hot", sn >= 3);
+    anim(k[3].querySelector(".burn"), sn);
     const rw = set.reduce((a, m) => a + (m.score[0] || 0), 0), rl = set.reduce((a, m) => a + (m.score[1] || 0), 0);
     k[4].querySelector(".val").innerHTML = `${rw}<span class="colon">:</span>${rl}`;
     const lbl = k[5].querySelector(".lbl"), v = k[5].querySelector(".val");
@@ -1857,7 +1878,7 @@ setView("live");
     const pe = Object.entries((DATA && DATA.players) || {}).filter(([, p]) => p.elo != null).sort((a, b) => b[1].elo - a[1].elo)[0];
     const fire = v => `<span style="color:var(--fire2);text-shadow:0 0 12px rgba(255,120,0,.6)">${v}</span>`;
     box.innerHTML = `<div class="ph"><h2>Highlights</h2></div>` +
-      hl("Win-Streak", "Siege in Folge bis zum aktuellen Stand. Darunter die längste Serie.", sNow >= 2 ? fire(sNow + " in Folge") : sNow + " in Folge", "längste Serie " + sMax) +
+      hl("Win-Streak", "Siege in Folge bis zum aktuellen Stand. Darunter die längste Serie.", sNow >= 3 ? fire(sNow + " in Folge") : sNow + " in Folge", "längste Serie " + sMax) +
       hl("Größter Stomp", "Deutlichster Sieg (größter Rundenvorsprung).", stomp ? `${stomp.score[0]} : ${stomp.score[1]}` : na, stomp ? `${mapName(stomp.map)}, ${when(stomp.finished_at)}` : "") +
       hl("Engstes Match", "Knappstes Ergebnis.", close ? `${close.score[0]} : ${close.score[1]}` : na, close ? `${mapName(close.map)}, ${when(close.finished_at)}` : "") +
       hl("Entry-Erfolg", "Gewonnene Eröffnungs-Duelle zu allen Eröffnungs-Duellen (Team).", A.T["Entry Count"] ? `${pct(A.T["Entry Wins"] || 0, A.T["Entry Count"])}<span class="pct">%</span>` : na, A.T["Entry Count"] ? `Team · ${A.T["Entry Count"]} Duelle` : "") +
