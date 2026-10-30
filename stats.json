@@ -1,27 +1,27 @@
 {
  "schema": 2,
- "updated_at": "2026-10-30T17:10:07+00:00",
+ "updated_at": "2026-10-30T17:14:11+00:00",
  "match_count": 30,
  "pending_matches": 0,
  "players": {
   "theunc666": {
-   "elo": 1736,
+   "elo": 1712,
    "level": 8
   },
   "amaseling": {
-   "elo": 1172,
+   "elo": 1148,
    "level": 5
   },
   "-neon666": {
-   "elo": 2114,
+   "elo": 2100,
    "level": 10
   },
   "kokolorez": {
-   "elo": 1834,
+   "elo": 1810,
    "level": 9
   },
   "Shpooople": {
-   "elo": 1385,
+   "elo": 1361,
    "level": 7
   }
  },
