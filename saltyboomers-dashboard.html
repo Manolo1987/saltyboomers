@@ -3,6 +3,23 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script>
+/* Beamer-/TV-Fix (z.B. XGIMI MoGo 2): Viele Android-TV-Browser laufen im Mobil-Modus
+   (dpr 2 -> nur 640x360 CSS-Pixel). Dann greift das Handy-Layout (gestapelt, Scroll).
+   Ist die PHYSISCHE Breite aber >= 1100px, erzwingen wir die Desktop-Groesse:
+   width=1280 setzt das Layout-Viewport auf 1280 CSS-px = physische Pixel -> das
+   u-basierte Design fuellt den Beamer exakt und ohne Scroll, wie am TV. */
+(function () {
+  try {
+    var land = screen.width >= screen.height;
+    var phys = Math.round(screen.width * (window.devicePixelRatio || 1));
+    if (land && phys >= 1100 && window.innerWidth < 1100) {
+      document.querySelector('meta[name="viewport"]')
+        .setAttribute('content', 'width=1280, user-scalable=no');
+    }
+  } catch (e) {}
+})();
+</script>
 <title>SaltyBoomers — Weekend Stack</title>
 <link rel="icon" href="favicon.ico" sizes="any">
 <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
