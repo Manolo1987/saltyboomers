@@ -1698,7 +1698,7 @@ setView("live");
     const b = {}; Object.entries((DATA && DATA.players) || {}).forEach(([n, p]) => { if (p.elo != null) b[n] = p.elo; }); return b;
   };
   const POLL_MS = 60 * 1000, FOCUS_MS = 10 * 60 * 1000;
-  const MAPIMG = new Set(["ancient","anubis","dust2","inferno","mirage","nuke","overpass","train","vertigo"]);
+  const MAPIMG = new Set(["ancient","anubis","cache","dust2","inferno","mirage","nuke","overpass","train","vertigo"]);
   const $ = s => document.querySelector(s), $$ = s => Array.from(document.querySelectorAll(s));
   const esc = s => String(s == null ? "" : s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
   const tip = t => `<span class="info" tabindex="0" data-tip="${esc(t)}" aria-label="${esc(t)}">i</span>`;
