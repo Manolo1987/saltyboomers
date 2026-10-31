@@ -1532,11 +1532,17 @@ function fillBars() {
   document.querySelectorAll(".carry-bar i").forEach(b => setTimeout(() => b.style.width = b.dataset.w + "%", 60));
 }
 
-/* Tabs im Live-View: Scoreboard ↔ Advanced-Bento, Auto-Wechsel alle 2 Min */
-const TABS = ["score", "adv", "rivals", "form"], CYCLE_SECS = 90;
+/* Tabs im Live-View: Scoreboard ↔ Advanced-Bento, Auto-Wechsel alle 90 s.
+   rivals (Nemesis) ist bewusst NICHT im Auto-Zyklus — nur per Klick erreichbar. */
+const TABS = ["score", "adv", "rivals", "form"], CYCLE_TABS = TABS.filter(t => t !== "rivals"), CYCLE_SECS = 90;
 const tabs = { score: $("#scorePanel"), adv: $("#advPanel") };
 const bentoPages = { adv: $("#advPanel .bento.adv2"), rivals: $("#bentoRivals"), form: $("#bentoForm") };
 let activeTab = "score", cycLeft = CYCLE_SECS;
+function nextTab() {
+  let i = TABS.indexOf(activeTab);
+  do { i = (i + 1) % TABS.length; } while (!CYCLE_TABS.includes(TABS[i]));
+  return TABS[i];
+}
 function fillBento() {
   document.querySelectorAll("#advPanel .b-bar i").forEach(b => { if (b.dataset.w != null) b.style.width = b.dataset.w + "%"; });
 }
@@ -1553,7 +1559,7 @@ document.querySelectorAll(".vtab").forEach(b => b.onclick = () => setTab(b.datas
 setInterval(() => {
   if (document.hidden || views.live.classList.contains("hidden")) return;
   cycLeft--;
-  if (cycLeft <= 0) { setTab(TABS[(TABS.indexOf(activeTab) + 1) % TABS.length]); return; }
+  if (cycLeft <= 0) { setTab(nextTab()); return; }
   const el = $("#cycLeft");
   if (el) el.textContent = Math.floor(cycLeft / 60) + ":" + String(cycLeft % 60).padStart(2, "0");
 }, 1000);
@@ -2297,7 +2303,7 @@ setView("live");
     box.addEventListener("click", ev => { if (ev.target === box) box.classList.remove("show"); });
     document.addEventListener("keydown", ev => { if (ev.key === "Escape" && box.classList.contains("show")) box.classList.remove("show"); });
   })();
-  window.sbDebug = { render, state: () => state().mode, data: () => DATA, playStart, setTab, openMatch, refreshHead: () => DATA && updateAdvHead(state()), cycleNext: () => setTab(TABS[(TABS.indexOf(activeTab) + 1) % TABS.length]) };
+  window.sbDebug = { render, state: () => state().mode, data: () => DATA, playStart, setTab, openMatch, refreshHead: () => DATA && updateAdvHead(state()), cycleNext: () => setTab(nextTab()) };
 })();
 </script>
 
