@@ -1,6 +1,6 @@
 {
  "schema": 3,
- "updated_at": "2026-10-31T20:17:09+00:00",
+ "updated_at": "2026-10-31T21:34:07+00:00",
  "match_count": 30,
  "pending_matches": 0,
  "players": {
@@ -26,6 +26,330 @@
   }
  },
  "matches": [
+  {
+   "match_id": "1-ba58f771-ab7b-416e-9e98-20f3725b3d57",
+   "started_at": 1793480417,
+   "finished_at": 1793482395,
+   "map": "de_nuke",
+   "rounds": 18,
+   "score": [
+    5,
+    13
+   ],
+   "win": false,
+   "competition": "Europe 5v5 Queue",
+   "v": 2,
+   "players": {
+    "theunc666": {
+     "Sniper Kill Rate per Match": 0,
+     "Utility Count": 5,
+     "1v2Wins": 0,
+     "Utility Damage per Round in a Match": 1.28,
+     "Entry Wins": 0,
+     "First Kills": 0,
+     "Clutch Kills": 1,
+     "Enemies Flashed": 3,
+     "Flash Successes": 2,
+     "K/D Ratio": 0.33,
+     "Enemies Flashed per Round in a Match": 0.17,
+     "Quadro Kills": 0,
+     "Damage": 662,
+     "Match 1v2 Win Rate": 0,
+     "ADR": 36.8,
+     "Match 1v1 Win Rate": 0,
+     "Match Entry Success Rate": 0,
+     "Utility Enemies": 0,
+     "Utility Success Rate per Match": 0,
+     "Flashes per Round in a Match": 0.5,
+     "Flash Count": 9,
+     "1v1Wins": 0,
+     "K/R Ratio": 0.33,
+     "Flash Success Rate per Match": 0.22,
+     "Knife Kills": 0,
+     "Utility Usage per Round": 0.28,
+     "Sniper Kill Rate per Round": 0,
+     "Utility Successes": 0,
+     "Result": 0,
+     "Entry Count": 1,
+     "Match Entry Rate": 0.06,
+     "Zeus Kills": 0,
+     "Kills": 6,
+     "Sniper Kills": 0,
+     "Double Kills": 0,
+     "Penta Kills": 0,
+     "Assists": 4,
+     "Headshots %": 33,
+     "Pistol Kills": 0,
+     "MVPs": 0,
+     "Utility Damage Success Rate per Match": 4.6,
+     "Headshots": 2,
+     "1v1Count": 0,
+     "Deaths": 18,
+     "Triple Kills": 0,
+     "Utility Damage": 23,
+     "1v2Count": 0
+    },
+    "kokolorez": {
+     "K/R Ratio": 0.72,
+     "Match 1v2 Win Rate": 0,
+     "Enemies Flashed": 3,
+     "Headshots": 7,
+     "Pistol Kills": 2,
+     "Utility Success Rate per Match": 0.2,
+     "Utility Count": 5,
+     "1v2Wins": 0,
+     "Knife Kills": 0,
+     "K/D Ratio": 0.81,
+     "Result": 0,
+     "Entry Wins": 0,
+     "Utility Damage per Round in a Match": 0.22,
+     "Kills": 13,
+     "Deaths": 16,
+     "Sniper Kills": 0,
+     "1v2Count": 0,
+     "First Kills": 0,
+     "Utility Usage per Round": 0.28,
+     "Clutch Kills": 3,
+     "Assists": 1,
+     "Utility Damage": 4,
+     "Match Entry Success Rate": 0,
+     "Damage": 1052,
+     "Quadro Kills": 0,
+     "Flashes per Round in a Match": 0.33,
+     "Utility Enemies": 1,
+     "Penta Kills": 0,
+     "Flash Successes": 3,
+     "Triple Kills": 1,
+     "Entry Count": 3,
+     "Flash Success Rate per Match": 0.5,
+     "Double Kills": 3,
+     "Flash Count": 6,
+     "Match 1v1 Win Rate": 0.5,
+     "Enemies Flashed per Round in a Match": 0.17,
+     "Utility Damage Success Rate per Match": 0.8,
+     "Utility Successes": 1,
+     "1v1Wins": 1,
+     "Sniper Kill Rate per Match": 0,
+     "Sniper Kill Rate per Round": 0,
+     "MVPs": 0,
+     "ADR": 58.4,
+     "Zeus Kills": 0,
+     "1v1Count": 2,
+     "Match Entry Rate": 0.17,
+     "Headshots %": 54
+    },
+    "Shpooople": {
+     "Enemies Flashed": 2,
+     "Flashes per Round in a Match": 0.17,
+     "Pistol Kills": 0,
+     "Utility Usage per Round": 0.17,
+     "Kills": 5,
+     "Quadro Kills": 0,
+     "ADR": 42.1,
+     "Match 1v1 Win Rate": 1,
+     "Utility Damage Success Rate per Match": 0,
+     "Flash Successes": 2,
+     "Utility Successes": 0,
+     "Headshots": 2,
+     "Utility Success Rate per Match": 0,
+     "Assists": 4,
+     "Sniper Kills": 0,
+     "MVPs": 1,
+     "K/R Ratio": 0.28,
+     "Entry Count": 2,
+     "1v2Wins": 0,
+     "Match Entry Rate": 0.11,
+     "1v2Count": 0,
+     "Damage": 757,
+     "Flash Success Rate per Match": 0.67,
+     "Triple Kills": 0,
+     "Clutch Kills": 1,
+     "Headshots %": 40,
+     "Match 1v2 Win Rate": 0,
+     "1v1Wins": 1,
+     "Match Entry Success Rate": 0,
+     "1v1Count": 1,
+     "Knife Kills": 0,
+     "Entry Wins": 0,
+     "Penta Kills": 0,
+     "Utility Damage per Round in a Match": 0,
+     "Zeus Kills": 0,
+     "Utility Damage": 0,
+     "Utility Count": 3,
+     "Flash Count": 3,
+     "Sniper Kill Rate per Round": 0,
+     "Result": 0,
+     "Deaths": 16,
+     "Sniper Kill Rate per Match": 0,
+     "First Kills": 0,
+     "K/D Ratio": 0.31,
+     "Enemies Flashed per Round in a Match": 0.11,
+     "Utility Enemies": 0,
+     "Double Kills": 0
+    },
+    "-neon666": {
+     "Flash Successes": 5,
+     "1v1Count": 3,
+     "Sniper Kill Rate per Round": 0,
+     "Utility Successes": 0,
+     "Result": 0,
+     "MVPs": 3,
+     "Utility Count": 2,
+     "Triple Kills": 2,
+     "Enemies Flashed per Round in a Match": 0.44,
+     "Knife Kills": 0,
+     "Damage": 2388,
+     "1v1Wins": 2,
+     "Sniper Kill Rate per Match": 0,
+     "Utility Damage Success Rate per Match": 18,
+     "Sniper Kills": 0,
+     "Entry Count": 5,
+     "Deaths": 15,
+     "Quadro Kills": 0,
+     "Utility Success Rate per Match": 0,
+     "Utility Usage per Round": 0.11,
+     "Assists": 3,
+     "Headshots %": 68,
+     "Enemies Flashed": 8,
+     "Match Entry Success Rate": 0.8,
+     "Zeus Kills": 0,
+     "Pistol Kills": 4,
+     "Utility Damage per Round in a Match": 2,
+     "Entry Wins": 4,
+     "Utility Enemies": 0,
+     "1v2Wins": 0,
+     "Utility Damage": 36,
+     "Clutch Kills": 4,
+     "Flashes per Round in a Match": 0.56,
+     "Double Kills": 4,
+     "Match 1v1 Win Rate": 0.67,
+     "Flash Count": 10,
+     "ADR": 132.7,
+     "First Kills": 4,
+     "Headshots": 15,
+     "K/R Ratio": 1.22,
+     "Match Entry Rate": 0.28,
+     "1v2Count": 1,
+     "Kills": 22,
+     "Flash Success Rate per Match": 0.5,
+     "Penta Kills": 0,
+     "K/D Ratio": 1.47,
+     "Match 1v2 Win Rate": 0
+    },
+    "amaseling": {
+     "Enemies Flashed": 1,
+     "Flash Count": 2,
+     "ADR": 46.3,
+     "Deaths": 18,
+     "Double Kills": 0,
+     "1v2Count": 1,
+     "1v1Count": 0,
+     "Match Entry Success Rate": 0.17,
+     "First Kills": 1,
+     "Match 1v1 Win Rate": 0,
+     "Headshots %": 75,
+     "Sniper Kill Rate per Match": 0,
+     "Assists": 3,
+     "Match 1v2 Win Rate": 0,
+     "Utility Damage per Round in a Match": 0,
+     "Kills": 4,
+     "Utility Damage Success Rate per Match": 0,
+     "Flashes per Round in a Match": 0.11,
+     "Sniper Kill Rate per Round": 0,
+     "Triple Kills": 0,
+     "Zeus Kills": 0,
+     "Quadro Kills": 0,
+     "Flash Successes": 1,
+     "Utility Enemies": 0,
+     "Utility Count": 3,
+     "Entry Count": 6,
+     "Knife Kills": 0,
+     "1v1Wins": 0,
+     "K/D Ratio": 0.22,
+     "K/R Ratio": 0.22,
+     "Utility Successes": 0,
+     "Headshots": 3,
+     "Enemies Flashed per Round in a Match": 0.06,
+     "Utility Damage": 0,
+     "Clutch Kills": 1,
+     "Utility Usage per Round": 0.17,
+     "Penta Kills": 0,
+     "1v2Wins": 0,
+     "Entry Wins": 1,
+     "Flash Success Rate per Match": 0.5,
+     "Damage": 833,
+     "Pistol Kills": 0,
+     "Match Entry Rate": 0.33,
+     "Result": 0,
+     "Sniper Kills": 0,
+     "MVPs": 1,
+     "Utility Success Rate per Match": 0
+    }
+   },
+   "enemies": {
+    "d1CHTAT0R": {
+     "pid": "94b1a50f-074c-4a3f-b2e4-a50597eea7d7",
+     "Kills": 18,
+     "Assists": 2,
+     "Deaths": 11,
+     "K/D Ratio": 1.64,
+     "ADR": 88.1,
+     "Headshots %": 33,
+     "MVPs": 2
+    },
+    "Myrden": {
+     "pid": "f06a816a-7b33-4c6e-a8fc-c8d5ab10da49",
+     "Kills": 21,
+     "Assists": 6,
+     "Deaths": 8,
+     "K/D Ratio": 2.62,
+     "ADR": 124.2,
+     "Headshots %": 52,
+     "MVPs": 4
+    },
+    "Ulez": {
+     "pid": "1cc70354-755a-4e7e-be37-6e8d18f89548",
+     "Kills": 19,
+     "Assists": 8,
+     "Deaths": 12,
+     "K/D Ratio": 1.58,
+     "ADR": 104.3,
+     "Headshots %": 42,
+     "MVPs": 3
+    },
+    "leoratt": {
+     "pid": "39ee5ce5-4abf-4ace-9b3a-a633dc968fa9",
+     "Kills": 12,
+     "Assists": 2,
+     "Deaths": 10,
+     "K/D Ratio": 1.2,
+     "ADR": 69.3,
+     "Headshots %": 25,
+     "MVPs": 1
+    },
+    "ryttera": {
+     "pid": "c774dd8e-32f1-4326-a534-7eebd9b5d05a",
+     "Kills": 12,
+     "Assists": 6,
+     "Deaths": 10,
+     "K/D Ratio": 1.2,
+     "ADR": 77.8,
+     "Headshots %": 33,
+     "MVPs": 3
+    }
+   },
+   "swing": {
+    "fh": [
+     2,
+     10
+    ],
+    "sh": [
+     3,
+     3
+    ],
+    "mom": 8
+   }
+  },
   {
    "match_id": "1-691e3302-7bd2-44d4-ad07-9cd92a107e8b",
    "started_at": 1793474440,
@@ -8294,243 +8618,17 @@
     ],
     "mom": 3
    }
-  },
-  {
-   "match_id": "1-1b6c8fd9-5d53-47b9-92a1-dc47cce8e996",
-   "started_at": 1792439522,
-   "finished_at": 1792441355,
-   "map": "de_cache",
-   "rounds": 16,
-   "score": [
-    13,
-    3
-   ],
-   "win": true,
-   "competition": "Europe 5v5 Queue",
-   "v": 2,
-   "players": {
-    "-neon666": {
-     "First Kills": 2,
-     "ADR": 146.3,
-     "Sniper Kill Rate per Match": 0,
-     "1v1Count": 2,
-     "Utility Enemies": 4,
-     "Enemies Flashed per Round in a Match": 0.25,
-     "Knife Kills": 0,
-     "Clutch Kills": 6,
-     "Sniper Kills": 0,
-     "Double Kills": 8,
-     "K/D Ratio": 4.17,
-     "Entry Count": 2,
-     "Enemies Flashed": 4,
-     "Match 1v2 Win Rate": 0.5,
-     "1v2Count": 2,
-     "Utility Successes": 2,
-     "Penta Kills": 0,
-     "Entry Wins": 2,
-     "Flash Successes": 3,
-     "Flashes per Round in a Match": 0.81,
-     "Deaths": 6,
-     "Quadro Kills": 1,
-     "Utility Damage per Round in a Match": 10.44,
-     "Sniper Kill Rate per Round": 0,
-     "Match 1v1 Win Rate": 0.5,
-     "Pistol Kills": 3,
-     "Result": 1,
-     "Utility Damage Success Rate per Match": 15.18,
-     "Match Entry Success Rate": 1,
-     "Flash Success Rate per Match": 0.23,
-     "MVPs": 4,
-     "Damage": 2341,
-     "Utility Success Rate per Match": 0.18,
-     "Triple Kills": 0,
-     "Utility Damage": 167,
-     "Headshots %": 68,
-     "Utility Usage per Round": 0.69,
-     "Headshots": 17,
-     "K/R Ratio": 1.56,
-     "1v2Wins": 1,
-     "Flash Count": 13,
-     "1v1Wins": 1,
-     "Kills": 25,
-     "Utility Count": 11,
-     "Assists": 4,
-     "Match Entry Rate": 0.12,
-     "Zeus Kills": 0
-    },
-    "kokolorez": {
-     "1v2Wins": 0,
-     "Double Kills": 0,
-     "Match 1v1 Win Rate": 0,
-     "First Kills": 1,
-     "Deaths": 10,
-     "Utility Usage per Round": 0.5,
-     "Damage": 1086,
-     "Utility Damage Success Rate per Match": 6.62,
-     "Match Entry Success Rate": 0.33,
-     "Utility Enemies": 2,
-     "K/R Ratio": 0.56,
-     "Utility Count": 8,
-     "Utility Successes": 1,
-     "Entry Wins": 1,
-     "Match Entry Rate": 0.19,
-     "Enemies Flashed": 0,
-     "Sniper Kill Rate per Match": 0,
-     "Match 1v2 Win Rate": 0,
-     "Clutch Kills": 0,
-     "Triple Kills": 1,
-     "1v1Count": 0,
-     "K/D Ratio": 0.9,
-     "Utility Damage": 53,
-     "Flashes per Round in a Match": 0.19,
-     "Headshots": 6,
-     "Headshots %": 67,
-     "Flash Successes": 0,
-     "Utility Success Rate per Match": 0.12,
-     "Sniper Kill Rate per Round": 0,
-     "1v2Count": 1,
-     "Result": 1,
-     "MVPs": 1,
-     "Assists": 5,
-     "Pistol Kills": 4,
-     "Enemies Flashed per Round in a Match": 0,
-     "Knife Kills": 0,
-     "Flash Success Rate per Match": 0,
-     "Sniper Kills": 0,
-     "1v1Wins": 0,
-     "Entry Count": 3,
-     "Utility Damage per Round in a Match": 3.31,
-     "Zeus Kills": 0,
-     "Penta Kills": 0,
-     "ADR": 67.9,
-     "Flash Count": 3,
-     "Quadro Kills": 0,
-     "Kills": 9
-    },
-    "amaseling": {
-     "First Kills": 2,
-     "Damage": 1046,
-     "Flash Count": 2,
-     "Utility Count": 2,
-     "1v1Wins": 0,
-     "Match 1v2 Win Rate": 0,
-     "Entry Wins": 2,
-     "Headshots": 3,
-     "Sniper Kill Rate per Match": 0,
-     "ADR": 65.4,
-     "Utility Damage Success Rate per Match": 0,
-     "Flash Success Rate per Match": 0.5,
-     "MVPs": 0,
-     "Sniper Kill Rate per Round": 0,
-     "1v2Count": 0,
-     "Result": 1,
-     "Entry Count": 3,
-     "Utility Damage per Round in a Match": 0,
-     "Utility Successes": 0,
-     "Utility Enemies": 0,
-     "Kills": 8,
-     "K/D Ratio": 0.62,
-     "Deaths": 13,
-     "Enemies Flashed": 2,
-     "Double Kills": 0,
-     "Match Entry Success Rate": 0.67,
-     "Penta Kills": 0,
-     "Clutch Kills": 0,
-     "Triple Kills": 0,
-     "Assists": 5,
-     "Utility Success Rate per Match": 0,
-     "Zeus Kills": 0,
-     "Match 1v1 Win Rate": 0,
-     "Utility Damage": 0,
-     "Sniper Kills": 0,
-     "Flashes per Round in a Match": 0.12,
-     "K/R Ratio": 0.5,
-     "Match Entry Rate": 0.19,
-     "1v2Wins": 0,
-     "Headshots %": 38,
-     "Pistol Kills": 2,
-     "Enemies Flashed per Round in a Match": 0.12,
-     "Utility Usage per Round": 0.12,
-     "Flash Successes": 1,
-     "Knife Kills": 0,
-     "1v1Count": 0,
-     "Quadro Kills": 0
-    }
-   },
-   "enemies": {
-    "hawaje": {
-     "pid": "d29ad2ad-adbc-4f1e-be74-974cfea4da37",
-     "Kills": 8,
-     "Assists": 2,
-     "Deaths": 13,
-     "K/D Ratio": 0.62,
-     "ADR": 55.2,
-     "Headshots %": 75,
-     "MVPs": 0
-    },
-    "R0sa777": {
-     "pid": "4587fa08-5c4b-4a22-9c68-5628bc497ed5",
-     "Kills": 2,
-     "Assists": 0,
-     "Deaths": 14,
-     "K/D Ratio": 0.14,
-     "ADR": 10.9,
-     "Headshots %": 50,
-     "MVPs": 0
-    },
-    "ke3o": {
-     "pid": "e15d4125-b0a1-455e-b4c0-4010033ad905",
-     "Kills": 12,
-     "Assists": 4,
-     "Deaths": 13,
-     "K/D Ratio": 0.92,
-     "ADR": 96.8,
-     "Headshots %": 50,
-     "MVPs": 2
-    },
-    "-snowbeamer": {
-     "pid": "610c41b7-02af-460e-b2f4-abfe8ef96083",
-     "Kills": 9,
-     "Assists": 1,
-     "Deaths": 16,
-     "K/D Ratio": 0.56,
-     "ADR": 59.8,
-     "Headshots %": 44,
-     "MVPs": 0
-    },
-    "Moksimo": {
-     "pid": "b3451e66-5aa5-4cd6-b8e7-9ded5da1a66f",
-     "Kills": 11,
-     "Assists": 1,
-     "Deaths": 16,
-     "K/D Ratio": 0.69,
-     "ADR": 76.9,
-     "Headshots %": 64,
-     "MVPs": 1
-    }
-   },
-   "swing": {
-    "fh": [
-     9,
-     3
-    ],
-    "sh": [
-     4,
-     0
-    ],
-    "mom": -2
-   }
   }
  ],
  "bento": {
-  "headshot_pct": 45.8,
+  "headshot_pct": 45.7,
   "trade_kills": null,
   "eco_winrate": null,
   "pistol_winrate": null
  },
  "highlights": {
   "best_map": {
-   "map": "de_cache",
+   "map": "de_anubis",
    "winrate": 80.0
   },
   "worst_map": {
@@ -8542,21 +8640,21 @@
  "adv": {
   "clutch": {
    "maps": {
+    "de_nuke": {
+     "count": 43,
+     "wins": 18
+    },
     "de_dust2": {
      "count": 36,
      "wins": 9
     },
     "de_cache": {
-     "count": 30,
-     "wins": 13
+     "count": 25,
+     "wins": 11
     },
     "de_ancient": {
      "count": 26,
      "wins": 5
-    },
-    "de_nuke": {
-     "count": 35,
-     "wins": 14
     },
     "de_inferno": {
      "count": 5,
@@ -8572,30 +8670,40 @@
     }
    },
    "players": {
-    "theunc666": {
-     "count": 40,
-     "wins": 11
-    },
     "kokolorez": {
-     "count": 39,
-     "wins": 11
+     "count": 40,
+     "wins": 12
     },
     "Shpooople": {
-     "count": 21,
-     "wins": 6
+     "count": 22,
+     "wins": 7
     },
     "-neon666": {
      "count": 44,
      "wins": 19
     },
     "amaseling": {
-     "count": 15,
+     "count": 16,
      "wins": 4
+    },
+    "theunc666": {
+     "count": 40,
+     "wins": 11
     }
    }
   },
   "pistol": {
    "maps": {
+    "de_nuke": {
+     "total": 71,
+     "by": {
+      "kokolorez": 15,
+      "-neon666": 25,
+      "theunc666": 20,
+      "Shpooople": 4,
+      "amaseling": 7
+     }
+    },
     "de_dust2": {
      "total": 66,
      "by": {
@@ -8607,13 +8715,13 @@
      }
     },
     "de_cache": {
-     "total": 41,
+     "total": 32,
      "by": {
       "theunc666": 3,
-      "kokolorez": 14,
+      "kokolorez": 10,
       "Shpooople": 6,
-      "-neon666": 15,
-      "amaseling": 3
+      "-neon666": 12,
+      "amaseling": 1
      }
     },
     "de_ancient": {
@@ -8624,16 +8732,6 @@
       "Shpooople": 6,
       "-neon666": 21,
       "amaseling": 3
-     }
-    },
-    "de_nuke": {
-     "total": 65,
-     "by": {
-      "theunc666": 20,
-      "kokolorez": 13,
-      "Shpooople": 4,
-      "-neon666": 21,
-      "amaseling": 7
      }
     },
     "de_inferno": {
@@ -8664,15 +8762,21 @@
     }
    },
    "players": {
+    "kokolorez": 64,
+    "-neon666": 109,
     "theunc666": 64,
-    "kokolorez": 66,
     "Shpooople": 32,
-    "-neon666": 108,
-    "amaseling": 23
+    "amaseling": 21
    }
   },
   "swing": {
    "maps": {
+    "de_nuke": {
+     "matches": 6,
+     "mom_avg": 0.8,
+     "comebacks": 1,
+     "collapses": 0
+    },
     "de_dust2": {
      "matches": 7,
      "mom_avg": 5.6,
@@ -8680,8 +8784,8 @@
      "collapses": 0
     },
     "de_cache": {
-     "matches": 5,
-     "mom_avg": 4.2,
+     "matches": 4,
+     "mom_avg": 5.8,
      "comebacks": 2,
      "collapses": 0
     },
@@ -8689,12 +8793,6 @@
      "matches": 6,
      "mom_avg": 0.3,
      "comebacks": 0,
-     "collapses": 0
-    },
-    "de_nuke": {
-     "matches": 5,
-     "mom_avg": -0.6,
-     "comebacks": 1,
      "collapses": 0
     },
     "de_inferno": {
@@ -8716,7 +8814,7 @@
      "collapses": 0
     }
    },
-   "mom_avg": 2.1,
+   "mom_avg": 2.4,
    "comebacks": 4,
    "collapses": 0
   },
