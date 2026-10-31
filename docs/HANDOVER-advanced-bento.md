@@ -51,3 +51,16 @@ Die Commits ändern nur CSS unter `#advPanel`. Die Sichtbarkeitslogik (`setTab`)
 1. `git log --oneline -3` und `git status` (sauber).
 2. `cmp index.html saltyboomers-dashboard.html`.
 3. Browser: Stack starten, `.vtab[data-tab="adv"]` klicken, dann prüfen: `#advPanel` ohne `hidden`, `.bento.mosaic` `scrollHeight <= clientHeight`.
+
+---
+
+## Update 2026-10-31 (13b175e): Zwei neue Bento-Seiten + Match-Modal
+
+- **Rivalen** `#bentoRivals` (rot #ff4d6b): Nemesis-Board (Top-7-Gegner mit ELO/Level), Clutch je Map/Kings/Bilanz, Gegner-Gefahr.
+- **Momentum** `#bentoForm` (Bernstein #ffb020): Swing-Verlauf (grün/rot), Comebacks/Collapses, Momentum-Ø, Swing/Pistol je Map, Pistol-Kings.
+- Tab-Leiste jetzt 4 Tabs (`score/adv/rivals/form`), Auto-Wechsel **90 s** (`CYCLE_SECS`); Fokus-Karte nach **2 Min** ausgeblendet.
+- Match-History-Zeilen klickbar → `#matchModal` (5 eigene + Gegner-Trenner + 5 Gegner, K/A/D, K/D, ADR, HS%, MVP).
+- Datenbasis: `stats.json` **Schema 3** (Publisher `fetch_stats.py`): `matches[].enemies/.swing` + `adv`-Block; `nemeses.json` im Publisher-Cache (24 h TTL, Backfill).
+- Panel-Header zentral via `updateAdvHead(st)` + `sbDebug.refreshHead()` — die Renderer setzen ihn nicht mehr selbst.
+- Abnahme: `python3 -m http.server 8899` im Repo-Ordner, dann `node probe_adv.js` (36 Checks; Entrance per `#entGo`-Klick + detached-warten; Modal-Shots im Headless mit `transition:none`).
+- Pitfalls (Details im Skill `faceit-weekend`): Loop-Variable `key` shadowed den API-Key (FACEIT 400 `invalid_token`); `d.setdefault(k, {})[n] = d[k]…` KeyError-Falle; rAF-Throttle → synchrone Balken-Widths in `fillBento`.
