@@ -927,6 +927,49 @@ table.adv td.best { color: var(--cyan); text-shadow: 0 0 14px rgba(200,206,212,.
   .ph h2 em { color: var(--accent); font-style: normal; }
   .kpi { border-top: calc(2 * var(--u)) solid var(--accent-edge); }
   .vtab.active { background: var(--accent); border-color: var(--accent); color: #04121c; }
+
+/* ---- Bento-Seiten 3+4: Rivalen (rot) & Momentum (bernstein) ---- */
+#advPanel .bento.rivals { --acc: #ff4d6b; border-color: rgba(255,77,107,.22); background: linear-gradient(160deg, rgba(255,60,90,.10), rgba(12,8,10,.6) 55%); }
+#advPanel .rivals .b-tile { background: linear-gradient(165deg, rgba(255,77,107,.12), rgba(14,9,12,.5)); border-color: rgba(255,77,107,.16); }
+#advPanel .rivals .b-tile .k { color: #ffb3c0; }
+#advPanel .rivals .b-tile .v { color: #ffeef1; }
+#advPanel .rivals .b-tile .v.rc { color: var(--acc); }
+#advPanel .rivals .b-bars .b-bar i { background: linear-gradient(90deg, rgba(255,77,107,.35), var(--acc)); }
+#advPanel .bento.form { --acc: #ffb020; border-color: rgba(255,176,32,.22); background: linear-gradient(160deg, rgba(255,176,32,.10), rgba(12,11,7,.6) 55%); }
+#advPanel .form .b-tile { background: linear-gradient(165deg, rgba(255,176,32,.12), rgba(13,11,8,.5)); border-color: rgba(255,176,32,.16); }
+#advPanel .form .b-tile .k { color: #ffd9a0; }
+#advPanel .form .b-tile .v { color: #fff5e6; }
+#advPanel .form .b-tile .v.fc { color: var(--acc); }
+#advPanel .form .b-tile .v.fc.up, #advPanel .form .b-tile .v.fc.dn { color: var(--acc); }
+#advPanel .form .b-bars .b-bar i { background: linear-gradient(90deg, rgba(255,176,32,.35), var(--acc)); }
+#advPanel .form .b-bars .b-bar i.up { background: linear-gradient(90deg, rgba(55,214,122,.35), var(--win)); }
+#advPanel .form .b-bars .b-bar i.dn { background: linear-gradient(90deg, rgba(255,77,107,.35), var(--loss)); }
+.nem-board { display: flex; flex-direction: column; gap: calc(3 * var(--u)); width: 100%; }
+.nem-row { display: grid; grid-template-columns: calc(30 * var(--u)) minmax(0, 1.2fr) minmax(0, 1.6fr) calc(56 * var(--u)) calc(70 * var(--u)); align-items: center; gap: calc(8 * var(--u)); font-size: calc(14 * var(--u)); padding: calc(3 * var(--u)) calc(8 * var(--u)); border-radius: calc(8 * var(--u)); background: rgba(255,255,255,.03); }
+.nem-row.top { background: rgba(255,77,107,.14); }
+.nem-row .rk { font-family: var(--font-num); font-weight: 700; color: var(--acc); }
+.nem-row .nn { font-weight: 700; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+.nem-row .nn small { display: block; font-weight: 400; font-size: calc(10 * var(--u)); color: var(--dim); }
+.nem-row .nm { font-size: calc(11 * var(--u)); color: var(--muted); }
+.nem-row .kd, .nem-row .kl { font-family: var(--font-num); font-weight: 700; text-align: right; }
+#matchHistory .match { cursor: pointer; }
+#matchHistory .match:hover { background: rgba(255,255,255,.04); border-color: var(--accent); }
+#matchModal .modal { width: min(calc(780 * var(--u)), 94vw); text-align: left; max-height: 88vh; overflow: auto; }
+#matchModal h3 { display: flex; align-items: center; gap: calc(10 * var(--u)); }
+.mm-res { font-size: calc(14 * var(--u)); padding: calc(2 * var(--u)) calc(10 * var(--u)); border-radius: calc(999 * var(--u)); }
+.mm-res.w { color: var(--win); background: rgba(55,214,122,.12); }
+.mm-res.l { color: var(--loss); background: rgba(255,77,107,.12); }
+.mm-score { font-family: var(--font-num); }
+#matchModal p { margin: 0 0 calc(12 * var(--u)); }
+.mm-board { display: flex; flex-direction: column; gap: calc(2 * var(--u)); margin-bottom: calc(14 * var(--u)); }
+.mm-row { display: grid; grid-template-columns: minmax(0, 1fr) calc(40 * var(--u)) calc(40 * var(--u)) calc(40 * var(--u)) calc(54 * var(--u)) calc(54 * var(--u)) calc(54 * var(--u)) calc(44 * var(--u)); gap: calc(6 * var(--u)); font-size: calc(13 * var(--u)); padding: calc(4 * var(--u)) calc(8 * var(--u)); border-radius: calc(8 * var(--u)); align-items: center; }
+.mm-row > span { text-align: right; font-family: var(--font-num); }
+.mm-row .p { text-align: left; font-family: var(--font-ui); font-weight: 700; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+.mm-row.mm-head { font-size: calc(10 * var(--u)); letter-spacing: .12em; text-transform: uppercase; color: var(--dim); font-family: var(--font-ui); }
+.mm-row.mm-head > span { font-family: var(--font-ui); }
+.mm-row.enemy { color: var(--muted); background: rgba(255,255,255,.02); }
+.mm-row:not(.mm-head):not(.enemy):nth-child(odd) { background: rgba(255,255,255,.03); }
+.mm-sep { font-size: calc(10 * var(--u)); letter-spacing: .14em; text-transform: uppercase; color: var(--dim); margin: calc(8 * var(--u)) 0 calc(2 * var(--u)); }
   .adv-link { border-color: var(--accent-edge); background: var(--accent-soft); color: var(--accent); }
   a.room, .countdown { color: var(--accent); }
   .carry-row.top .rank, .rank { color: var(--accent); }
@@ -1199,7 +1242,9 @@ body.fx-shake .wrap { animation:fxShake .45s; }
         <div class="view-tabs">
           <button class="vtab active" data-tab="score">Scoreboard</button>
           <button class="vtab" data-tab="adv"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.5 12h3.2l2.6-6.5 4.4 13 2.6-6.5h4.2"/></svg>Advanced</button>
-          <span class="cyc">Auto-Wechsel in <b id="cycLeft">2:00</b></span>
+          <button class="vtab" data-tab="rivals"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="7.5"/><circle cx="12" cy="12" r="2.5"/><path d="M12 1.5v5M12 17.5v5M1.5 12h5M17.5 12h5"/></svg>Rivalen</button>
+          <button class="vtab" data-tab="form"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 17l5-6 4 3 6-8"/><path d="M17 6h4v4"/></svg>Momentum</button>
+          <span class="cyc">Auto-Wechsel in <b id="cycLeft">1:30</b></span>
         </div>
         <section class="panel glow" id="scorePanel">
         <div class="ph">
@@ -1304,6 +1349,8 @@ body.fx-shake .wrap { animation:fxShake .45s; }
             <div class="b-tile"><div class="k">Entry-Kills<span class="info" tabindex="0" data-tip="Erste Kills einer Runde (Opening-Frags), Team gesamt.">i</span></div><div class="v">38</div><div class="sub">Ø 0.34 pro Runde</div></div>
             <div class="b-tile"><div class="k">Flash-Assists<span class="info" tabindex="0" data-tip="Kills, die durch einen Flash des Teams ermöglicht wurden.">i</span></div><div class="v">21</div><div class="sub">Best: kokolorez · 7</div></div>
           </div>
+          <div class="bento rivals hidden" id="bentoRivals"></div>
+          <div class="bento form hidden" id="bentoForm"></div>
         </section>
       </div>
 
@@ -1425,6 +1472,16 @@ body.fx-shake .wrap { animation:fxShake .45s; }
   </div>
 </div>
 
+<!-- Match-Modal (Klick auf eine Match-Zeile) -->
+<div class="modal-veil" id="matchModal">
+  <div class="modal mm">
+    <h3 id="mmTitle">Match</h3>
+    <p id="mmSub"></p>
+    <div class="mm-board" id="mmBoard"></div>
+    <div class="row"><button class="btn-ghost" id="mmClose">Schließen</button></div>
+  </div>
+</div>
+
 <div class="toast" id="toast"></div>
 
 <script>
@@ -1476,25 +1533,27 @@ function fillBars() {
 }
 
 /* Tabs im Live-View: Scoreboard ↔ Advanced-Bento, Auto-Wechsel alle 2 Min */
+const TABS = ["score", "adv", "rivals", "form"], CYCLE_SECS = 90;
 const tabs = { score: $("#scorePanel"), adv: $("#advPanel") };
-let activeTab = "score", cycLeft = 120;
-let bentoFilled = false;
+const bentoPages = { adv: $("#advPanel .bento.adv2"), rivals: $("#bentoRivals"), form: $("#bentoForm") };
+let activeTab = "score", cycLeft = CYCLE_SECS;
 function fillBento() {
-  if (bentoFilled) return; bentoFilled = true;
-  document.querySelectorAll("#advPanel .b-bar i").forEach(b => setTimeout(() => b.style.width = b.dataset.w + "%", 60));
+  document.querySelectorAll("#advPanel .b-bar i").forEach(b => { if (b.dataset.w != null) b.style.width = b.dataset.w + "%"; });
 }
 function setTab(t) {
-  activeTab = t; cycLeft = 120;
+  activeTab = t; cycLeft = CYCLE_SECS;
   tabs.score.classList.toggle("hidden", t !== "score");
-  tabs.adv.classList.toggle("hidden", t !== "adv");
+  tabs.adv.classList.toggle("hidden", t === "score");
+  Object.entries(bentoPages).forEach(([k, el]) => el && el.classList.toggle("hidden", k !== t));
   document.querySelectorAll(".vtab").forEach(b => b.classList.toggle("active", b.dataset.tab === t));
-  if (t === "adv") fillBento();
-}
+  if (t !== "score") fillBento();
+  if (window.sbDebug && window.sbDebug.refreshHead) window.sbDebug.refreshHead();
+  }
 document.querySelectorAll(".vtab").forEach(b => b.onclick = () => setTab(b.dataset.tab));
 setInterval(() => {
   if (document.hidden || views.live.classList.contains("hidden")) return;
   cycLeft--;
-  if (cycLeft <= 0) { setTab(activeTab === "score" ? "adv" : "score"); return; }
+  if (cycLeft <= 0) { setTab(TABS[(TABS.indexOf(activeTab) + 1) % TABS.length]); return; }
   const el = $("#cycLeft");
   if (el) el.textContent = Math.floor(cycLeft / 60) + ":" + String(cycLeft % 60).padStart(2, "0");
 }, 1000);
@@ -1720,7 +1779,7 @@ setView("live");
     if (WEEKEND && WEEKEND.start_ts === FIXED.ts && WEEKEND.start_elo) return WEEKEND.start_elo;
     const b = {}; Object.entries((DATA && DATA.players) || {}).forEach(([n, p]) => { if (p.elo != null) b[n] = p.elo; }); return b;
   };
-  const POLL_MS = 60 * 1000, FOCUS_MS = 10 * 60 * 1000;
+  const POLL_MS = 60 * 1000, FOCUS_MS = 2 * 60 * 1000;
   const MAPIMG = new Set(["ancient","anubis","cache","dust2","inferno","mirage","nuke","overpass","train","vertigo"]);
   const $ = s => document.querySelector(s), $$ = s => Array.from(document.querySelectorAll(s));
   const esc = s => String(s == null ? "" : s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
@@ -1939,6 +1998,7 @@ setView("live");
         `<div class="m-score"><span class="s">${m.score[0] ?? "—"}<span class="colon">:</span>${m.score[1] ?? "—"}</span><span class="res-chip ${m.win ? "w" : "l"}">${m.win ? "WIN" : "LOSS"}</span></div>` +
         `<div class="m-mvp">Top im Match<b>${t ? esc(t.nick) + " · " + S(t.s, "Kills") + " Kills" : "—"}</b></div>` +
         `<a class="m-link" href="${room(m.match_id)}" target="_blank" rel="noopener" title="Match-Room öffnen"><svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 3h6v6"/><path d="M10 14 21 3"/><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/></svg></a>`;
+      el.onclick = ev => { if (ev.target.closest(".m-link")) return; openMatch(m.match_id); };
       box.insertBefore(el, srch);
     });
     srch.textContent = st.mode === "warm" ? "Aufwärmen · neue Matches kommen automatisch (Abruf jede Minute)"
@@ -1978,7 +2038,7 @@ setView("live");
   /* ---------- Advanced-Bento ---------- */
   function renderBento(st, A) {
     const panel = $("#advPanel"); if (!panel) return;
-    panel.querySelector(".ph .hint").textContent = "Team · " + scope(st.mode) + " · FACEIT Data API";
+    updateAdvHead(st);
     const T = A.T, P = A.P, n = st.set.length;
     const who = (b, f) => b ? `Best: ${esc(b.nick)} · ${f(b.v)}` : "";
     const ms = mapStats(st.set).filter(x => x.n >= 2).sort((a, b) => b.wr - a.wr || b.n - a.n);
@@ -2005,6 +2065,74 @@ setView("live");
       `<div class="b-tile${wide ? " wide" : ""}"><div class="k">${k}${tip(t)}</div><div class="v ${v == null ? "na" : (cls || "")}">${v == null ? "—" : v}</div><div class="sub">${sub || ""}</div></div>`).join("");
   }
 
+  /* ---------- Bento-Seite 3: Rivalen ---------- */
+  function renderRivals(st, A) {
+    const page = $("#bentoRivals"); if (!page) return;
+    const adv = (DATA && DATA.adv) || {};
+    const nem = adv.nemeses || [];
+    const clM = Object.entries((adv.clutch || {}).maps || {}).map(([mp, v]) => Object.assign({ mp }, v)).sort((a, b) => b.count - a.count);
+    const clP = Object.entries((adv.clutch || {}).players || {}).map(([n, v]) => Object.assign({ n }, v)).sort((a, b) => b.wins - a.wins || b.count - a.count);
+    const totC = clP.reduce((x, p) => x + p.count, 0), totW = clP.reduce((x, p) => x + p.wins, 0);
+    const nemRows = nem.slice(0, 7).map((x, i) =>
+      `<div class="nem-row${i === 0 ? " top" : ""}"><b class="rk">#${i + 1}</b><span class="nn">${esc(x.nick)}<small>${x.elo != null ? x.elo + " ELO · Lvl " + (x.level ?? "?") : "Profil offline"}</small></span><span class="nm">${x.matches} Matches · ${x.wins} für ihn</span><span class="kd">${x.kd != null ? x.kd.toFixed(2) : "—"}</span><span class="kl">${x.kills} K</span></div>`).join("") ||
+      '<div class="nem-row"><span class="nn">Noch keine Gegnerdaten</span></div>';
+    const hsArr = nem.map(x => x.hs_pct).filter(v => v != null);
+    const hsAvg = hsArr.length ? Math.round(hsArr.reduce((a, b) => a + b, 0) / hsArr.length) : null;
+    const mvpSum = nem.reduce((a, x) => a + (x.mvp || 0), 0);
+    const bar = (n, w, label) => `<div class="row"><span class="bn">${esc(n)}</span><span class="b-bar"><i data-w="${w}"></i></span><b>${label}</b></div>`;
+    const clMapBars = clM.slice(0, 5).map(x => bar(mapName(x.mp), x.count ? Math.round(100 * x.wins / x.count) : 0, (x.count ? Math.round(100 * x.wins / x.count) : 0) + "%")).join("");
+    const clTop = clP.slice(0, 4).map(x => bar(x.n, x.count ? Math.round(100 * x.wins / x.count) : 0, `${x.wins}/${x.count}`)).join("");
+    page.innerHTML =
+      `<div class="b-tile wide tall"><div class="k">Nemesis-Board${tip("Gegner mit den meisten Kills gegen den Stack. ELO/Level aus dem FACEIT-Profil, Rest aus den Match-Scores.")}</div><div class="nem-board">${nemRows}</div><div class="sub">K/D und Kills gegen uns · ${nem.length ? esc(nem[0].nick) + " führt" : "keine Daten"}</div></div>` +
+      `<div class="b-tile"><div class="k">Clutch je Map${tip("Erfolgsquote in 1v1- und 1v2-Situationen, pro Map.")}</div><div class="b-bars">${clMapBars || '<div class="row"><span class="bn">—</span></div>'}</div><div class="sub">${totC ? totW + "/" + totC + " Clutches gesamt" : ""}</div></div>` +
+      `<div class="b-tile"><div class="k">Clutch-Kings${tip("Wer entscheidet die meisten Clutches?")}</div><div class="b-bars">${clTop || '<div class="row"><span class="bn">—</span></div>'}</div><div class="sub">${totC ? Math.round(100 * totW / totC) + "% Team-Quote" : ""}</div></div>` +
+      `<div class="b-tile"><div class="k">Clutch-Bilanz${tip("Gewonnene von allen gespielten 1v1/1v2-Runden.")}</div><div class="v rc">${totC ? totW + '<span class="pct"> / ' + totC + "</span>" : "—"}</div><div class="sub">${clM.length} Maps · 1v1 + 1v2</div></div>` +
+      `<div class="b-tile"><div class="k">Gegner-Gefahr${tip("Durchschnittliche Headshot-Quote und gesammelte MVPs der Nemesis-Gegner.")}</div><div class="v rc">${hsAvg != null ? hsAvg + '<span class="pct"> % HS</span>' : "—"}</div><div class="sub">${mvpSum} MVPs · Ø über Top ${nem.length}</div></div>`;
+    if (activeTab === "rivals") fillBento();
+  }
+
+  /* ---------- Bento-Seite 4: Momentum ---------- */
+  function renderMomentum(st, A) {
+    const page = $("#bentoForm"); if (!page) return;
+    const adv = (DATA && DATA.adv) || {};
+    const sw = adv.swing || {};
+    const pis = adv.pistol || { maps: {}, players: {} };
+    const hist = st.set.filter(m => m.swing).slice(0, 10).reverse();
+    const maxAbs = Math.max(2, ...hist.map(m => Math.abs(m.swing.mom)));
+    const bar = (n, w, label, cls) => `<div class="row"><span class="bn">${esc(n)}</span><span class="b-bar"><i class="${cls || ""}" data-w="${w}"></i></span><b>${label}</b></div>`;
+    const sg = v => (v > 0 ? "+" : "") + v;
+    const swRows = hist.map(m => { const mom = m.swing.mom; return bar(mapName(m.map), Math.round(Math.abs(mom) / maxAbs * 100), sg(mom), mom >= 0 ? "up" : "dn"); }).join("");
+    const swMaps = Object.entries(sw.maps || {}).map(([mp, v]) => Object.assign({ mp }, v)).sort((a, b) => b.matches - a.matches).slice(0, 5);
+    const swMapBars = swMaps.map(x => { const v = x.mom_avg || 0; return bar(mapName(x.mp), Math.round(Math.min(Math.abs(v), maxAbs) / maxAbs * 100), sg(v), v >= 0 ? "up" : "dn"); }).join("");
+    const pisM = Object.entries(pis.maps || {}).map(([mp, v]) => Object.assign({ mp }, v)).sort((a, b) => b.total - a.total).slice(0, 5);
+    const pisTop = Math.max(1, ...pisM.map(x => x.total));
+    const pisBars = pisM.map(x => bar(mapName(x.mp), Math.round(100 * x.total / pisTop), x.total)).join("");
+    const pisP = Object.entries(pis.players || {}).sort((a, b) => b[1] - a[1]).slice(0, 4);
+    const pisPMax = Math.max(1, ...pisP.map(x => x[1]));
+    const pisPBars = pisP.map(([n, v]) => bar(n, Math.round(100 * v / pisPMax), v)).join("");
+    page.innerHTML =
+      `<div class="b-tile wide tall"><div class="k">Swing-Verlauf${tip("Veränderung der Rundendifferenz von erster zu zweiter Halbzeit. +2 heißt: zwei Runden gutgemacht oder ausgebaut.")}</div><div class="b-bars">${swRows || "—"}</div><div class="sub">letzte ${hist.length} Matches · grün zugelegt, rot nachgelassen</div></div>` +
+      `<div class="b-tile"><div class="k">Comebacks${tip("Matches, die nach verlorener erster Halbzeit noch gewonnen wurden.")}</div><div class="v fc">${sw.comebacks ?? 0}</div><div class="sub">HZ verloren, Match gewonnen</div></div>` +
+      `<div class="b-tile"><div class="k">Collapses${tip("Matches, die nach gewonnener erster Halbzeit noch verloren wurden.")}</div><div class="v fc">${sw.collapses ?? 0}</div><div class="sub">HZ gewonnen, Match verloren</div></div>` +
+      `<div class="b-tile"><div class="k">Momentum Ø${tip("Durchschnittlicher Swing über alle Matches.")}</div><div class="v fc">${sw.mom_avg != null ? sg(sw.mom_avg) : "—"}</div><div class="sub">Runden-Diff 2. HZ − 1. HZ</div></div>` +
+      `<div class="b-tile"><div class="k">Swing je Map${tip("Durchschnittlicher Swing pro Map.")}</div><div class="b-bars">${swMapBars || "—"}</div><div class="sub">Ø alle Matches</div></div>` +
+      `<div class="b-tile"><div class="k">Pistol-Kills je Map${tip("Kills in Pistolenrunden (erste Runde jeder Halbzeit), Team gesamt.")}</div><div class="b-bars">${pisBars || "—"}</div><div class="sub">Team gesamt</div></div>` +
+      `<div class="b-tile"><div class="k">Pistol-Kings${tip("Die meisten Pistol-Kills im Stack.")}</div><div class="b-bars">${pisPBars || "—"}</div><div class="sub">Pistol-Kills gesamt</div></div>`;
+    if (activeTab === "form") fillBento();
+  }
+
+  const ADV_HEAD = {
+    adv: ['ADVANCED <em>BENTO</em>', null],
+    rivals: ['RIVALEN <em>BENTO</em>', 'Gegner & Clutches'],
+    form: ['MOMENTUM <em>BENTO</em>', 'Halbzeit-Swings & Pistol-Kills'],
+  };
+  function updateAdvHead(st) {
+    const panel = $("#advPanel"); if (!panel) return;
+    const [h, sub] = ADV_HEAD[activeTab] || ADV_HEAD.adv;
+    panel.querySelector(".ph h2").innerHTML = h;
+    panel.querySelector(".ph .hint").textContent = (sub ? sub : "Team") + " · " + scope(st.mode) + " · FACEIT Data API";
+  }
+
   /* ---------- Gesamt ---------- */
   function render() {
     if (!DATA) return;
@@ -2013,7 +2141,7 @@ setView("live");
     const goneLive = lastMode === "wait" && st.mode === "live";
     lastMode = st.mode;
     document.body.classList.remove("st-warm", "st-wait", "st-live"); document.body.classList.add("st-" + st.mode);
-    renderFocus(st); renderKpis(st); renderScore(st, A); renderMatches(st); renderHighlights(st, A); renderBento(st, A);
+    renderFocus(st); renderKpis(st); renderScore(st, A); renderMatches(st); renderHighlights(st, A); renderBento(st, A); renderRivals(st, A); renderMomentum(st, A); updateAdvHead(st);
     const fs = $("#footStand"); if (fs && DATA.updated_at) fs.textContent = new Date(DATA.updated_at).toLocaleTimeString("de-DE", { hour: "2-digit", minute: "2-digit" });
     if (goneLive) liveFlip();
     else if (st.mode === "live" && lastTopId && st.set[0] && st.set[0].match_id !== lastTopId) liveFlip(true);
@@ -2148,7 +2276,28 @@ setView("live");
   if (FIXED.ts) { const rb = $("#btnReset"); if (rb) rb.style.display = "none"; }
   const fxBtn = $("#btnFxTest");
   if (fxBtn) fxBtn.onclick = () => { if (window.drawerOpen) drawerOpen(false); setTimeout(() => playStart(false), 250); };
-  window.sbDebug = { render, state: () => state().mode, data: () => DATA, playStart };
+  /* ---------- Match-Modal ---------- */
+  function openMatch(mid) {
+    const m = ((DATA && DATA.matches) || []).find(x => x.match_id === mid); if (!m) return;
+    const box = $("#matchModal"); if (!box) return;
+    $("#mmTitle").innerHTML = `${esc(mapName(m.map))} <span class="mm-res ${m.win ? "w" : "l"}">${m.win ? "WIN" : "LOSS"}</span><span class="mm-score">${m.score[0] ?? "—"}<span class="colon">:</span>${m.score[1] ?? "—"}</span>`;
+    $("#mmSub").textContent = `${when(m.finished_at)} · ${queue(m.competition)} · ${m.rounds ?? "?"} Runden`;
+    const row = (nick, s, enemy) => `<div class="mm-row${enemy ? " enemy" : ""}"><span class="p">${esc(nick)}</span><span>${S(s, "Kills")}</span><span>${S(s, "Assists")}</span><span>${S(s, "Deaths")}</span><span>${S(s, "K/D Ratio") != null ? r2(S(s, "K/D Ratio")).toFixed(2) : "—"}</span><span>${S(s, "ADR") != null ? Math.round(S(s, "ADR")) : "—"}</span><span>${S(s, "Headshots %") != null ? Math.round(S(s, "Headshots %")) + "%" : "—"}</span><span>${S(s, "MVPs") ?? "—"}</span></div>`;
+    const head = '<div class="mm-row mm-head"><span class="p">Spieler</span><span>K</span><span>A</span><span>D</span><span>K/D</span><span>ADR</span><span>HS%</span><span>MVP</span></div>';
+    const us = Object.entries(m.players || {}), en = Object.entries(m.enemies || {});
+    $("#mmBoard").innerHTML = head +
+      us.map(([n, s]) => row(n, s, false)).join("") +
+      (en.length ? '<div class="mm-sep">Gegner</div>' : "") +
+      en.map(([n, s]) => row(n, s, true)).join("");
+    box.classList.add("show");
+  }
+  (() => {
+    const box = $("#matchModal"); if (!box) return;
+    $("#mmClose").onclick = () => box.classList.remove("show");
+    box.addEventListener("click", ev => { if (ev.target === box) box.classList.remove("show"); });
+    document.addEventListener("keydown", ev => { if (ev.key === "Escape" && box.classList.contains("show")) box.classList.remove("show"); });
+  })();
+  window.sbDebug = { render, state: () => state().mode, data: () => DATA, playStart, setTab, openMatch, refreshHead: () => DATA && updateAdvHead(state()), cycleNext: () => setTab(TABS[(TABS.indexOf(activeTab) + 1) % TABS.length]) };
 })();
 </script>
 

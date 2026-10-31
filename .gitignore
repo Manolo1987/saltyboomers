@@ -13,3 +13,7 @@ saltyboomers-dashboard.html
 !lookup_players.py
 !players.json
 !saltyboomers-dashboard.html
+
+# lokale Test-/Build-Artefakte
+probe_adv.js
+__pycache__/

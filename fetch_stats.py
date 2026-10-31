@@ -31,6 +31,9 @@ HISTORY_LIMIT = 30        # pro Spieler abgefragte Historie
 MIN_STACK = 2             # ab so vielen SaltyBoomers im selben Team zählt ein Match
 PROFILE_EVERY = 300       # Spielerprofile (ELO) höchstens alle 5 Min neu holen
 THROTTLE = 0.25           # Pause zwischen zwei Requests (Sekunden)
+NEMESIS_TOP = 8           # so viele Gegner bekommen ELO/Level (Profil-Abfrage)
+NEMESIS_EVERY = 86400     # Gegner-Profile höchstens alle 24 h neu holen
+ENEMY_FIELDS = ("Kills", "Assists", "Deaths", "K/D Ratio", "ADR", "Headshots %", "MVPs")
 
 REQUESTS = 0
 
@@ -80,7 +83,7 @@ def get(path, key):
                 print(f"WARN: HTTP {e.code} bei {path.split('?')[0]}, warte {wait:.0f}s", file=sys.stderr)
                 time.sleep(wait)
                 continue
-            raise RuntimeError(f"HTTP {e.code} bei {path.split('?')[0]}") from None
+            raise RuntimeError(f"HTTP {e.code} bei {path.split('?')[0]} | body={e.read()[:140]!r} | cf-ray={e.headers.get('cf-ray')}") from None
         except urllib.error.URLError as e:
             if attempt < 3:
                 time.sleep(3.0 * (attempt + 1))
@@ -137,7 +140,7 @@ def stack_players_in(team, pids):
 
 
 def build_match(hist_item, stats, pids, nick_by_pid):
-    """Kompakter Datensatz für ein Match. Nur die Stack-Spieler, alle Werte als Zahlen."""
+    """Kompakter Datensatz für ein Match. Stack-Spieler vollständig, Gegner kompakt."""
     rnd = (stats.get("rounds") or [{}])[0]
     rs = rnd.get("round_stats", {})
     teams = rnd.get("teams", [])
@@ -167,6 +170,25 @@ def build_match(hist_item, stats, pids, nick_by_pid):
         ps = {k: num(v) for k, v in (p.get("player_stats") or {}).items()}
         players[nick_by_pid[pid]] = {k: v for k, v in ps.items() if v is not None}
 
+    # Gegner kompakt (Nemesis-Liste + Match-Modal)
+    enemies = {}
+    for p in (theirs or {}).get("players", []):
+        epid, enick = p.get("player_id"), p.get("nickname")
+        if not epid or not enick:
+            continue
+        eps = {k: num(v) for k, v in (p.get("player_stats") or {}).items()}
+        e = {"pid": epid}
+        e.update({k: eps[k] for k in ENEMY_FIELDS if eps.get(k) is not None})
+        enemies[enick] = e
+
+    # Halbzeit-Scores -> Swing: Rundendifferenz der zweiten minus der ersten Halbzeit
+    th_ts = (theirs or {}).get("team_stats", {})
+    fh_us, fh_th = num(ts.get("First Half Score")), num(th_ts.get("First Half Score"))
+    sh_us, sh_th = num(ts.get("Second Half Score")), num(th_ts.get("Second Half Score"))
+    swing = None
+    if None not in (fh_us, fh_th, sh_us, sh_th):
+        swing = {"fh": [fh_us, fh_th], "sh": [sh_us, sh_th], "mom": (sh_us - sh_th) - (fh_us - fh_th)}
+
     return {
         "match_id": hist_item["match_id"],
         "started_at": hist_item.get("started_at"),
@@ -176,7 +198,10 @@ def build_match(hist_item, stats, pids, nick_by_pid):
         "score": [our_score, their_score],
         "win": win,
         "competition": hist_item.get("competition_name"),
+        "v": 2,
         "players": players,
+        "enemies": enemies,
+        "swing": swing,
     }
 
 
@@ -222,7 +247,7 @@ def main():
     for it in candidates:
         mid = it["match_id"]
         cached = cache_read(f"matches/{mid}.json")
-        if cached is None:
+        if cached is None or cached.get("v") != 2:  # alte Caches ohne Gegner/Swing neu holen
             try:
                 st = get(f"/matches/{mid}/stats", key)
             except NotReady:
@@ -265,8 +290,102 @@ def main():
     best = max(rates, key=rates.get) if rates else None
     worst = min(rates, key=rates.get) if rates else None
 
+    # 4b) Advanced: Clutch/Pistol je Map, Swing-Bilanz, Nemesen (Gegner mit ELO)
+    clutch_maps, clutch_pl, pistol_maps, pistol_pl, swing_maps = {}, {}, {}, {}, {}
+    nem = {}
+    comebacks = collapses = 0
+    mom_all = []
+    for m in matches:
+        mp = m.get("map") or "?"
+        for nick, ps in m["players"].items():
+            for ck in ("1v1", "1v2"):
+                c, w = ps.get(ck + "Count"), ps.get(ck + "Wins")
+                if c:
+                    cm = clutch_maps.setdefault(mp, [0, 0])
+                    cm[0] += c
+                    cm[1] += w or 0
+                    cp = clutch_pl.setdefault(nick, [0, 0])
+                    cp[0] += c
+                    cp[1] += w or 0
+            pk = ps.get("Pistol Kills")
+            if pk:
+                pm = pistol_maps.setdefault(mp, {})
+                pm[nick] = pm.get(nick, 0) + pk
+                pistol_pl[nick] = pistol_pl.get(nick, 0) + pk
+        for enick, ps in (m.get("enemies") or {}).items():
+            e = nem.setdefault(enick, {"nick": enick, "pid": ps.get("pid"), "n": 0, "wins": 0,
+                                       "kills": 0, "deaths": 0, "_hss": 0.0, "_hsn": 0, "mvp": 0})
+            e["n"] += 1
+            if m.get("win") is False:
+                e["wins"] += 1
+            e["kills"] += ps.get("Kills") or 0
+            e["deaths"] += ps.get("Deaths") or 0
+            _hs = ps.get("Headshots %")
+            if _hs is not None:
+                e["_hss"] += _hs
+                e["_hsn"] += 1
+            e["mvp"] += ps.get("MVPs") or 0
+        sw = m.get("swing")
+        if sw:
+            mom_all.append(sw["mom"])
+            sm = swing_maps.setdefault(mp, [0, 0, 0, 0])  # Matches, Σ Momentum, Comebacks, Collapses
+            sm[0] += 1
+            sm[1] += sw["mom"]
+            lead_fh = sw["fh"][0] - sw["fh"][1]
+            if m.get("win") is True and lead_fh < 0:
+                sm[2] += 1
+                comebacks += 1
+            if m.get("win") is False and lead_fh > 0:
+                sm[3] += 1
+                collapses += 1
+
+    ranked = sorted((x for x in nem.values() if x.get("pid")),
+                    key=lambda x: (x["kills"], x["kills"] - x["deaths"]), reverse=True)[:NEMESIS_TOP]
+    np_cache = cache_read("nemeses.json") or {}
+    nplayers = np_cache.get("players", {})
+    if time.time() - np_cache.get("_ts", 0) > NEMESIS_EVERY or not CACHE_DIR:
+        for x in ranked:
+            if x["pid"] in nplayers:
+                continue
+            try:
+                p = get(f"/players/{x['pid']}", key)
+            except (NotReady, RuntimeError) as e:  # ein kaputtes Gegner-Profil darf den Lauf nicht abbrechen
+                print(f"WARN: Nemesis-Profil {x['nick']} ({x['pid']}) nicht abrufbar: {e}", file=sys.stderr)
+                continue
+            g = (p.get("games") or {}).get("cs2", {})
+            nplayers[x["pid"]] = {"elo": g.get("faceit_elo"), "level": g.get("skill_level")}
+        if nplayers:
+            cache_write("nemeses.json", {"_ts": time.time(), "players": nplayers})
+    nemeses = [{
+        "nick": x["nick"], "matches": x["n"], "wins": x["wins"],
+        "kills": x["kills"], "deaths": x["deaths"],
+        "kd": round(x["kills"] / x["deaths"], 2) if x["deaths"] else None,
+        "hs_pct": round(x["_hss"] / x["_hsn"], 1) if x["_hsn"] else None,
+        "mvp": x["mvp"],
+        "elo": (nplayers.get(x["pid"]) or {}).get("elo"),
+        "level": (nplayers.get(x["pid"]) or {}).get("level"),
+    } for x in ranked]
+
+    adv = {
+        "clutch": {
+            "maps": {k: {"count": v[0], "wins": v[1]} for k, v in clutch_maps.items()},
+            "players": {k: {"count": v[0], "wins": v[1]} for k, v in clutch_pl.items()},
+        },
+        "pistol": {
+            "maps": {k: {"total": sum(d.values()), "by": d} for k, d in pistol_maps.items()},
+            "players": pistol_pl,
+        },
+        "swing": {
+            "maps": {k: {"matches": v[0], "mom_avg": round(v[1] / v[0], 1),
+                         "comebacks": v[2], "collapses": v[3]} for k, v in swing_maps.items()},
+            "mom_avg": round(sum(mom_all) / len(mom_all), 1) if mom_all else None,
+            "comebacks": comebacks, "collapses": collapses,
+        },
+        "nemeses": nemeses,
+    }
+
     out = {
-        "schema": 2,
+        "schema": 3,
         "updated_at": None,
         "match_count": len(matches),
         "pending_matches": pending,
@@ -281,6 +400,7 @@ def main():
             "worst_map": {"map": worst, "winrate": rates[worst]} if worst else None,
             "elo_peak": None,
         },
+        "adv": adv,
     }
 
     # 5) Nur schreiben, wenn sich inhaltlich etwas geändert hat
