@@ -1,6 +1,6 @@
 {
- "schema": 2,
- "updated_at": "2026-10-31T07:55:07+00:00",
+ "schema": 3,
+ "updated_at": "2026-10-31T08:25:07+00:00",
  "match_count": 30,
  "pending_matches": 0,
  "players": {
@@ -7754,5 +7754,264 @@
    "winrate": 0.0
   },
   "elo_peak": null
+ },
+ "adv": {
+  "clutch": {
+   "maps": {
+    "de_anubis": {
+     "count": 23,
+     "wins": 5
+    },
+    "de_dust2": {
+     "count": 36,
+     "wins": 10
+    },
+    "de_ancient": {
+     "count": 26,
+     "wins": 5
+    },
+    "de_nuke": {
+     "count": 28,
+     "wins": 12
+    },
+    "de_vertigo": {
+     "count": 6,
+     "wins": 3
+    },
+    "de_cache": {
+     "count": 17,
+     "wins": 8
+    }
+   },
+   "players": {
+    "theunc666": {
+     "count": 24,
+     "wins": 8
+    },
+    "kokolorez": {
+     "count": 41,
+     "wins": 10
+    },
+    "Shpooople": {
+     "count": 12,
+     "wins": 4
+    },
+    "amaseling": {
+     "count": 13,
+     "wins": 4
+    },
+    "-neon666": {
+     "count": 46,
+     "wins": 17
+    }
+   }
+  },
+  "pistol": {
+   "maps": {
+    "de_anubis": {
+     "total": 48,
+     "by": {
+      "theunc666": 9,
+      "kokolorez": 12,
+      "Shpooople": 8,
+      "-neon666": 17,
+      "amaseling": 2
+     }
+    },
+    "de_dust2": {
+     "total": 66,
+     "by": {
+      "theunc666": 9,
+      "kokolorez": 12,
+      "Shpooople": 7,
+      "-neon666": 30,
+      "amaseling": 8
+     }
+    },
+    "de_ancient": {
+     "total": 50,
+     "by": {
+      "theunc666": 6,
+      "kokolorez": 13,
+      "Shpooople": 4,
+      "-neon666": 24,
+      "amaseling": 3
+     }
+    },
+    "de_nuke": {
+     "total": 53,
+     "by": {
+      "theunc666": 16,
+      "kokolorez": 12,
+      "Shpooople": 3,
+      "-neon666": 16,
+      "amaseling": 6
+     }
+    },
+    "de_vertigo": {
+     "total": 7,
+     "by": {
+      "-neon666": 5,
+      "kokolorez": 2
+     }
+    },
+    "de_cache": {
+     "total": 28,
+     "by": {
+      "-neon666": 10,
+      "kokolorez": 14,
+      "amaseling": 4
+     }
+    }
+   },
+   "players": {
+    "theunc666": 40,
+    "kokolorez": 65,
+    "Shpooople": 22,
+    "-neon666": 102,
+    "amaseling": 23
+   }
+  },
+  "swing": {
+   "maps": {
+    "de_anubis": {
+     "matches": 5,
+     "mom_avg": -2.6,
+     "comebacks": 1,
+     "collapses": 0
+    },
+    "de_dust2": {
+     "matches": 8,
+     "mom_avg": 4.5,
+     "comebacks": 0,
+     "collapses": 0
+    },
+    "de_ancient": {
+     "matches": 7,
+     "mom_avg": 1.4,
+     "comebacks": 0,
+     "collapses": 0
+    },
+    "de_nuke": {
+     "matches": 4,
+     "mom_avg": -1.2,
+     "comebacks": 1,
+     "collapses": 0
+    },
+    "de_vertigo": {
+     "matches": 1,
+     "mom_avg": 2.0,
+     "comebacks": 0,
+     "collapses": 0
+    },
+    "de_cache": {
+     "matches": 5,
+     "mom_avg": 4.0,
+     "comebacks": 2,
+     "collapses": 0
+    }
+   },
+   "mom_avg": 1.7,
+   "comebacks": 4,
+   "collapses": 0
+  },
+  "nemeses": [
+   {
+    "nick": "El_JOKERO",
+    "matches": 1,
+    "wins": 0,
+    "kills": 31,
+    "deaths": 20,
+    "kd": 1.55,
+    "hs_pct": 48.0,
+    "mvp": 7,
+    "elo": 1800,
+    "level": 9
+   },
+   {
+    "nick": "52t6",
+    "matches": 1,
+    "wins": 1,
+    "kills": 30,
+    "deaths": 14,
+    "kd": 2.14,
+    "hs_pct": 43.0,
+    "mvp": 5,
+    "elo": 1835,
+    "level": 9
+   },
+   {
+    "nick": "12KlyZ",
+    "matches": 1,
+    "wins": 0,
+    "kills": 30,
+    "deaths": 16,
+    "kd": 1.88,
+    "hs_pct": 50.0,
+    "mvp": 5,
+    "elo": 2165,
+    "level": 10
+   },
+   {
+    "nick": "KseizerG",
+    "matches": 1,
+    "wins": 1,
+    "kills": 28,
+    "deaths": 5,
+    "kd": 5.6,
+    "hs_pct": 46.0,
+    "mvp": 5,
+    "elo": 1844,
+    "level": 9
+   },
+   {
+    "nick": "frAgon6",
+    "matches": 1,
+    "wins": 0,
+    "kills": 26,
+    "deaths": 17,
+    "kd": 1.53,
+    "hs_pct": 38.0,
+    "mvp": 7,
+    "elo": 2402,
+    "level": 10
+   },
+   {
+    "nick": "v1lari",
+    "matches": 1,
+    "wins": 1,
+    "kills": 25,
+    "deaths": 13,
+    "kd": 1.92,
+    "hs_pct": 20.0,
+    "mvp": 4,
+    "elo": 2019,
+    "level": 10
+   },
+   {
+    "nick": "GYPSYTERROR",
+    "matches": 1,
+    "wins": 1,
+    "kills": 24,
+    "deaths": 5,
+    "kd": 4.8,
+    "hs_pct": 67.0,
+    "mvp": 7,
+    "elo": 1859,
+    "level": 9
+   },
+   {
+    "nick": "tuto8",
+    "matches": 1,
+    "wins": 1,
+    "kills": 24,
+    "deaths": 13,
+    "kd": 1.85,
+    "hs_pct": 42.0,
+    "mvp": 6,
+    "elo": 2442,
+    "level": 10
+   }
+  ]
  }
 }
