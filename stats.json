@@ -1,6 +1,6 @@
 {
  "schema": 3,
- "updated_at": "2026-11-01T02:28:07+00:00",
+ "updated_at": "2026-11-01T08:02:08+00:00",
  "match_count": 30,
  "pending_matches": 0,
  "players": {
@@ -9146,8 +9146,8 @@
     "kd": 2.25,
     "hs_pct": 44.0,
     "mvp": 3,
-    "elo": null,
-    "level": null
+    "elo": 2174,
+    "level": 10
    },
    {
     "nick": "FRGwut",
@@ -9158,8 +9158,8 @@
     "kd": 1.93,
     "hs_pct": 48.0,
     "mvp": 3,
-    "elo": null,
-    "level": null
+    "elo": 2570,
+    "level": 10
    },
    {
     "nick": "s1chkarnya",
@@ -9170,8 +9170,8 @@
     "kd": 1.73,
     "hs_pct": 58.0,
     "mvp": 4,
-    "elo": null,
-    "level": null
+    "elo": 1715,
+    "level": 8
    },
    {
     "nick": "GYPSYTERROR",
@@ -9206,8 +9206,8 @@
     "kd": 1.6,
     "hs_pct": 46.0,
     "mvp": 4,
-    "elo": null,
-    "level": null
+    "elo": 1595,
+    "level": 8
    }
   ]
  }
