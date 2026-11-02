@@ -1,0 +1,129 @@
+<!doctype html><html lang="de"><head><meta charset="utf-8">
+<style>
+:root{--bg:#060607;--ink:#e9e9eb;--mut:#86868c;--dim:#56565c;--win:#34d97b;--loss:#ff5d6c;
+--f1:#fff3c4;--f2:#ffa41f;--f3:#ff4d00;--red:#ff4d6b;--edge:rgba(255,255,255,.13);--edge2:rgba(255,255,255,.07)}
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#111214;font-family:'Inter','Segoe UI',system-ui,sans-serif;color:var(--ink);
+display:flex;flex-direction:column;align-items:center;gap:36px;padding:36px}
+.card{position:relative;overflow:hidden;background:var(--bg);border:1px solid var(--edge);border-radius:20px}
+.card::before{content:"";position:absolute;inset:0;background:
+radial-gradient(60% 42% at 18% 0%,rgba(255,77,0,.16),transparent 70%),
+radial-gradient(52% 40% at 86% 6%,rgba(255,164,31,.10),transparent 72%),
+radial-gradient(70% 60% at 50% 108%,rgba(255,77,107,.08),transparent 74%);pointer-events:none}
+.card::after{content:"";position:absolute;inset:0;border-radius:20px;pointer-events:none;
+background:linear-gradient(180deg,rgba(255,255,255,.05),transparent 12%)}
+img.logo{object-fit:contain}
+/* ---------- TEAM ---------- */
+#team{width:1920px;height:1080px;padding:64px 72px;display:flex;flex-direction:column}
+.t-head{display:flex;align-items:center;gap:26px;position:relative;z-index:2}
+.t-head img{height:104px;width:auto;object-fit:contain;filter:drop-shadow(0 6px 24px rgba(255,164,31,.3))}
+.t-title b{font-size:44px;letter-spacing:.14em;text-transform:uppercase}
+.t-title span{display:block;font-size:20px;color:var(--mut);letter-spacing:.3em;text-transform:uppercase;margin-top:6px}
+.t-badge{margin-left:auto;display:flex;gap:12px}
+.chip{border:1px solid var(--edge);border-radius:999px;padding:10px 20px;font-size:19px;color:var(--mut);background:rgba(15,15,17,.6);display:flex;align-items:center;gap:8px}
+.chip b{color:var(--ink)}
+.t-mid{display:flex;align-items:baseline;gap:44px;margin:40px 0 6px;position:relative;z-index:2}
+.t-score{font-size:148px;font-weight:800;letter-spacing:.02em;line-height:1}
+.t-score .w{color:var(--win)}.t-score .l{color:var(--loss)}.t-score .c{color:var(--dim);font-weight:300}
+.t-sub{font-size:26px;color:var(--mut)} .t-sub b{color:var(--ink)}
+.t-rows{margin-top:30px;display:flex;flex-direction:column;gap:13px;position:relative;z-index:2}
+.prow{display:grid;grid-template-columns:110px 1.4fr .7fr .7fr .7fr 1fr;align-items:center;gap:20px;
+background:rgba(15,15,17,.55);border:1px solid var(--edge2);border-radius:14px;padding:13px 26px 13px 13px}
+.prow .avbox{position:relative;width:66px;height:66px;margin-left:6px}
+.prow .avbox img{width:66px;height:66px;border-radius:50%;object-fit:cover;border:2px solid var(--edge)}
+.prow .lv{position:absolute;right:-8px;bottom:-8px}
+.prow .lv .flvl{width:32px;height:32px}
+.prow .nm{font-size:29px;font-weight:700}.prow .nm small{display:block;font-size:16px;color:var(--dim);font-weight:400;letter-spacing:.06em;margin-top:3px}
+.prow .st{font-size:30px;font-weight:700}.prow .st small{display:block;font-size:15px;color:var(--dim);font-weight:500;letter-spacing:.12em;margin-top:3px}
+.d-chip{font-size:26px;font-weight:800;border-radius:10px;padding:6px 16px;justify-self:start}
+.up{color:#0d1f16;background:var(--win)}.dn{color:#2b0d11;background:var(--loss)}
+.t-foot{margin-top:auto;display:flex;gap:12px;position:relative;z-index:2}
+.flvl text{fill:#fff;font-size:11px;font-weight:800;text-anchor:middle;font-family:'Inter','Segoe UI',sans-serif}
+/* ---------- PLAYER ---------- */
+.pcard{width:1080px;height:1350px;padding:70px 64px;display:flex;flex-direction:column;align-items:center;text-align:center}
+.c-crest{display:flex;flex-direction:column;align-items:center;gap:10px;position:relative;z-index:2}
+.c-crest img{height:128px;width:98px;object-fit:contain;filter:drop-shadow(0 6px 22px rgba(255,164,31,.3))}
+.c-crest span{font-size:20px;letter-spacing:.34em;text-transform:uppercase;color:var(--mut)}
+.av-wrap{position:relative;margin:46px 0 26px;z-index:2}
+.av-wrap img.av{width:300px;height:300px;border-radius:50%;object-fit:cover;
+border:6px solid transparent;background:linear-gradient(var(--bg),var(--bg)) padding-box,var(--ring,#34d97b) border-box;
+box-shadow:0 24px 70px rgba(0,0,0,.7),0 0 0 1px rgba(255,255,255,.08)}
+.c-nick{font-size:58px;font-weight:800;letter-spacing:.01em;z-index:2;position:relative;display:flex;align-items:center;gap:16px}
+.c-nick .flvl{width:52px;height:52px}
+.flvl-xl text{fill:#fff;font-size:19px}
+.c-elo{margin-top:14px;display:flex;align-items:center;gap:18px;z-index:2;position:relative}
+.c-elo .v{font-size:34px;font-weight:700;color:var(--mut)} .c-elo .v b{color:var(--ink);font-size:40px}
+.c-elo .d-chip{font-size:30px;padding:8px 20px}
+.c-badges{margin:42px 0 10px;display:flex;flex-direction:column;gap:14px;z-index:2;position:relative}
+.bd{display:flex;align-items:center;gap:14px;border:1px solid var(--edge);border-radius:999px;
+padding:14px 30px;font-size:27px;background:rgba(15,15,17,.66)}
+.bd i{font-style:normal;font-size:29px}
+.bd b{color:var(--f2)}
+.bd.heart b{color:#ff6b8f}
+.bd:nth-child(2) b{color:var(--f1)}
+.c-stats{margin-top:42px;display:grid;grid-template-columns:repeat(3,1fr);gap:20px;width:100%;z-index:2;position:relative}
+.cell{border:1px solid var(--edge2);border-radius:16px;background:rgba(15,15,17,.55);padding:26px 10px 22px}
+.cell .v{font-size:52px;font-weight:800}
+.cell .k{margin-top:8px;font-size:17px;letter-spacing:.2em;text-transform:uppercase;color:var(--dim)}
+.c-foot{margin-top:auto;font-size:21px;color:var(--mut);letter-spacing:.06em;z-index:2;position:relative}
+.c-foot b{color:var(--ink)}
+</style></head><body>
+<div id="stage" style="display:flex;flex-direction:column;align-items:center;gap:36px"></div>
+<script>
+const RING = {"Shpooople":"#2f7bff","kokolorez":"#ff9c1f","amaseling":"#ffd02e","-neon666":"#34d97b","theunc666":"#a855f7"};
+const LVL = { 1:["#EEEEEE","#BDBDBD"], 2:["#1CE400","#12A300"], 3:["#1CE400","#12A300"], 4:["#FFD02E","#EFB000"],
+  5:["#FFC82E","#EFA500"], 6:["#FFBD20","#F09A00"], 7:["#FFB014","#F08A00"], 8:["#FE7A0A","#E05A00"],
+  9:["#FE630A","#D64A00"], 10:["#FF4A5E","#E00030"] };
+const crest = "/assets/logo_full.png";
+function lvlSvg(l, xl) {
+  l = Math.max(1, Math.min(10, +l || 1)); const c = LVL[l], id = "lgx" + l + Math.random().toString(36).slice(2, 6);
+  return `<svg class="flvl${xl ? " flvl-xl" : ""}" viewBox="0 0 24 24"><defs><linearGradient id="${id}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${c[0]}"/><stop offset="1" stop-color="${c[1]}"/></linearGradient></defs><circle cx="12" cy="12" r="10.6" fill="#0b0b0d"/><path d="M 6.5,18.4 A 8.4,8.4 0 1 1 17.5,18.4" fill="none" stroke="#3f3f46" stroke-width="2.5" stroke-linecap="round"/><path d="M 6.5,18.4 A 8.4,8.4 0 1 1 17.5,18.4" fill="none" stroke="url(#${id})" stroke-width="2.5" stroke-linecap="round" pathLength="10" stroke-dasharray="${l} 10000"/><text x="12" y="12.9">${l}</text></svg>`;
+}
+fetch("/recap_mock/data.json").then(r=>r.json()).then(DAT=>{render(DAT);document.title="READY"});
+
+function render(DAT){
+  const stage=document.getElementById("stage");
+  const P=DAT.players, t=DAT.team;
+  const order=["-neon666","theunc666","kokolorez","Shpooople","amaseling"];
+  const dtFr="30.10.", dtSo="01.11.2026";
+  const wr=Math.round(100*t.w/t.matches);
+  /* TEAM */
+  const rows = order.map(n=>{const p=P[n];const up=p.d_elo>=0;
+    return `<div class="prow"><span class="avbox"><img src="${p.avatar}"><span class="lv">${lvlSvg(p.level)}</span></span>
+    <div class="nm">${n}<small>${p.games} Matches</small></div>
+    <div class="st">${p.kd.toFixed(2)}<small>K/D</small></div><div class="st">${p.adr.toFixed(1)}<small>ADR</small></div>
+    <div class="st">${Math.round(p.hsp)}%<small>HS</small></div><div class="d-chip ${up?"up":"dn"}">${up?"+":""}${p.d_elo} ELO</div></div>`}).join("");
+  const chips = `
+    <div class="chip">★ <b>${t.streak} Siege</b> in Folge</div>
+    <div class="chip">◆ <b>Anubis 5–1</b> · beste Map</div>
+    <div class="chip">★ Pistol: <b>-neon666 · 94</b></div>
+    <div class="chip">⚡ AWP: <b>Shpooople · 59</b></div>`;
+  stage.insertAdjacentHTML("beforeend",`<section class="card" id="team">
+    <div class="t-head"><img class="logo" src="${crest}"><div class="t-title"><b>SaltyBoomers</b><span>LAN-Wochenende · ${dtFr} – ${dtSo}</span></div>
+      <div class="t-badge"><div class="chip"><b>${t.matches}</b> Stack-Matches</div><div class="chip"><b>${t.rw}:${t.rl}</b> Runden</div><div class="chip"><b>+${t.d_elo}</b> ELO</div></div></div>
+    <div class="t-mid"><div class="t-score"><span class="w">${t.w}</span><span class="c"> : </span><span class="l">${t.l}</span></div>
+      <div class="t-sub"><b>Bilanz ${wr} %</b> · aktuell <b>${t.streak} Siege</b> in Folge<br>Rundensaldo <b>${t.rw}:${t.rl}</b> (+${t.rw-t.rl})</div></div>
+    <div class="t-rows">${rows}</div>
+    <div class="t-foot">${chips}</div></section>`);
+  /* PLAYER */
+  const BADGE={
+    "-neon666":[["★","Bester K/D","1.48"],["◆","Pistol-König","94 Pistol-Kills"]],
+    "theunc666":[["★","Flash-Maschine","243 Gegner geflasht"],["◆","Elo-Sprung","+81"]],
+    "kokolorez":[["★","Utility-King","125 U-Dmg/Match"],["◆","Headshots","44 %"]],
+    "Shpooople":[["★","Elo-Springer","+132"],["◆","AWP-Tower","59 Sniper-Kills"]],
+    "amaseling":[["♥","MVP der Herzen",""],["◆","Immer dabei","20 Matches"]]};
+  order.forEach(n=>{const p=P[n];const up=p.d_elo>=0;const bg=BADGE[n];
+    stage.insertAdjacentHTML("beforeend",`<article class="card pcard">
+      <div class="c-crest"><img class="logo" src="${crest}"><span>SaltyBoomers · Weekend Recap</span></div>
+      <div class="av-wrap" style="--ring:${RING[n]}"><img class="av" src="${p.avatar}"></div>
+      <div class="c-nick">${lvlSvg(p.level,true)}${n}</div>
+      <div class="c-elo"><span class="v"><b>${p.elo}</b> ELO</span><span class="d-chip ${up?"up":"dn"}">${up?"▲ +":"▼ "}${p.d_elo}</span></div>
+      <div class="c-badges">${bg.map(b=>`<div class="bd${b[0]==="♥"?" heart":""}"><i>${b[0]}</i><span><b>${b[1]}</b>${b[2]?" · "+b[2]:""}</span></div>`).join("")}</div>
+      <div class="c-stats">
+        <div class="cell"><div class="v">${p.kd.toFixed(2)}</div><div class="k">K/D</div></div>
+        <div class="cell"><div class="v">${p.adr.toFixed(1)}</div><div class="k">ADR</div></div>
+        <div class="cell"><div class="v">${Math.round(p.hsp)}%</div><div class="k">Headshots</div></div></div>
+      <div class="c-foot"><b>${p.games}</b> Matches · <b>${p.k}</b> Kills · <b>${p.mvp}</b> MVPs · <b>${p.clw}</b> Clutches · ${dtFr}–${dtSo}</div>
+    </article>`)});
+}
+</script></body></html>

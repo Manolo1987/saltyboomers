@@ -1,0 +1,139 @@
+{
+ "team": {
+  "matches": 23,
+  "w": 13,
+  "l": 10,
+  "rw": 237,
+  "rl": 221,
+  "streak": 5,
+  "d_elo": 316
+ },
+ "maps": {
+  "de_anubis": [
+   5,
+   1
+  ],
+  "de_ancient": [
+   0,
+   3
+  ],
+  "de_dust2": [
+   5,
+   2
+  ],
+  "de_nuke": [
+   2,
+   2
+  ],
+  "de_cache": [
+   1,
+   1
+  ],
+  "de_inferno": [
+   0,
+   1
+  ]
+ },
+ "players": {
+  "theunc666": {
+   "games": 23,
+   "k": 309,
+   "dd": 315,
+   "a": 108,
+   "kd": 0.98,
+   "adr": 73.1,
+   "hsp": 45,
+   "mvp": 34,
+   "pk": 54,
+   "clw": 11,
+   "cl": 37,
+   "sn": 9,
+   "ef": 243,
+   "udm": 103,
+   "elo": 1796,
+   "level": 9,
+   "d_elo": 81,
+   "avatar": "https://assets.faceit-cdn.net/avatars/e0fea518-3b2c-4bfd-9ed5-beb730cd335f_1586109360935.jpg"
+  },
+  "amaseling": {
+   "games": 20,
+   "k": 143,
+   "dd": 296,
+   "a": 82,
+   "kd": 0.48,
+   "adr": 46.9,
+   "hsp": 41,
+   "mvp": 13,
+   "pk": 16,
+   "clw": 3,
+   "cl": 11,
+   "sn": 0,
+   "ef": 68,
+   "udm": 72,
+   "elo": 1127,
+   "level": 5,
+   "d_elo": -25,
+   "avatar": "https://assets.faceit-cdn.net/avatars/1db98bfd-afce-419a-ad6f-c18d5db53601_1557778115480.jpg"
+  },
+  "-neon666": {
+   "games": 23,
+   "k": 480,
+   "dd": 324,
+   "a": 144,
+   "kd": 1.48,
+   "adr": 111.3,
+   "hsp": 50,
+   "mvp": 79,
+   "pk": 94,
+   "clw": 13,
+   "cl": 27,
+   "sn": 8,
+   "ef": 202,
+   "udm": 90,
+   "elo": 2164,
+   "level": 10,
+   "d_elo": 64,
+   "avatar": "https://distribution.faceit-cdn.net/images/0a227bd4-6955-4af8-af06-3623d5041ce9.jpg"
+  },
+  "kokolorez": {
+   "games": 23,
+   "k": 305,
+   "dd": 323,
+   "a": 111,
+   "kd": 0.94,
+   "adr": 72.2,
+   "hsp": 44,
+   "mvp": 43,
+   "pk": 50,
+   "clw": 6,
+   "cl": 26,
+   "sn": 7,
+   "ef": 148,
+   "udm": 125,
+   "elo": 1873,
+   "level": 9,
+   "d_elo": 64,
+   "avatar": "https://distribution.faceit-cdn.net/images/b05feccf-e6c1-4729-80f7-289d8a90343f.jpg"
+  },
+  "Shpooople": {
+   "games": 23,
+   "k": 366,
+   "dd": 312,
+   "a": 113,
+   "kd": 1.17,
+   "adr": 87.6,
+   "hsp": 34,
+   "mvp": 64,
+   "pk": 43,
+   "clw": 11,
+   "cl": 27,
+   "sn": 59,
+   "ef": 135,
+   "udm": 90,
+   "elo": 1492,
+   "level": 7,
+   "d_elo": 132,
+   "avatar": "https://distribution.faceit-cdn.net/images/e189caeb-c1dd-44f4-80ef-cff85c14d9ad.jpg"
+  }
+ }
+}
