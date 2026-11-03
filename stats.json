@@ -1,6 +1,6 @@
 {
  "schema": 3,
- "updated_at": "2026-11-03T03:32:06+00:00",
+ "updated_at": "2026-11-03T08:04:08+00:00",
  "match_count": 30,
  "pending_matches": 0,
  "players": {
@@ -9301,8 +9301,8 @@
     "kd": 1.74,
     "hs_pct": 35.0,
     "mvp": 5,
-    "elo": null,
-    "level": null
+    "elo": 1793,
+    "level": 9
    },
    {
     "nick": "52t6",
@@ -9325,8 +9325,8 @@
     "kd": 1.07,
     "hs_pct": 55.0,
     "mvp": 2,
-    "elo": null,
-    "level": null
+    "elo": 1771,
+    "level": 9
    },
    {
     "nick": "-Talex-",
@@ -9337,8 +9337,8 @@
     "kd": 1.12,
     "hs_pct": 39.0,
     "mvp": 6,
-    "elo": null,
-    "level": null
+    "elo": 1800,
+    "level": 9
    },
    {
     "nick": "JajayOkocha",
