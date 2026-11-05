@@ -1,6 +1,6 @@
 {
  "schema": 3,
- "updated_at": "2026-11-05T07:05:07+00:00",
+ "updated_at": "2026-11-05T08:05:08+00:00",
  "match_count": 30,
  "pending_matches": 0,
  "players": {
@@ -9324,8 +9324,8 @@
     "kd": 1.59,
     "hs_pct": 63.0,
     "mvp": 6,
-    "elo": null,
-    "level": null
+    "elo": 2055,
+    "level": 10
    },
    {
     "nick": "s1chkarnya",
