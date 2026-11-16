@@ -1,6 +1,6 @@
 {
  "schema": 3,
- "updated_at": "2026-11-16T14:42:10+00:00",
+ "updated_at": "2026-11-16T15:12:10+00:00",
  "match_count": 30,
  "pending_matches": 0,
  "players": {
@@ -13,7 +13,7 @@
    "level": 5
   },
   "-neon666": {
-   "elo": 2157,
+   "elo": 2182,
    "level": 10
   },
   "kokolorez": {
