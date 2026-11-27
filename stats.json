@@ -1,11 +1,11 @@
 {
  "schema": 3,
- "updated_at": "2026-11-27T21:43:06+00:00",
+ "updated_at": "2026-11-27T21:46:09+00:00",
  "match_count": 30,
  "pending_matches": 0,
  "players": {
   "theunc666": {
-   "elo": 1954,
+   "elo": 1921,
    "level": 9
   },
   "amaseling": {
