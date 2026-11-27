@@ -1,6 +1,6 @@
 {
  "schema": 3,
- "updated_at": "2026-11-27T14:22:09+00:00",
+ "updated_at": "2026-11-27T15:10:10+00:00",
  "match_count": 30,
  "pending_matches": 0,
  "players": {
@@ -7982,8 +7982,8 @@
     "kd": 2.18,
     "hs_pct": 25.0,
     "mvp": 6,
-    "elo": null,
-    "level": null
+    "elo": 1992,
+    "level": 9
    },
    {
     "nick": "dominix",
@@ -7994,8 +7994,8 @@
     "kd": 0.96,
     "hs_pct": 33.0,
     "mvp": 4,
-    "elo": null,
-    "level": null
+    "elo": 1944,
+    "level": 9
    }
   ]
  }
